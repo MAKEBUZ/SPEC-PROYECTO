@@ -1,8 +1,9 @@
 # Constitución del Proyecto: PATRONAJE
 
 **Estado:** adoptada.
+**Agente de IA encargado:** DeepSeek (DeepSeek Harness).
 
-> **Agente de IA encargado:** DeepSeek. Esta constitución establece las reglas transversales que orientan todas las decisiones del proyecto y el trabajo del agente de IA. Las características concretas del producto se detallan en las especificaciones (`specs/*/spec.md`). Si una regla cambia, se actualiza primero esta constitución y luego se revisan las especificaciones afectadas.
+> Esta constitución establece las reglas transversales que orientan todas las decisiones del proyecto y el trabajo del agente de IA. Las características concretas del producto se detallan en las especificaciones (`specs/*/spec.md`). Si una regla cambia, se actualiza primero esta constitución y luego se revisan las especificaciones afectadas.
 
 ## 1. Naturaleza del Proyecto
 
@@ -31,7 +32,7 @@ El flujo principal consiste en trabajar un patrón en el CAD, guardar o publicar
 - **Integración de escritorio:** especificar acceso a archivos locales, exportación, impresión e intercambio de archivos con la cuenta antes de implementar esas operaciones. Definir los sistemas operativos admitidos y el comportamiento ante pérdida de conexión en el plan técnico.
 - **Dependencias:** incorporar únicamente dependencias necesarias para una especificación aprobada, con versiones registradas en el archivo de bloqueo del gestor de paquetes. No introducir otro framework, motor gráfico o base de datos sin actualizar esta constitución.
 
-## 3. Reglas de Dominio y Lógica de Negocio
+## 3. Principios y Reglas de Dominio
 
 Estas reglas son obligatorias:
 
@@ -81,16 +82,13 @@ El agente de IA encargado del proyecto es **DeepSeek** y debe cumplir estas regl
 - **Trazabilidad:** relacionar las tareas y cambios con la especificación que los autoriza. Actualizar la documentación cuando cambien los contratos o las reglas aprobadas.
 - **Validación del trabajo:** ejecutar las comprobaciones aplicables y comunicar qué se verificó y qué permanece pendiente. No declarar completada una funcionalidad con criterios de aceptación incumplidos.
 
+## Gobernanza
+
+- Esta constitución prevalece sobre cualquier otra práctica del proyecto. Toda especificación, plan o tarea debe respetarla.
+- Toda enmienda requiere documentar el cambio, revisar las especificaciones afectadas y dejar constancia de la fecha.
+- Las decisiones de implementación no pueden contradecir los principios ni las reglas de dominio aquí fijados.
+- Las decisiones pendientes deben resolverse antes de implementar las funcionalidades que dependan de ellas.
+
 ---
 
-## Decisiones pendientes de concretar en especificaciones o plan técnico
-
-- Runtime y sistemas operativos admitidos del CAD de escritorio.
-- Tecnología y modo de distribución de la aplicación móvil (nativa, multiplataforma o PWA).
-- Biblioteca de acceso a datos para PostgreSQL.
-- Proveedor de almacenamiento de archivos.
-- Formatos de importación, intercambio e impresión.
-- Mecanismo de transferencia entre el CAD y la cuenta, y comportamiento sin conexión.
-- Nombre comercial definitivo y branding.
-
-Estas decisiones deben resolverse antes de implementar las funcionalidades que dependan de ellas.
+**Versión**: 1.0.0 | **Ratificada**: 2026-10-23 | **Última enmienda**: 2026-10-23

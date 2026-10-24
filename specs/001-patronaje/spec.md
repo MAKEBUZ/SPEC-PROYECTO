@@ -1,200 +1,200 @@
-# Especificación funcional — PATRONAJE
+# Feature Specification: PATRONAJE — Núcleo del sistema
 
-> **Feature:** 001 — Núcleo del sistema PATRONAJE (cuentas, proyectos, CAD de patronaje, versiones, biblioteca de archivos y exportación).
->
-> **Estado:** propuesta para revisión.
->
-> **Agente de IA:** DeepSeek.
+**Feature Branch**: `001-patronaje`
 
-## 1. Descripción general
+**Created**: 2026-10-23
 
-PATRONAJE permite crear, editar, escalar y preparar patrones digitales para producción en una aplicación de escritorio (CAD), y consultar, descargar y compartir esos patrones y sus archivos desde una aplicación web y una móvil. Todas las aplicaciones comparten una misma cuenta de usuario y un backend que centraliza autenticación, autorización, proyectos, versiones y archivos.
+**Status**: Draft
 
-Esta especificación define el **alcance inicial** del sistema. Las funcionalidades que excedan este alcance (por ejemplo, edición colaborativa en tiempo real, simulación de telas o diseño 3D) quedan fuera y requieren una especificación propia.
+**Input**: Sistema CAD de patronaje digital con gestión de archivos para patronistas, diseñadores de moda, talleres de confección, estudiantes y equipos de producción textil. El CAD de escritorio crea, edita, escala y prepara patrones para producción; la web y la móvil consultan, descargan y comparten esos patrones y sus archivos desde la cuenta.
 
-## 2. Usuarios y roles
+## User Scenarios & Testing *(mandatory)*
 
-| Rol | Descripción |
-| --- | --- |
-| **Visitante** | Persona sin sesión iniciada. Solo accede a las pantallas públicas de ingreso y registro. |
-| **Usuario autenticado** | Persona con cuenta. Puede crear y administrar sus proyectos, patrones y archivos según sus permisos. |
-| **Propietario** | Usuario dueño de un proyecto o archivo. Puede editar, publicar, compartir, eliminar y gestionar permisos sobre sus recursos. |
-| **Editor autorizado** | Usuario al que el propietario otorgó permisos de modificación sobre un recurso. |
+### User Story 1 - Crear cuenta e iniciar sesión (Priority: P1)
 
-La gestión de roles administrativos (por ejemplo, administradores de plataforma) queda fuera de este alcance.
+Una persona se registra con correo y contraseña, inicia sesión en cualquiera de las tres aplicaciones y cierra sesión cuando termina, manteniendo la misma identidad en todas ellas.
 
-## 3. Alcance
+**Why this priority**: Sin identidad no hay propietario de proyectos, permisos ni control de acceso; es la base de todo el sistema.
 
-### 3.1 Incluido
+**Independent Test**: Se puede probar registrando un usuario nuevo, iniciando y cerrando sesión en CAD, web y móvil, y comprobando que la misma cuenta accede a los mismos recursos.
 
-- Registro, inicio de sesión, cierre de sesión y gestión básica del perfil de cuenta.
-- Creación, listado y gestión de proyectos.
-- Creación, edición y guardado de patrones en el CAD de escritorio.
-- Escalado de tallas de un patrón.
-- Guardado local y publicación de versiones en la cuenta.
-- Biblioteca de archivos con vista previa, consulta de versiones y descarga desde web y móvil.
-- Exportación del patrón preparado para producción.
-- Compartición y gestión de permisos básica.
-- Eliminación de proyectos y archivos con confirmación.
+**Acceptance Scenarios**:
 
-### 3.2 Excluido (fuera de alcance)
+1. **Given** un visitante sin cuenta, **When** se registra con correo y contraseña válidos, **Then** obtiene una cuenta y puede iniciar sesión.
+2. **Given** un usuario autenticado, **When** cierra sesión, **Then** pierde acceso a los recursos privados hasta volver a autenticarse.
+3. **Given** un usuario en la web, **When** inicia sesión con la misma cuenta usada en el CAD, **Then** ve los mismos proyectos y archivos.
+4. **Given** un usuario que cambia su contraseña, **When** confirma el cambio, **Then** el sistema exige reautenticación y luego aplica la nueva contraseña.
 
-- Edición geométrica desde web o móvil.
-- Edición colaborativa en tiempo real.
-- Simulación de telas o diseño 3D.
-- Impresión directa desde la aplicación (solo se entregan archivos preparados para impresión con instrucciones de escala).
-- Integración con pasarelas de pago o planes comerciales.
-- Módulo administrativo de plataforma.
+---
 
-## 4. Requisitos funcionales
+### User Story 2 - Crear y editar un patrón en el CAD (Priority: P1)
 
-### FR-1. Cuenta y autenticación
+Un patronista crea un patrón nuevo en un proyecto, dibuja y modifica sus contornos e introduce medidas, trabajando siempre en milímetros sin que el zoom o el tamaño de la ventana alteren las dimensiones reales.
 
-- **FR-1.1** Un visitante puede registrarse proporcionando correo y contraseña; la contraseña se almacena de forma segura (nunca en texto plano).
-- **FR-1.2** Un usuario puede iniciar sesión, obtener una sesión autenticada y cerrar sesión desde cualquiera de las tres aplicaciones.
-- **FR-1.3** La misma identidad de usuario y las mismas reglas de permisos se aplican en el CAD, la web y la móvil.
-- **FR-1.4** Un usuario puede ver y actualizar su perfil (nombre, correo de contacto) y cambiar su contraseña.
-- **FR-1.5** Las acciones sensibles (cambio de contraseña, cambio de correo, eliminación de cuenta) requieren reautenticación.
+**Why this priority**: La edición geométrica es el núcleo de valor del producto; sin ella no existe el CAD.
 
-### FR-2. Proyectos
+**Independent Test**: Se puede probar creando un patrón, dibujando un contorno, introduciendo una medida en milímetros, cambiando el zoom y la unidad de visualización, y verificando que la medida real se conserva.
 
-- **FR-2.1** Un usuario autenticado puede crear un proyecto con nombre y descripción opcional.
-- **FR-2.2** El usuario puede listar sus proyectos y los que le hayan sido compartidos.
-- **FR-2.3** El propietario puede renombrar, editar la descripción y eliminar un proyecto.
-- **FR-2.4** Cada proyecto tiene exactamente un propietario.
+**Acceptance Scenarios**:
 
-### FR-3. CAD de escritorio — edición de patrones
+1. **Given** un proyecto abierto, **When** el usuario crea un patrón y dibuja un contorno, **Then** el patrón queda disponible para seguir editándose.
+2. **Given** un patrón con una medida de 100 mm, **When** el usuario cambia la unidad de visualización a centímetros, **Then** la medida real sigue siendo 100 mm.
+3. **Given** un patrón con zoom al 200 %, **When** el usuario mide una pieza, **Then** la medida es la misma que con zoom al 100 %.
+4. **Given** una operación de edición inválida, **When** el usuario la aplica, **Then** el documento no queda parcialmente modificado.
 
-- **FR-3.1** El CAD permite crear un patrón nuevo en un proyecto y abrir un patrón existente.
-- **FR-3.2** El usuario puede dibujar y modificar contornos (líneas y curvas) del patrón en un plano de trabajo.
-- **FR-3.3** El usuario puede introducir medidas y restricciones numéricas sobre el patrón.
-- **FR-3.4** La geometría se almacena internamente en milímetros; el cambio de unidad de visualización no altera las medidas reales.
-- **FR-3.5** El zoom y el tamaño de la ventana no modifican las dimensiones del patrón.
-- **FR-3.6** El usuario puede deshacer y rehacer operaciones de edición.
+---
 
-### FR-4. Escalado de tallas
+### User Story 3 - Guardar y publicar versiones (Priority: P1)
 
-- **FR-4.1** El usuario puede escalar un patrón a una talla solicitada aplicando una regla de escalado definida.
-- **FR-4.2** El escalado genera una nueva versión o copia y no sobrescribe silenciosamente el patrón base.
-- **FR-4.3** Se informa al usuario de la regla de escalado y la talla aplicadas.
+El usuario guarda el patrón en su equipo y publica una versión en su cuenta, distinguiendo ambos estados, y cada versión publicada queda identificada por autor y fecha.
 
-### FR-5. Guardado y versiones
+**Why this priority**: Sin guardado y publicación no hay continuidad entre el CAD y los demás dispositivos, que es el flujo principal del producto.
 
-- **FR-5.1** El usuario puede guardar el patrón localmente en su equipo.
-- **FR-5.2** El usuario puede publicar una versión del patrón en la cuenta.
-- **FR-5.3** Guardar localmente y publicar en la cuenta se muestran como estados distintos.
-- **FR-5.4** Cada versión publicada registra autor y fecha, y queda asociada a su proyecto.
-- **FR-5.5** Un guardado fallido conserva la última versión válida y permite recuperar cambios locales no guardados.
-- **FR-5.6** Antes de guardar se valida la estructura del documento.
+**Independent Test**: Se puede probar guardando localmente, publicando una versión y comprobando que la web/móvil ve esa versión con su autor y fecha, y que el guardado local y la publicación se muestran como estados distintos.
 
-### FR-6. Biblioteca de archivos (web y móvil)
+**Acceptance Scenarios**:
 
-- **FR-6.1** La web y la móvil permiten listar los archivos y versiones disponibles en la cuenta.
-- **FR-6.2** Se muestra una vista previa del patrón sin cargar el editor CAD completo.
-- **FR-6.3** El usuario puede consultar el historial de versiones de un patrón.
-- **FR-6.4** El usuario puede descargar un archivo autorizado (editable, vista previa o preparado para impresión).
-- **FR-6.5** Cada archivo de impresión indica escala y dimensiones de salida y está asociado a la versión que lo originó.
-- **FR-6.6** La web y la móvil no ofrecen operaciones de edición geométrica.
+1. **Given** un patrón editado, **When** el usuario lo guarda localmente, **Then** el cambio queda en el equipo y se indica que aún no está publicado.
+2. **Given** un patrón guardado, **When** el usuario publica una versión, **Then** la versión aparece en la cuenta con autor y fecha.
+3. **Given** una publicación fallida, **When** se corta la conexión, **Then** el documento local se conserva y la última versión remota válida no se sustituye.
+4. **Given** una versión publicada, **When** el usuario intenta actualizarla desde una copia desactualizada, **Then** el sistema rechaza el conflicto y pide resolverlo.
 
-### FR-7. Exportación para producción
+---
 
-- **FR-7.1** El usuario puede exportar un patrón a un formato de intercambio o de impresión admitido.
-- **FR-7.2** La exportación indica unidad y escala de salida.
-- **FR-7.3** El sistema no presenta una exportación como apta para producción si existen errores geométricos que impiden obtener medidas correctas.
-- **FR-7.4** Las piezas destinadas a producción deben tener un contorno cerrado y válido antes de exportarse.
+### User Story 4 - Escalar tallas (Priority: P2)
 
-### FR-8. Compartición y permisos
+El usuario escala un patrón a una talla solicitada aplicando una regla definida, y el patrón base no se sobrescribe.
 
-- **FR-8.1** El propietario puede compartir un proyecto o archivo con otro usuario.
-- **FR-8.2** Compartir no concede edición por defecto; el propietario otorga el nivel de permiso explícitamente.
-- **FR-8.3** El propietario puede revocar permisos en cualquier momento.
-- **FR-8.4** Solo el propietario o un usuario autorizado puede cambiar permisos.
+**Why this priority**: El escalado es una función clave del patronaje, pero puede entregarse después del flujo básico de creación y publicación.
 
-### FR-9. Eliminación
+**Independent Test**: Se puede probar escalando un patrón a una talla y comprobando que se genera una nueva versión o copia y que el patrón base permanece intacto.
 
-- **FR-9.1** La eliminación de proyectos o archivos exige una confirmación clara en la interfaz.
-- **FR-9.2** La eliminación requiere autorización verificada en el backend y mantiene la consistencia entre metadatos y archivos.
+**Acceptance Scenarios**:
 
-## 5. Reglas de negocio
+1. **Given** un patrón base, **When** el usuario lo escala a la talla M, **Then** obtiene un resultado con la talla y la regla aplicadas.
+2. **Given** un patrón base, **When** el usuario lo escala, **Then** el patrón base no cambia.
+3. **Given** una talla sin regla de escalado definida, **When** el usuario la solicita, **Then** el sistema no aplica un escalado arbitrario.
 
-| Id | Regla |
-| --- | --- |
-| **BR-1** | La geometría se almacena en milímetros; cambiar la unidad de visualización no modifica las dimensiones reales. |
-| **BR-2** | Se rechazan coordenadas no finitas y medidas que incumplan las restricciones de la operación. |
-| **BR-3** | Solo se aplican reglas de escalado definidas para el patrón y la talla solicitada; el escalado no sobrescribe silenciosamente el patrón base. |
-| **BR-4** | El margen de costura es no negativo, se expresa en la unidad interna y se distingue del contorno base. |
-| **BR-5** | Todo proyecto y archivo de la cuenta tiene un propietario; toda operación sobre recursos privados requiere autenticación y autorización verificadas en el backend. |
-| **BR-6** | Un archivo solo se presenta como disponible en la cuenta cuando su transferencia y registro se completaron; un fallo de publicación no elimina el documento local ni sustituye la última versión remota válida. |
-| **BR-7** | Las operaciones de versionado son atómicas; cada versión identifica autor y fecha. |
-| **BR-8** | Los archivos se validan por tamaño, formato y contenido antes de aceptarse; no se confía solo en la extensión o el tipo declarado. |
-| **BR-9** | Una actualización verifica la versión que se modifica y rechaza conflictos para que el usuario los resuelva. |
-| **BR-10** | Las acciones destructivas requieren confirmación en la interfaz y autorización en el backend. |
+---
 
-## 6. Criterios de aceptación
+### User Story 5 - Consultar y descargar desde web y móvil (Priority: P2)
 
-### Cuentas
+Un usuario revisa desde la web o la móvil los archivos de su cuenta, ve vistas previas y versiones, y descarga un archivo autorizado sin cargar el editor CAD completo.
 
-- **AC-1.1** Un usuario nuevo puede registrarse, iniciar sesión y cerrar sesión desde las tres aplicaciones.
-- **AC-1.2** Un visitante no puede acceder a ningún recurso privado sin autenticarse.
-- **AC-1.3** Cambiar la contraseña exige reautenticación.
+**Why this priority**: Es el puente entre el trabajo del CAD y el acceso desde otros dispositivos; aporta valor una vez existe publicación de versiones.
 
-### CAD y patrones
+**Independent Test**: Se puede probar desde la web y la móvil listando archivos, abriendo una vista previa, consultando versiones y descargando un archivo autorizado.
 
-- **AC-3.1** Se puede crear, abrir, editar y guardar un patrón sin que el zoom o el tamaño de ventana alteren sus medidas.
-- **AC-3.2** Una medida introducida en milímetros se conserva exacta al cambiar la unidad de visualización.
-- **AC-3.3** Una operación de edición inválida no deja el documento parcialmente modificado.
+**Acceptance Scenarios**:
 
-### Escalado
+1. **Given** una versión publicada, **When** el usuario abre la web o la móvil, **Then** ve el archivo, su vista previa y su historial de versiones.
+2. **Given** un archivo preparado para impresión, **When** el usuario lo descarga, **Then** el archivo conserva su contenido y medidas e indica escala y dimensiones de salida.
+3. **Given** un usuario sin permiso, **When** intenta descargar un archivo, **Then** el sistema deniega la descarga.
+4. **Given** una descarga incompleta, **When** termina la transferencia, **Then** el archivo no se presenta como listo para imprimir.
 
-- **AC-4.1** Escalar a una talla no sobrescribe el patrón base y registra la talla y la regla aplicadas.
+---
 
-### Guardado y versiones
+### User Story 6 - Exportar para producción (Priority: P2)
 
-- **AC-5.1** Guardar localmente y publicar en la cuenta se distinguen claramente en la interfaz.
-- **AC-5.2** Cada versión publicada queda identificada por autor y fecha.
-- **AC-5.3** Tras un guardado fallido, la última versión válida se conserva y los cambios locales son recuperables.
+El usuario exporta un patrón a un formato admitido indicando unidad y escala de salida, y el sistema no presenta como apto para producción un patrón con errores geométricos.
 
-### Biblioteca y descarga
+**Why this priority**: Conecta el patrón digital con la producción real, pero depende de que existan geometría válida y versiones.
 
-- **AC-6.1** Desde web y móvil se puede listar, previsualizar y descargar un archivo autorizado.
-- **AC-6.2** La descarga conserva el contenido y las medidas del archivo.
-- **AC-6.3** No se muestra una descarga incompleta como lista para imprimir.
+**Independent Test**: Se puede probar exportando un patrón válido y otro con contorno abierto, verificando que el primero se marca apto y el segundo no.
 
-### Exportación
+**Acceptance Scenarios**:
 
-- **AC-7.1** La exportación indica unidad y escala de salida.
-- **AC-7.2** Un patrón con contorno abierto o errores geométricos no se presenta como apto para producción.
+1. **Given** un patrón con contorno cerrado y válido, **When** el usuario exporta, **Then** la exportación indica unidad y escala y se presenta como apta para producción.
+2. **Given** un patrón con contorno abierto o coordenadas no finitas, **When** el usuario intenta exportarlo para producción, **Then** el sistema bloquea o marca la exportación como no apta.
 
-### Permisos y eliminación
+---
 
-- **AC-8.1** Compartir no concede edición por defecto; el propietario controla los permisos.
-- **AC-9.1** Eliminar un proyecto o archivo exige confirmación y deja el estado del sistema consistente.
+### User Story 7 - Compartir y gestionar permisos (Priority: P3)
 
-## 7. Casos de error
+El propietario comparte un proyecto o archivo con otro usuario y controla el nivel de permiso, sin que compartir conceda edición por defecto.
 
-| Id | Escenario | Respuesta esperada |
-| --- | --- | --- |
-| **E-1** | Acceso a un recurso sin sesión o sin permiso. | Código `401` o `403`; mensaje claro en español; el recurso no se expone. |
-| **E-2** | Entrada inválida (campos vacíos, valores fuera de rango, coordenadas no finitas). | Código `400` con detalle por campo; la operación no se aplica. |
-| **E-3** | Conflicto de versión al publicar o actualizar. | Código `409`; se conserva la última versión válida y se ofrece resolver el conflicto. |
-| **E-4** | Archivo demasiado grande o formato no admitido. | Código `413` o rechazo con mensaje; el archivo no se acepta. |
-| **E-5** | Publicación interrumpida (pérdida de conexión). | El documento local no se elimina; se muestra estado de publicación fallida con acción de reintento sin duplicar. |
-| **E-6** | Exportación con errores geométricos. | La exportación se bloquea o se marca como no apta para producción. |
-| **E-7** | Error inesperado del servidor. | Código `500` con mensaje genérico e identificador de seguimiento; sin exponer detalles técnicos. |
+**Why this priority**: Habilita el trabajo en equipo, pero el producto entrega valor primero en modo individual.
 
-## 8. Requisitos no funcionales
+**Independent Test**: Se puede probar compartiendo un recurso con otro usuario y verificando que solo accede al nivel concedido y que el propietario puede revocarlo.
 
-- **Seguridad:** contraseñas nunca en texto plano; secretos fuera del repositorio; recursos privados nunca en rutas públicas permanentes.
-- **Consistencia:** cambios que afecten varias entidades se ejecutan en transacciones; versionado atómico.
-- **Trazabilidad:** cada operación de servidor se registra con identificador de seguimiento, sin exponer datos sensibles.
-- **Calidad:** operaciones geométricas cubiertas por pruebas de medidas, unidades y casos límite; permisos y versionado con pruebas de integración.
-- **Idioma:** mensajes de interfaz en español; identificadores de código en inglés.
+**Acceptance Scenarios**:
 
-## 9. Decisiones pendientes (se resuelven en el plan técnico)
+1. **Given** un proyecto del propietario, **When** lo comparte con otro usuario sin especificar permiso, **Then** el otro usuario solo puede consultarlo, no editarlo.
+2. **Given** un recurso compartido, **When** el propietario revoca el permiso, **Then** el otro usuario deja de acceder.
 
-- Runtime y sistemas operativos del CAD de escritorio.
-- Tecnología y distribución de la aplicación móvil (nativa, multiplataforma o PWA).
-- Biblioteca de acceso a datos de PostgreSQL.
-- Proveedor de almacenamiento de archivos.
-- Formatos concretos de importación, intercambio e impresión.
-- Mecanismo de transferencia CAD ↔ cuenta y comportamiento sin conexión.
+---
+
+### Edge Cases
+
+- Coordenadas no finitas o medidas fuera de las restricciones de la operación al editar.
+- Exportación de un patrón con contorno abierto o piezas superpuestas inválidas.
+- Conflicto de versión cuando dos copias modifican el mismo patrón.
+- Publicación interrumpida por pérdida de conexión a mitad de la transferencia.
+- Carga de un archivo con formato no admitido o tamaño excesivo.
+- Descarga parcial que el usuario intenta imprimir como si estuviera completa.
+- Cambio de unidad de visualización con valores límite (0 mm, medidas negativas).
+- Acceso a un recurso compartido después de que el propietario lo elimine.
+
+## Requirements *(mandatory)*
+
+### Functional Requirements
+
+- **FR-001**: El sistema MUST permitir registrar una cuenta con correo y contraseña, almacenando la contraseña de forma segura.
+- **FR-002**: El sistema MUST permitir iniciar y cerrar sesión desde CAD, web y móvil con la misma identidad de usuario.
+- **FR-003**: El sistema MUST permitir ver y actualizar el perfil y cambiar la contraseña exigiendo reautenticación.
+- **FR-004**: El sistema MUST permitir crear, listar, renombrar y eliminar proyectos, con exactamente un propietario por proyecto.
+- **FR-005**: El CAD MUST permitir crear, abrir y editar patrones con contornos y medidas numéricas.
+- **FR-006**: El sistema MUST almacenar la geometría en milímetros y no alterar las medidas reales al cambiar la unidad de visualización ni el zoom.
+- **FR-007**: El CAD MUST permitir deshacer y rehacer operaciones de edición.
+- **FR-008**: El sistema MUST permitir escalar un patrón a una talla aplicando una regla definida, sin sobrescribir el patrón base.
+- **FR-009**: El sistema MUST distinguir el guardado local de la publicación en la cuenta y mostrar ambos estados.
+- **FR-010**: El sistema MUST registrar autor y fecha en cada versión publicada y ejecutar el versionado de forma atómica.
+- **FR-011**: El sistema MUST validar la estructura del documento antes de guardar y conservar la última versión válida si el guardado falla.
+- **FR-012**: La web y la móvil MUST permitir listar archivos y versiones, mostrar vista previa y consultar el historial sin cargar el editor CAD.
+- **FR-013**: La web y la móvil MUST permitir descargar archivos autorizados, conservando contenido y medidas.
+- **FR-014**: El sistema MUST asociar cada archivo de impresión a la versión que lo originó e indicar escala y dimensiones de salida.
+- **FR-015**: El sistema MUST exportar patrones a los formatos admitidos indicando unidad y escala, y rechazar la exportación de producción con errores geométricos.
+- **FR-016**: El sistema MUST permitir al propietario compartir recursos y gestionar permisos, sin conceder edición por defecto.
+- **FR-017**: El sistema MUST exigir confirmación en la interfaz y autorización en el backend para acciones destructivas.
+- **FR-018**: El backend MUST verificar autenticación y autorización en toda operación sobre recursos privados.
+
+### Business Rules
+
+- **BR-001**: Toda lectura, modificación, descarga o eliminación de recursos privados requiere autenticación y autorización verificadas en el backend; ocultar controles en la interfaz no sustituye la validación.
+- **BR-002**: Un archivo solo se presenta como disponible en la cuenta cuando su transferencia y registro se completaron.
+- **BR-003**: Las operaciones de versionado son atómicas y cada versión identifica autor y fecha.
+- **BR-004**: Se rechazan coordenadas no finitas y medidas que incumplan las restricciones de la operación.
+- **BR-005**: Las piezas destinadas a producción deben tener contorno cerrado y válido antes de exportarse.
+- **BR-006**: El margen de costura es no negativo, se expresa en la unidad interna y se distingue del contorno base.
+- **BR-007**: Una actualización verifica la versión que se modifica y rechaza conflictos para que el usuario los resuelva.
+- **BR-008**: Los archivos se validan por tamaño, formato y contenido antes de aceptarse.
+
+### Key Entities
+
+- **Usuario**: identidad común a las tres aplicaciones; atributos de perfil y credenciales.
+- **Proyecto**: agrupa patrones y archivos; tiene un propietario y participantes con permisos.
+- **Patrón**: documento geométrico en milímetros; pertenece a un proyecto.
+- **Versión**: instantánea publicada de un patrón; registra autor y fecha.
+- **Archivo**: recurso asociado a una versión (editable, vista previa o preparado para impresión); incluye metadatos y referencia de almacenamiento.
+- **Permiso**: nivel de acceso concedido por el propietario sobre un recurso compartido.
+- **ReglaDeEscalado**: definición aplicable a un patrón y una talla.
+
+## Success Criteria *(mandatory)*
+
+### Measurable Outcomes
+
+- **SC-001**: Un usuario nuevo puede registrarse e iniciar sesión en las tres aplicaciones y acceder a los mismos recursos.
+- **SC-002**: El 100 % de las medidas introducidas en milímetros se conservan exactas al cambiar la unidad de visualización y el zoom.
+- **SC-003**: El 100 % de las publicaciones fallidas conservan el documento local y la última versión remota válida.
+- **SC-004**: El 100 % de las versiones publicadas muestran autor y fecha.
+- **SC-005**: El 100 % de las descargas autorizadas conservan el contenido y las medidas del archivo.
+- **SC-006**: Ninguna exportación de producción se presenta como apta si el patrón tiene errores geométricos.
+- **SC-007**: Ningún usuario sin permiso accede a un recurso privado, verificado desde la interfaz y la API.
+
+## Assumptions
+
+- Los usuarios tienen conexión a internet al publicar o descargar; el trabajo sin conexión se definirá en el plan técnico.
+- La edición geométrica ocurre únicamente en el CAD de escritorio; web y móvil son de consulta y gestión.
+- La identidad de usuario es común a las tres aplicaciones.
+- Los formatos de importación, intercambio e impresión, el proveedor de almacenamiento, la biblioteca de persistencia, el runtime del CAD y la tecnología móvil se deciden en `plan.md` antes de implementar las funcionalidades que dependen de ellos.
+- La edición colaborativa en tiempo real y la simulación de telas quedan fuera de este alcance y requieren una especificación propia.

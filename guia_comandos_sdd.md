@@ -4,7 +4,7 @@
 
 > Esta guía se actualizará clase a clase con los comandos que vayamos utilizando.
 >
-> **Agente de IA:** DeepSeek (DeepSeek Harness) actúa como el agente encargado de crear el proyecto y sus especificaciones, en reemplazo de GitHub Copilot.
+> **Agente de IA:** DeepSeek Harness (integración `dsh`) actúa como el agente encargado de crear el proyecto y sus especificaciones, en reemplazo de GitHub Copilot.
 
 ## Clase 1. Instalación, inicialización y especificaciones
 
@@ -30,39 +30,49 @@ specify init --help
 
 ### 4. Crear el proyecto con DeepSeek como agente
 
-```bash
-specify init patronaje
-```
-
-> El agente de IA que crea el proyecto, la constitución y las especificaciones es **DeepSeek**, no GitHub Copilot. No se usa la integración `--integration copilot`.
-
-### 5. Ingresar al directorio del proyecto
+Sobre la rama `patronaje`, en la raíz del repositorio:
 
 ```bash
-cd patronaje
+specify init --here --integration dsh --ignore-agent-tools --non-interactive --force
 ```
 
-Abrir esta carpeta en **Visual Studio Code** y trabajar con **DeepSeek** como agente para los siguientes pasos.
+- `--integration dsh` selecciona **DeepSeek Harness** (no Copilot).
+- `--ignore-agent-tools` omite la verificación del ejecutable `dsh` en el PATH; ya trabajamos dentro de DeepSeek Harness.
+- `--here` inicializa en la raíz actual en lugar de crear una subcarpeta.
+
+> Alternativa interactiva: `specify init patronaje` y elegir `dsh (DeepSeek Harness)` en el menú.
+
+### 5. Estructura resultante
+
+```
+.specify/                  Configuración de Spec Kit
+  memory/constitution.md   Constitución del proyecto
+  templates/               Plantillas de spec, plan, tasks
+  scripts/powershell/      Scripts de apoyo
+  workflows/               Flujo speckit
+.dsh/skills/speckit-*/SKILL.md   Comandos disponibles en DeepSeek Harness
+specs/001-patronaje/spec.md      Especificación funcional
+```
 
 ### 6. Crear la constitución del proyecto
 
-**Instrucción al agente DeepSeek:**
+**En DeepSeek Harness:**
 
 ```text
-Crea la constitución del proyecto PATRONAJE siguiendo la plantilla.
-Define las reglas generales, las tecnologías, las restricciones y los
-principios que deben respetarse durante el desarrollo.
+/speckit-constitution
 ```
+
+Define las reglas generales, las tecnologías, las restricciones y los principios que deben respetarse durante el desarrollo.
 
 ### 7. Crear la especificación funcional
 
-**Instrucción al agente DeepSeek:**
+**En DeepSeek Harness:**
 
 ```text
-Crea la especificación funcional (spec.md) del proyecto PATRONAJE.
-Describe qué debe hacer el sistema: funcionalidades, reglas de negocio
-y límites del alcance.
+/speckit-specify
 ```
+
+Describe qué debe hacer el sistema: funcionalidades, reglas de negocio y límites del alcance.
 
 ---
 
