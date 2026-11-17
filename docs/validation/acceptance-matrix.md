@@ -621,3 +621,13 @@ Las ejecuciones de API, E2E, impresión y ensayos físicos deben añadirse y rev
 | FR-040 / SC-029: precisión y escala | Suites geométricas/PDF; verificación independiente preservada | Correcto automatizado; impresión física pendiente |
 | Registro de PDF sin confiar en datos alterados | tests/print/export-attestation.spec.ts | Correcto automatizado |
 | Instalación y repetición manual de 0.1.10 | Paquete comprobado | Pendiente del usuario |
+
+### Margen cóncavo 0.1.11 (2026-11-17)
+
+| Criterio | Evidencia | Estado |
+| --- | --- | --- |
+| Responder al caso de margen cóncavo de 10 mm sin espera indefinida | [E2E y diagnóstico](pdf-concave-0111.md), 9.16 s | Correcto como diagnóstico técnico; no como generación de PDF |
+| Preservar documento, 10 mm y PDF anterior | E2E cóncavo | Correcto automatizado |
+| Generación válida con 10 mm y precisión original | E2E oblicuo, 13.26 s | Correcto automatizado en este caso/equipo |
+| Resolver y exportar la unión cóncava ambigua | No se ha certificado un recorte único | Pendiente; se bloquea la exportación |
+| Instalación manual de 0.1.11 | Paquete comprobado | Pendiente del usuario |

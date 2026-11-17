@@ -68,3 +68,7 @@ El aviso de que cambió la pieza informa de que se usará su geometría actual c
 ## Actualización PDF 0.1.10
 
 La optimización del caso de esquina redondeada oblicua con margen de 10 mm completó la prueba local integral en 17.94 s; consulta [la evidencia](validation/pdf-optimization-0110.md). Instala 0.1.10 antes de repetir la exportación: una operación iniciada en una versión anterior no recibe la mejora. La escala, la precisión y la cancelación se conservan. El tiempo de otros patrones depende de su complejidad y del equipo.
+
+## Aviso de unión cóncava — 0.1.11
+
+Si el margen tiene varias intersecciones posibles en una unión cóncava, el CAD informa de que no puede resolverlo con seguridad y no genera el PDF. Conserva el ancho del margen y la pieza para que puedas guardar el borrador y revisar la esquina. Reinstalar, mover la pieza a otro cuadrante o esperar más no resuelve esa ambigüedad. La corrección reduce el tiempo del diagnóstico; no modifica tu patrón ni fuerza una exportación.

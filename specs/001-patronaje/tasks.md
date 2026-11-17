@@ -564,3 +564,7 @@ Corrección 0.1.9 (`9b03ada`) del cálculo de márgenes casi tangentes, con fixt
 ### Seguimiento T078 / T099 — optimización 0.1.10, 2026-11-17
 
 Código 32a3634. Exportación integral del caso oblicuo: **17.94 s**, incluidos verificación independiente, guardado nativo y catálogo. Cumple el objetivo de 60 s en esta regresión y equipo; sustituye el estado de rendimiento pendiente de 0.1.9 para este caso. 548/548 pruebas de regresión, dos E2E y paquete correctos. [Evidencia y límites](../../docs/validation/pdf-optimization-0110.md). No cambia decisiones ni cierra comprobaciones físicas o aceptación manual pendientes. Sin AWS.
+
+### Seguimiento T078 / T099 — margen cóncavo 0.1.11, 2026-11-17
+
+Código 1c22268. El caso cóncavo de 10 mm termina en 9.16 s con diagnóstico técnico de recorte ambiguo, preservando documento y PDF previo; no se acredita PDF generado. El caso oblicuo exportable completa el flujo en 13.26 s. Regresión 551/551; revisión final 276/276 solapada; tres E2E y paquete correctos. [Informe y límite pendiente](../../docs/validation/pdf-concave-0111.md). Sin cambios de decisiones, borrados, AWS o cierre de aceptación física/manual.
