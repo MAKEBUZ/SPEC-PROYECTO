@@ -100,3 +100,8 @@ U1 resuelto: CAD Windows 11 x64; Android 12+ con Chrome; iPhone iOS 17+ con Safa
 U2 resuelto conforme FR-286–292 y SC-277–283: credencial protegida limitada a una solicitud, emisión autenticada también en otros dispositivos durante recuperación, conservación tras logout, comprobación al abrir/reconectar y manual, reintentos automáticos crecientes con aplicación abierta y conexión sin sesión normal. Consulta disponible 90 días desde eliminación definitiva confirmada o recuperación confirmada (resultado cancelado), sin renovar por consultas. Solo eliminación explícitamente confirmada activa las transiciones locales existentes. No conserva contenido de cuenta ni OperationResult por esta excepción. No autoriza código, instalación ni despliegue; las pruebas permanecen pendientes.
 
 Implementación técnica de la comprobación limitada: contracts/api.md y contracts/authentication.md; datos en data-model.md; tareas T023–T025, T061–T062 y T088. La matriz coverage.md conserva evidencia pendiente.
+
+
+### Actualización técnica — redondeo de pieza (2026-11-17)
+
+Comando reversible `roundPieceCorner`, radio nominal en milímetros y selección por clic en el tablero. Recorta dos rectas y las conecta con una Bézier cúbica tangente, conservando el formato editable existente. Es una aproximación del redondeo circular, no una herramienta de arcos exactos. Los tiradores se calculan directamente con las direcciones de las rectas; una curva por esquina evita uniones internas innecesarias. Se mantienen las validaciones de producción y la independencia del margen. Sin servicios nuevos ni cambios en AWS.

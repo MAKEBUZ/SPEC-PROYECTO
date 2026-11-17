@@ -550,3 +550,8 @@ Entrega 0.1.7: instalador .local/releases/PATRONAJE-0.1.7-Setup.exe; 186631168 b
 ## Revisión de entrega documental — 2026-11-17
 
 README raíz, demo local aislada y consolidación de evidencias en `docs/validation/delivery-report.md`. 700/700 pruebas locales (342 unitarias), 14/14 E2E dirigidas; no sumar ejecuciones solapadas. Matriz regenerada con 575 IDs: 200 aplazados, 303 con evidencia parcial y 72 sin vínculo individual en esta ejecución. Instalación limpia parcial: dependencias, recursos, C++/builds/corpus aprobados; descarga de Electron bloqueada por timeout del origen oficial. Ninguna de las ocho tareas abiertas se marca por esta revisión; no se añaden módulos ni se toca AWS.
+
+
+## Ampliación autorizada de edición — 2026-11-17
+
+- [X] T099 [US2] Redondear el contorno base desde el tablero con radio nominal, acción reversible, rechazo atómico de entradas no admitidas, persistencia y exportación; distinguirlo del redondeo del margen. Implementación `3b1625e`, versión 0.1.8. Pruebas y límites en [informe](../../docs/validation/cad-rounding.md). Comprobación manual del nuevo instalador pendiente; no cierra las ocho tareas anteriores de aceptación física/integral.
