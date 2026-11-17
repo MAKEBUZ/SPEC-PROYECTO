@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-17T20:26:58.931Z",
+  "elapsedMs": 17942,
+  "objectiveMs": 60000,
+  "bytes": 41009,
+  "scope": "Electron UI, generation, independent verification, native save, publication catalog; no network",
+  "passed": true,
+  "version": "0.1.10",
+  "commit": "32a36349e05f69b9b614bce149926130e7d258cb",
+  "regression": {
+    "passed": 548,
+    "total": 548,
+    "failed": 0
+  },
+  "installer": {
+    "name": "PATRONAJE-0.1.10-Setup.exe",
+    "bytes": 186637824,
+    "sha256": "102db92501394f2f06f4f3bdd0faef427db5de9a98d7dc5070b2cfc34651bedf"
+  },
+  "packagedSmoke": "passed",
+  "manualInstallation": "pending"
+}

@@ -603,7 +603,7 @@ Las ejecuciones de API, E2E, impresión y ensayos físicos deben añadirse y rev
 | Uso del instalador 0.1.8 por el usuario | [Informe](cad-rounding.md) | Pendiente manual; arranque del paquete verificado |
 
 
-### Regresión de PDF 0.1.9 (2026-11-17)
+### Regresión de PDF 0.1.9 (2026-11-17, histórica)
 
 | Criterio | Evidencia | Estado |
 | --- | --- | --- |
@@ -612,3 +612,12 @@ Las ejecuciones de API, E2E, impresión y ensayos físicos deben añadirse y rev
 | Cancelar y recuperar edición sin perder trabajo | `tests/e2e/pdf-export.spec.ts` | Correcto automatizado |
 | Objetivo de 60 s en este caso complejo | [Medición](pdf-rounded-corner.md) | Parcial: aún excedido; se conserva el objetivo |
 | Instalación y prueba de 0.1.9 por el usuario | Paquete comprobado; aceptación del usuario no realizada | Pendiente manual |
+
+### Estado actual de PDF 0.1.10 (2026-11-17)
+
+| Criterio | Evidencia | Estado |
+| --- | --- | --- |
+| FR-055 / SC-044: objetivo de 60 s en el caso oblicuo con margen de 10 mm | [Ensayo integral](pdf-optimization-0110.md), 17.94 s | Correcto automatizado en este equipo; no certifica otros casos/equipos |
+| FR-040 / SC-029: precisión y escala | Suites geométricas/PDF; verificación independiente preservada | Correcto automatizado; impresión física pendiente |
+| Registro de PDF sin confiar en datos alterados | tests/print/export-attestation.spec.ts | Correcto automatizado |
+| Instalación y repetición manual de 0.1.10 | Paquete comprobado | Pendiente del usuario |

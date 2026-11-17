@@ -1,5 +1,7 @@
 # PDF de esquina redondeada oblicua — corrección 0.1.9
 
+> Evidencia histórica de 0.1.9. Estado actual: [optimización 0.1.10](pdf-optimization-0110.md), objetivo cumplido en la regresión medida.
+
 Fecha: 2026-11-17. Código: 9b03ada. Sin cambios en AWS.
 
 ## Incidencia y causa
