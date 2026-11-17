@@ -16,6 +16,12 @@ let host: AccountHost, browser: Browser, server: ChildProcess;
 const origin = 'https://patron.example.invalid';
 const form = (page: Page, title: string) => page.locator('form').filter({ has: page.getByRole('heading', { name: title, exact: true }) });
 async function submit(page: Page, title: string, fields: Record<string,string>) {
+  if(!(await form(page,title).isVisible())){
+    const access:Record<string,string>={'Iniciar sesión':'Iniciar sesión','Crear cuenta':'Crear cuenta','Verificar correo':'Verificar correo','Solicitar restablecimiento':'Recuperar acceso','Establecer contraseña nueva':'Recuperar acceso'};
+    if(access[title])await page.getByRole('navigation',{name:'Opciones de acceso'}).getByRole('button',{name:access[title],exact:true}).click();
+    else if(title==='Cambiar contraseña'||title==='Cerrar todas las sesiones')await page.getByRole('navigation',{name:'Ajustes de cuenta'}).getByRole('button',{name:'Seguridad',exact:true}).click();
+    else if(title==='Guardar perfil')await page.getByRole('navigation',{name:'Ajustes de cuenta'}).getByRole('button',{name:'Perfil',exact:true}).click();
+  }
   const panel = form(page,title); for (const [name,value] of Object.entries(fields)) await panel.locator(`input[name="${name}"]`).fill(value);
   await panel.getByRole('button', { name: title, exact: true }).click();
 }
@@ -55,7 +61,7 @@ async function web(mobile: boolean) {
       await route.fulfill({ response });
     }
   });
-  const page = await context.newPage(); await page.goto(origin+'/account');
+  const page = await context.newPage(); await page.goto(origin+'/account');await page.locator('.account-activity>summary').click();
   return { context, page };
 }
 
@@ -68,7 +74,7 @@ it.each([false,true])('consulta la biblioteca privada y distingue vista previa d
     await ui(page.getByAltText('Vista previa del patrón')).toBeVisible();await ui(page.getByRole('button',{name:'Descargar editable'})).toBeVisible();await ui(page.getByText(/Autor: Tú/)).toBeVisible();
     if(includePdf){await ui(page.getByText(/PDF de producción a escala 1:1/)).toBeVisible();await ui(page.getByText(/Páginas: 1. Dimensiones: 140 ×/)).toBeVisible();const download=page.waitForEvent('download');await page.getByRole('button',{name:'Descargar PDF',exact:true}).click();const file=await download;expect(await readFile((await file.path())!)).toEqual(published.pdf);}
     else await ui(page.getByText('Esta versión no contiene PDF de producción.',{exact:true})).toBeVisible();
-    await page.screenshot({path:'.local/library-review.png',fullPage:true});
+    await page.screenshot({path:'.local/library-review.png',fullPage:true,animations:'disabled'});
     const downloaded=page.waitForEvent('download');await page.getByRole('button',{name:'Descargar editable'}).click();expect((await downloaded).suggestedFilename()).not.toMatch(/[\r\n/\\]/);
   }finally{await context.close();}
 },30000);
@@ -152,11 +158,11 @@ it.each([false,true])('registro, verificación, perfil, contraseña y reset medi
 it('eliminación y recuperación terminan el acceso limitado; U2 persiste tras logout sin exponer contenido', async () => {
   const account = await host.verifiedAccount(), { context,page } = await web(false);
   try {
-    await login(page,account.email); await page.getByRole('button',{name:'Revisar eliminación de cuenta'}).click();
+    await login(page,account.email); await page.getByRole('navigation',{name:'Ajustes de cuenta'}).getByRole('button',{name:'Seguridad',exact:true}).click();await page.getByRole('button',{name:'Revisar eliminación de cuenta'}).click();
     await submit(page,'Solicitar eliminación',{currentPassword:PASSWORD,phrase:'ELIMINAR MI CUENTA'}); await ui(form(page,'Iniciar sesión')).toBeVisible();
     await login(page,account.email); await ui(page.getByRole('heading',{name:'Cuenta pendiente de eliminación'})).toBeVisible();
     await submit(page,'Recuperar mi cuenta',{confirmationText:'Recuperar mi cuenta'}); await ui(form(page,'Iniciar sesión')).toBeVisible();
-    await page.getByRole('button',{name:'Comprobar ahora',exact:true}).click(); await ui(page.getByText('Solicitud cancelada',{exact:true})).toBeVisible();
+    await page.locator('.account-extra>summary').click();await page.getByRole('button',{name:'Comprobar ahora',exact:true}).click(); await ui(page.getByText('Solicitud cancelada',{exact:true})).toBeVisible();
     await ui(page.getByRole('heading',{name:'Perfil',exact:true})).toHaveCount(0);
     const cookies = await context.cookies(origin+'/v1/deletion-status/'+((await host.pool.query('SELECT request_id FROM deletion_checks WHERE state=$1',[ 'cancelled' ])).rows.at(-1).request_id));
     expect(cookies.some(c => c.name === '__Secure-deletion-status' && c.secure && c.httpOnly)).toBe(true);
@@ -230,5 +236,21 @@ it('T061 shares durable admission across tabs and transfers lifecycle ownership 
   expect(await page.evaluate(()=>(window as any).lifecycleProbe.active)).toBe(false);
   await attach(other);await ui.poll(()=>other.evaluate(()=>(window as any).lifecycleProbe?.active)).toBe(true);
   expect(await begin(other)).toBe('OPERATION_PENDING');
+ }finally{await context.close();}
+},30000);
+
+it('portal guiado: tema persistente, acceso separado y diseño móvil sin desbordamiento',async()=>{
+ const {context,page}=await web(false);
+ try{
+  await ui(form(page,'Iniciar sesión')).toBeVisible();await ui(form(page,'Crear cuenta')).toHaveCount(0);
+  await page.getByRole('button',{name:'Activar modo oscuro',exact:true}).click();
+  await ui(page.locator('html')).toHaveAttribute('data-theme','dark');
+  await page.screenshot({path:'.local/validation/web-account-dark.png',fullPage:true,animations:'disabled'});
+  await page.reload();await ui(page.locator('html')).toHaveAttribute('data-theme','dark');
+  await page.getByRole('button',{name:'Activar modo claro',exact:true}).click();
+  await page.screenshot({path:'.local/validation/web-account-light.png',fullPage:true,animations:'disabled'});
+  await page.getByRole('navigation',{name:'Opciones de acceso'}).getByRole('button',{name:'Crear cuenta',exact:true}).click();await ui(form(page,'Crear cuenta')).toBeVisible();await ui(form(page,'Iniciar sesión')).toHaveCount(0);
+  await page.setViewportSize({width:390,height:844});await page.screenshot({path:'.local/validation/web-account-mobile.png',fullPage:true,animations:'disabled'});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  await page.goto(origin+'/account/reset-password?token=token-de-prueba');await ui(form(page,'Establecer contraseña nueva')).toBeVisible();await ui(form(page,'Establecer contraseña nueva').locator('input[name=token]')).toHaveValue('token-de-prueba');expect(page.url()).not.toContain('token=');
  }finally{await context.close();}
 },30000);

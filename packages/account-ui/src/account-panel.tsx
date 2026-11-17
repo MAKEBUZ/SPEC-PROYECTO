@@ -23,7 +23,7 @@ function AccountForm({ title, fields = [], disabled, submit, note }: { title: st
     {fields.map(field => <label key={field.name}>{field.label}<input key={field.value} defaultValue={field.value} name={field.name} type={field.type ?? 'text'} autoComplete={field.autocomplete ?? 'off'} required /></label>)}
     <button type="submit">{title}</button></fieldset></form>;
 }
-export function AccountPanel({ client, desktop = false }: { client: AccountClient; desktop?: boolean }) {
+export function AccountPanel({ client, desktop = false, guided = desktop }: { client: AccountClient; desktop?: boolean; guided?: boolean }) {
   const [accessPage,setAccessPage]=useState('login'),[settingsPage,setSettingsPage]=useState('profile');
   const [session, setSession] = useState<HttpDto<'SessionView'> | null>(null);
   const [profile, setProfile] = useState<HttpDto<'AccountProfile'> | null>(null);
@@ -60,7 +60,7 @@ export function AccountPanel({ client, desktop = false }: { client: AccountClien
     await client.mutate(action, fields); setMessage(action === 'resetRequest' ? 'Si existe una cuenta, recibirás un enlace de recuperación.' : action === 'register' ? 'Cuenta creada. Revisa tu correo; inicia sesión para reenviar la verificación si lo necesitas.' : 'Cambio confirmado.');
     if (['recoverAccount','deleteAccount','resetConfirm','verificationConfirm'].includes(action)) {
       setLinkToken('');
-      await client.query('forgetSession'); setSession(null); setProfile(null); setDeletion(null); setScope(null); client.accountId = null;
+      await client.query('forgetSession'); setSession(null); setProfile(null); setDeletion(null); setScope(null); client.accountId = null; setAccessPage('login');
       setMessage(action === 'deleteAccount' ? 'Eliminación solicitada. Inicia sesión para consultar el plazo o recuperar tu cuenta.' : 'Confirmado. Inicia sesión de nuevo.');
     } else if (active || limited) await refresh();
   }
@@ -70,7 +70,7 @@ export function AccountPanel({ client, desktop = false }: { client: AccountClien
     deletionChecks.current=subscription;
     const connected = () => { setOnline(navigator.onLine); };
     const url = new URL(window.location.href), token = url.searchParams.get('token');
-    if (token) { setAccessPage('verify');setLinkToken(token); url.searchParams.delete('token'); window.history.replaceState(null, '', url); }
+    if (token) { setAccessPage(url.pathname.endsWith('/reset-password')?'reset':'verify');setLinkToken(token); url.searchParams.delete('token'); window.history.replaceState(null, '', url); }
     setOnline(navigator.onLine); void run(async () => { await refresh(); setMessage(''); });
     window.addEventListener('online', connected); window.addEventListener('offline', connected);
     const statusTimer = setInterval(() => {
@@ -85,27 +85,27 @@ export function AccountPanel({ client, desktop = false }: { client: AccountClien
   }, [client]);
   const disabled = busy || !online;
   const form = (title: string, action: AccountAction, fields: Field[], note?: string) => <div data-operation-form={action}><AccountForm title={title} fields={fields} disabled={disabled} submit={values => run(() => mutation(action, values))} {...(note ? { note } : {})} /></div>;
-  return <main className="account"><header><p>PATRONAJE · {desktop ? 'CAD' : 'Cuenta'}</p><h1>{desktop?'Mi cuenta':'Tu cuenta'}</h1><p>{desktop?'Gestiona tu acceso y tus datos. Tus archivos locales se conservan por separado.':'Gestiona tu perfil, acceso y seguridad.'}</p></header>
+  return <main className="account"><header><p>PATRONAJE · {desktop ? 'CAD' : 'Cuenta'}</p><h1>{guided?'Mi cuenta':'Tu cuenta'}</h1><p>{desktop?'Gestiona tu acceso y tus datos. Tus archivos locales se conservan por separado.':'Gestiona tu perfil, acceso y seguridad.'}</p></header>
     {!online && <p role="status">Sin conexión. Las operaciones de cuenta requieren internet.</p>}
     {desktop && <p>{localEnabled ? 'El trabajo local del CAD permanece habilitado.' : 'Inicia sesión con correo verificado y conexión para habilitar el CAD.'}</p>}
     {revocationPending && <p role="status">Sesión cerrada localmente. Invalidación remota pendiente al recuperar conexión.</p>}
     {logoutAllPending && <p role="status">Cierre de todas las sesiones: resultado pendiente de comprobar. No se repetirá automáticamente.</p>}
     <p role="status" aria-live="polite">{message}</p>
-    {desktop&&!session&&<nav className="account-tabs" aria-label="Opciones de acceso">{[['login','Iniciar sesión'],['register','Crear cuenta'],['reset','Recuperar acceso'],['verify','Verificar correo']].map(([id,label])=><button key={id} aria-current={accessPage===id?'page':undefined} onClick={()=>setAccessPage(id!)}>{label}</button>)}</nav>}
+    {guided&&!session&&<nav className="account-tabs" aria-label="Opciones de acceso">{[['login','Iniciar sesión'],['register','Crear cuenta'],['reset','Recuperar acceso'],['verify','Verificar correo']].map(([id,label])=><button key={id} aria-current={accessPage===id?'page':undefined} onClick={()=>setAccessPage(id!)}>{label}</button>)}</nav>}
     {!session && <>
-      {(!desktop||accessPage==='login')&&<AccountForm title="Iniciar sesión" fields={[email,password]} disabled={disabled} submit={values => run(async () => { await client.query('login', values); await refresh(); setSettingsPage('profile');setAccessPage('login');setMessage('Sesión iniciada.'); })} />}
-      {(!desktop||accessPage==='register')&&form('Crear cuenta','register',[email,{ ...password, autocomplete: 'new-password' }], 'Debes verificar tu correo antes de acceder a tus proyectos.')}
+      {(!guided||accessPage==='login')&&<AccountForm title="Iniciar sesión" fields={[email,password]} disabled={disabled} submit={values => run(async () => { await client.query('login', values); await refresh(); setSettingsPage('profile');setAccessPage('login');setMessage('Sesión iniciada.'); })} />}
+      {(!guided||accessPage==='register')&&form('Crear cuenta','register',[email,{ ...password, autocomplete: 'new-password' }], 'Debes verificar tu correo antes de acceder a tus proyectos.')}
     </>}
     {session?.accessClass === 'verification' && <><p>Verifica tu correo para acceder a la cuenta.</p>{form('Reenviar verificación','verificationRequest',[])}</>}
     {!active && <>
-      {(!desktop||accessPage==='verify'||session?.accessClass==='verification')&&form('Verificar correo','verificationConfirm',[{ name: 'token', label: 'Código del enlace de verificación', value: linkToken }])}
-      {session?.accessClass !== 'verification' && (!desktop||accessPage==='reset'||limited) && <>{form('Solicitar restablecimiento','resetRequest',[email], 'Si existe una cuenta, recibirás un enlace. Esto no cancela una eliminación pendiente.')}
+      {(!guided||accessPage==='verify'||session?.accessClass==='verification')&&form('Verificar correo','verificationConfirm',[{ name: 'token', label: 'Código del enlace de verificación', value: linkToken }])}
+      {session?.accessClass !== 'verification' && (!guided||accessPage==='reset'||limited) && <>{form('Solicitar restablecimiento','resetRequest',[email], 'Si existe una cuenta, recibirás un enlace. Esto no cancela una eliminación pendiente.')}
       {form('Establecer contraseña nueva','resetConfirm',[{ name: 'token', label: 'Código del enlace de recuperación', value: linkToken },next])}</>}
     </>}
-    {desktop&&active&&<nav className="account-tabs" aria-label="Ajustes de cuenta">{[['profile','Perfil'],['security','Seguridad']].map(([id,label])=><button key={id} aria-current={settingsPage===id?'page':undefined} onClick={()=>setSettingsPage(id!)}>{label}</button>)}</nav>}
-    {active && profile && <>{(!desktop||settingsPage==='profile')&&<><section><h2>Perfil</h2><p>{profile.email}</p><p>{profile.displayName}</p><p>Espacio: {(profile.usedBytes/1000000).toLocaleString('es')} MB de 2 GB</p></section>
+    {guided&&active&&<nav className="account-tabs" aria-label="Ajustes de cuenta">{[['profile','Perfil'],['security','Seguridad']].map(([id,label])=><button key={id} aria-current={settingsPage===id?'page':undefined} onClick={()=>setSettingsPage(id!)}>{label}</button>)}</nav>}
+    {active && profile && <>{(!guided||settingsPage==='profile')&&<><section><h2>Perfil</h2><p>{profile.email}</p><p>{profile.displayName}</p><p>Espacio: {(profile.usedBytes/1000000).toLocaleString('es')} MB de 2 GB</p></section>
       {form('Guardar perfil','updateProfile',[{ name: 'displayName', label: 'Nombre', value: profile.displayName ?? '' }])}</>}
-      {(!desktop||settingsPage==='security')&&<>{form('Cambiar contraseña','password',[current,next])}
+      {(!guided||settingsPage==='security')&&<>{form('Cambiar contraseña','password',[current,next])}
       <button disabled={disabled} onClick={() => void run(async () => { setScope(await client.query('scope', { accountId: profile.id }) as NonNullable<typeof scope>); setMessage('Revisa el contenido afectado antes de confirmar.'); })}>Revisar eliminación de cuenta</button>
       {scope && <section><h2>Contenido afectado</h2><ul>{scope.resources.map(resource => <li key={resource.id}>{resource.name ?? resource.id}</li>)}</ul><p>{scope.versions} versiones · {scope.files} archivos · {scope.bytes} bytes</p><p>Dispones de 30 días para recuperar la cuenta. Después se eliminará su contenido. Los documentos locales del CAD se conservan.</p>
         <AccountForm title="Solicitar eliminación" fields={[current,{ name: 'phrase', label: 'Escribe ELIMINAR MI CUENTA' }]} disabled={disabled} submit={values => run(() => mutation('deleteAccount', { ...values, scopeRevision: scope.scopeRevision }))} />
@@ -116,9 +116,9 @@ export function AccountPanel({ client, desktop = false }: { client: AccountClien
       {form('Habilitar comprobación en este dispositivo','deletionCredential',[])}
     </section>}
     {session && <section><h2>Sesión</h2><button disabled={busy || (!desktop && !online)} onClick={() => void run(async () => { if (desktop) await client.query('localLogout'); else await client.mutate('logout'); await client.query('forgetSession'); setSession(null); setProfile(null); setDeletion(null); setScope(null); client.accountId = null; await refresh(); setMessage('Sesión cerrada.'); })}>Cerrar sesión</button>
-      {active && (!desktop||settingsPage==='security') && <AccountForm title="Cerrar todas las sesiones" fields={[{ name: 'confirmation', label: 'Escribe CERRAR para confirmar, incluida esta sesión' }]} disabled={disabled} submit={values => run(async () => { if (values.confirmation !== 'CERRAR') throw new Error('Escribe CERRAR para confirmar.'); if (desktop) await client.query('localLogoutAll'); else await client.mutate('revokeAll', { confirmation: true }); await client.query('forgetSession'); setSession(null); setProfile(null); client.accountId = null; await refresh(); setMessage('Cierre solicitado. Consulta el estado antes de repetir si no hay confirmación.'); })} />}
+      {active && (!guided||settingsPage==='security') && <AccountForm title="Cerrar todas las sesiones" fields={[{ name: 'confirmation', label: 'Escribe CERRAR para confirmar, incluida esta sesión' }]} disabled={disabled} submit={values => run(async () => { if (values.confirmation !== 'CERRAR') throw new Error('Escribe CERRAR para confirmar.'); if (desktop) await client.query('localLogoutAll'); else await client.mutate('revokeAll', { confirmation: true }); await client.query('forgetSession'); setSession(null); setProfile(null); client.accountId = null; await refresh(); setMessage('Cierre solicitado. Consulta el estado antes de repetir si no hay confirmación.'); })} />}
     </section>}
-    <details className="account-extra" open={desktop?undefined:true}><summary>Seguimiento de eliminación de cuenta</summary><section><h2>Estado de eliminación</h2><p>Esta comprobación no da acceso a contenido ni requiere una sesión normal.</p><button disabled={disabled} onClick={() => void run(async () => { await deletionChecks.current?.checkNow(); })}>Comprobar ahora</button>
+    <details className="account-extra" open={guided?undefined:true}><summary>Seguimiento de eliminación de cuenta</summary><section><h2>Estado de eliminación</h2><p>Esta comprobación no da acceso a contenido ni requiere una sesión normal.</p><button disabled={disabled} onClick={() => void run(async () => { await deletionChecks.current?.checkNow(); })}>Comprobar ahora</button>
       {checkMessage&&<p role="status">{checkMessage}</p>}
       {checks.map(row => <p key={row.requestId}>{row.state === 'deleted' ? 'Eliminación definitiva confirmada' : row.state === 'cancelled' ? 'Solicitud cancelada' : 'Eliminación pendiente'}</p>)}
     </section></details></main>;
