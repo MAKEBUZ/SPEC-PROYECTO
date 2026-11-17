@@ -1,5 +1,9 @@
 # Estado de validación local
 
+**Índice vigente 2026-11-17:** consultar [informe consolidado](delivery-report.md), [matriz](acceptance-matrix.md) y [pendientes](remaining-eight.md). Las secciones siguientes son un registro histórico por ejecución: sus conteos y restricciones temporales no sustituyen el estado vigente ni deben sumarse.
+
+## Registro histórico (conservado)
+
 Rama `patronaje`, primera entrega `001-patronaje`. El estado de cada tarea está en `../../specs/001-patronaje/tasks.md`; este informe no declara la entrega terminada.
 
 Avance posterior: instalador Windows y recorrido integral preparados, 513/513 locales, 18/18 E2E conjuntos y 13/13 cuenta/PWA por cada navegador Chrome y Edge. Véase `remaining-eight.md`; ninguna aceptación física se declara completa. Estado vigente tras cerrar T062 localmente: **90/98 tareas completas, 8 pendientes**. Estados y recuperación: 512/512 pruebas locales y 29/29 integración; TypeScript correcto. Matriz individual en `operation-state-matrix.md`. Integración de operaciones: 505/505 pruebas locales, 25/25 integración y 20/20 E2E; informe `operations-lifecycle-complete.md`. Reconciliación y compactación: 498/498 pruebas locales y 162/162 de integración; evidencia en `suppression-reconciliation.md`. Programación, drenaje global del monolito y limpieza física de siete días validados: 491/491 pruebas locales, 21/21 dirigidas posteriores y 159/159 de integración PostgreSQL (26 archivos). Transporte y operación AWS no ejecutados; evidencia en `backups.md`. PDF: 50/50 exportaciones verificadas y guardadas dentro de 60 s, 30/30 cancelaciones dentro de 5 s, 5/5 casos idénticos Windows/Linux y regresión final 152/152. Evidencia completa en `pdf-performance-results.json`; límites del equipo en `performance.md`.

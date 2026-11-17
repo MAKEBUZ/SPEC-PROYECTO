@@ -1,4 +1,3 @@
-<!-- Sync Impact Report: 1.0.1 -> 1.0.2. Aclaración del principio Eliminación: separar validación local y autorización remota conforme a decisión del usuario. Sin secciones añadidas o eliminadas; sin nuevos placeholders pendientes. Sincronizar FR-017 y aceptación en spec.md. Retirar este comentario antes de commit. -->
 # Constitución del Proyecto: PATRONAJE
 
 **Estado:** adoptada.
@@ -24,7 +23,7 @@ El flujo principal consiste en trabajar un patrón en el CAD, guardar o publicar
 
 - **Aplicación web / UI:** Next.js con React y Tailwind CSS para la consulta de archivos y la gestión de cuenta. La interfaz debe adaptarse al tamaño de pantalla.
 - **Aplicación de escritorio / UI:** interfaz del CAD basada en React y Tailwind CSS, con Three.js para la representación gráfica. El runtime y el empaquetado de escritorio se elegirán en el plan técnico; Next.js queda asignado a la aplicación web y no determina cómo se ejecutará el CAD.
-- **Aplicación móvil / UI:** tecnología pendiente de definición. Se debe decidir si se distribuirá como aplicación nativa, multiplataforma o PWA antes de implementarla. Una web adaptable no se considera por sí sola la entrega de la aplicación móvil.
+- **Aplicación móvil / UI:** decisión concretada en FR-283 y el plan aprobado: PWA instalable para Android/iPhone, sin tiendas inicialmente. La formulación inicial dejaba esa elección pendiente; ya no constituye un bloqueo. Una web adaptable no se considera por sí sola la entrega móvil, cuya aceptación en dispositivos físicos sigue pendiente.
 - **Backend compartido:** NestJS sobre Node.js. El backend centraliza cuentas, autenticación, autorización, proyectos, versiones y archivos mediante una API HTTP consumida por las tres aplicaciones. Las operaciones geométricas interactivas corresponden al núcleo del CAD.
 - **Base de datos:** PostgreSQL para usuarios, permisos, proyectos, metadatos y versiones de patrones. Los cambios que afecten varias entidades relacionadas deben ejecutarse mediante transacciones. Todo cambio de esquema requiere una migración versionada. La biblioteca de acceso a datos se elegirá en el plan técnico, antes de implementar la persistencia.
 - **Almacenamiento de archivos:** los archivos y exportaciones se guardan en almacenamiento de archivos; PostgreSQL conserva sus referencias y metadatos. El proveedor se definirá en el plan técnico. Los archivos privados no deben exponerse mediante rutas públicas permanentes.
@@ -99,3 +98,5 @@ El agente de IA encargado del proyecto es **Codex** y debe cumplir estas reglas:
 - 2026-11-13 (1.0.1): se sustituye DeepSeek Harness por Codex como agente encargado. Se conservan todos los principios, reglas y decisiones pendientes. Se revisó specs/001-patronaje/spec.md: no requiere cambios funcionales por esta migración y conserva su estado Draft.
 
 - 2026-11-14 (1.0.2): aclaración aprobada del ámbito de las acciones destructivas: confirmación y validación local para acciones exclusivamente locales; confirmación, sesión válida y autorización del servidor para recursos de la cuenta. Se preserva el trabajo sin conexión y se sincroniza FR-017 de la especificación.
+
+- 2026-11-17 (revisión editorial, sin nueva regla de producto): se enlaza la elección PWA ya aprobada en FR-283/plan y se retira la indicación obsoleta de tecnología móvil pendiente. Las menciones a Draft en entradas previas describen el estado de aquella fecha.

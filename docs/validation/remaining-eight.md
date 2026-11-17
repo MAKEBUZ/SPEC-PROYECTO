@@ -1,5 +1,7 @@
 # Avance de las ocho tareas pendientes
 
+**Corte vigente 2026-11-17:** continúan 90/98 completas. Consultar [informe consolidado](delivery-report.md) para resultados actuales y pendientes. La tabla siguiente conserva el corte histórico de 2026-11-16; la instalación y ronda digital posteriores del usuario aportan evidencia parcial, sin cerrar T093 ni reemplazar teléfonos, USB e impresión.
+
 2026-11-16, `patronaje`. No se modificó el alcance, no hubo despliegues ni AWS.
 
 | Tarea | Avance local | Falta para cierre |

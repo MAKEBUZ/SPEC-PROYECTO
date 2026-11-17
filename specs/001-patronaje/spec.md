@@ -1,19 +1,19 @@
 # Feature Specification: PATRONAJE — Núcleo del sistema
 
-> Estado vigente 2026-11-14: implementación local autorizada por el usuario, comenzando por fundamentos con speckit-implement. No autoriza despliegue ni gasto AWS. Las prohibiciones de implementación de registros anteriores describen aquella fase documental.
+> Estado vigente 2026-11-17: primera entrega aprobada, implementación local autorizada desde el 2026-11-14 y en validación. 90/98 tareas completas; aceptación integral pendiente. El piloto AWS tuvo autorización posterior independiente; esta revisión documental no realiza operaciones ni gastos AWS. Véase [informe consolidado](../../docs/validation/delivery-report.md).
 
 
-**Feature Branch**: `001-patronaje`
+**Feature**: `001-patronaje`. **Rama de integración**: `patronaje`.
 
 **Created**: 2026-10-23
 
-**Status**: Approved — primera entrega; planificación técnica autorizada, implementación no autorizada
+**Status**: Approved — alcance aprobado; implementación local autorizada y en validación; aceptación integral pendiente.
 
 **Input**: Sistema CAD de patronaje digital con gestión de archivos para patronistas, diseñadores de moda, talleres de confección, estudiantes y equipos de producción textil. El CAD de escritorio crea, edita, escala y prepara patrones para producción; la web y la móvil consultan, descargan y comparten esos patrones y sus archivos desde la cuenta.
 
 ## Alcance de la primera entrega
 
-**Delimitación aprobada por el usuario: 2026-11-14.** La especificación funcional consolidada de esta primera entrega fue aprobada explícitamente el 2026-11-14. Se autoriza la planificación técnica, no la implementación. Los módulos aplazados conservan sus decisiones sin incorporarse a esta aprobación de entrega.
+**Delimitación aprobada por el usuario: 2026-11-14.** La especificación funcional consolidada de esta primera entrega fue aprobada explícitamente el 2026-11-14. Históricamente, esa aprobación autorizó primero la planificación; posteriormente el usuario autorizó la implementación local. Los módulos aplazados conservan sus decisiones sin incorporarse a esta aprobación de entrega.
 
 La primera entrega será individual y cubrirá el flujo crear, guardar, imprimir, publicar, consultar y descargar:
 

@@ -1,6 +1,6 @@
 # Guía de validación local
 
-Implementación local autorizada y en curso en `patronaje`, funcionalidad `001-patronaje`. Existen recorridos ejecutables de cuenta, CAD, guardado/recuperación, preparación/PDF, publicación, biblioteca/PWA y papelera. No se declara terminada la primera entrega: `tasks.md` conserva las tareas pendientes, incluidas aceptación física, rendimiento, respaldos e instalación. No hay despliegue AWS.
+Implementación local autorizada y en curso en `patronaje`, funcionalidad `001-patronaje`. Existen recorridos ejecutables de cuenta, CAD, guardado/recuperación, preparación/PDF, publicación, biblioteca/PWA y papelera. No se declara terminada la primera entrega: `tasks.md` conserva las tareas pendientes, incluidas aceptación física, rendimiento, respaldos e instalación. El piloto AWS fue autorizado posteriormente de forma independiente; los comandos de esta guía son locales y no lo administran. Véase [inicio reproducible](../../README.md) y [demo local](../../docs/demo.md).
 
 Usar Node 24.22.3/npm 12.2.2, lockfile y activos fijados. En este equipo el ejecutable está en `.local/toolchain/node.exe`; los ejemplos siguientes se ejecutan desde la raíz del repositorio. Requieren dependencias instaladas, corpus de contraseñas, fuente y Resvg verificados; Electron y el adaptador C++ de Windows son necesarios para sus respectivos ensayos. Véanse `../../tools/validation/commands.md` y `../../docs/user-guide.md`.
 
