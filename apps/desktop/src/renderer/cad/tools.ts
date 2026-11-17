@@ -96,6 +96,7 @@ export class CadTools {
   deletePiece(confirmed:boolean){this.execute({type:'deletePiece',pieceId:this.piece().id,confirmed});}
   margin(width:number|null){this.execute({type:'margin',pieceId:this.piece().id,width});}
   corner(pointId:string,join:'round'|'miter'){this.execute({type:'corner',pieceId:this.piece().id,pointId,join});}
+  roundPieceCorner(pointId:string,radius:number){this.execute({type:'roundPieceCorner',pieceId:this.piece().id,pointId,radius});}
   properties(properties:Pick<Piece,'name'|'sizeLabel'|'cutQuantity'|'grainline'|'fold'>){this.execute({type:'properties',pieceId:this.piece().id,properties});}
 }
 

@@ -24,6 +24,15 @@ it('draws by clicks and context menu, supports shortcuts, wheel, handles and cor
   await key('Control+Shift+z');expect((await snapshot()).pieces[0].contour.points).toHaveLength(4);
   await click(-100,-80);await ui(canvas).toHaveAttribute('data-mode','edit');expect((await snapshot()).pieces[0].contour.segments).toHaveLength(4);
   await key('Control+z');expect((await snapshot()).pieces[0].contour.segments).toHaveLength(3);await key('Control+y');
+  const original=(await snapshot()).pieces;
+  await page.getByRole('button',{name:'Redondear pieza',exact:true}).click();
+  await page.getByLabel('Radio de la esquina (mm)').fill('10');await click(-100,-80);
+  expect((await snapshot()).pieces[0].contour.segments.filter((s:{kind:string})=>s.kind==='cubic')).toHaveLength(1);
+  const rounded=(await snapshot()).pieces;await key('Control+z');expect((await snapshot()).pieces).toEqual(original);
+  await key('Control+y');expect((await snapshot()).pieces).toEqual(rounded);await key('Control+z');
+  await page.getByLabel('Radio de la esquina (mm)').fill('10000');await click(-100,-80);
+  await ui(page.getByText('El radio no cabe en los tramos de esta esquina. Prueba un radio menor.',{exact:true})).toBeVisible();
+  expect((await snapshot()).pieces).toEqual(original);await key('Escape');
   const before=(await snapshot()).pieces;
   const name=page.locator('form[data-action=properties] [name=name]');await name.fill('Texto sin aplicar');await name.press('Control+z');expect((await snapshot()).pieces).toEqual(before);
   await click(0,100,'right');await page.getByRole('menuitem',{name:'Insertar punto en el tramo',exact:true}).click();expect((await snapshot()).pieces[0].contour.points).toHaveLength(5);await key('Control+z');
@@ -32,15 +41,18 @@ it('draws by clicks and context menu, supports shortcuts, wheel, handles and cor
   const h=piece.contour.segments[0].handleStart,from=await screen(h.x,h.y),to=await screen(h.x,h.y-20);
   await page.mouse.move(from.x,from.y);await page.mouse.down();await page.mouse.move(to.x,to.y,{steps:3});expect((await snapshot()).pieces[0].contour.segments[0].handleStart).toEqual(h);await page.keyboard.press('Escape');await page.mouse.up();expect((await snapshot()).pieces[0].contour.segments[0].handleStart).toEqual(h);await page.mouse.move(from.x,from.y);await page.mouse.down();await page.mouse.move(to.x,to.y,{steps:3});await page.mouse.up();
   expect((await snapshot()).pieces[0].contour.segments[0].handleStart.y).toBeCloseTo(h.y-20,0);await key('Control+z');expect((await snapshot()).pieces[0].contour.segments[0].handleStart).toEqual(h);await key('Control+y');
-  await page.getByRole('button',{name:'Redondear esquina',exact:true}).click();const margin=page.locator('form[data-action=quick-margin]');await margin.locator('[name=width]').fill('1');await margin.getByRole('button').click();await click(120,100);
+  await page.getByRole('button',{name:'Redondear margen',exact:true}).click();const margin=page.locator('form[data-action=quick-margin]');await margin.locator('[name=width]').fill('1');await margin.getByRole('button').click();await click(120,100);
   piece=(await snapshot()).pieces[0];expect(piece.cornerJoins[piece.contour.points[2].id]).toBe('round');expect(piece.seamWidth).toBe(1);
   await page.getByRole('button',{name:'Editar puntos',exact:true}).click();
   const cursor=await screen(0,0);await page.mouse.move(cursor.x,cursor.y);const oldZoom=Number(await canvas.getAttribute('data-zoom')),scroll=await page.evaluate(()=>scrollY);await page.mouse.wheel(0,-120);await expect.poll(async()=>Number(await canvas.getAttribute('data-zoom'))).toBeGreaterThan(oldZoom);
   const afterCursor=await screen(0,0);expect(afterCursor.x).toBeCloseTo(cursor.x,0);expect(afterCursor.y).toBeCloseTo(cursor.y,0);expect(await page.evaluate(()=>scrollY)).toBe(scroll);
   await click(-160,140,'right');await page.getByRole('menuitem',{name:'Añadir punto aquí'}).click();expect((await snapshot()).pieces).toHaveLength(2);
   await page.getByLabel('Próximo tramo',{exact:true}).selectOption('cubic');await click(-100,160,'right');await page.getByRole('menuitem',{name:'Añadir punto aquí'}).click();expect((await snapshot()).pieces[1].contour.points).toHaveLength(2);expect((await snapshot()).pieces[1].contour.segments[0].kind).toBe('cubic');await key('Escape');
+  await page.getByLabel('Pieza',{exact:true}).selectOption((await snapshot()).pieces[0].id);
+  await page.getByRole('button',{name:'Redondear pieza',exact:true}).click();await page.getByLabel('Radio de la esquina (mm)').fill('10');await click(120,100);
+  expect((await snapshot()).pieces[0].contour.segments.filter((s:{kind:string})=>s.kind==='cubic')).toHaveLength(2);
   const savedPieces=(await snapshot()).pieces,file=join(dir,'grafico.patron');await app.evaluate(({dialog},file)=>{Object.defineProperty(dialog,'showSaveDialog',{configurable:true,value:async()=>({canceled:false,filePath:file})});Object.defineProperty(dialog,'showOpenDialog',{configurable:true,value:async()=>({canceled:false,filePaths:[file]})});},file);
   await page.getByRole('button',{name:'Guardar',exact:true}).click();await ui(page.getByRole('button',{name:'Guardar',exact:true})).toBeEnabled();await page.getByRole('button',{name:'Nuevo documento',exact:true}).click();await page.getByRole('button',{name:'Abrir archivo',exact:true}).click();await expect.poll(async()=>(await snapshot()).pieces.length).toBe(2);expect((await snapshot()).pieces).toEqual(savedPieces);
-  await page.getByLabel('Pieza',{exact:true}).selectOption(savedPieces[0].id);await page.getByRole('button',{name:'Modo oscuro',exact:true}).click();await mkdir('.local/design-preview',{recursive:true});await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:'.local/design-preview/graphical-v017.png'});
+  await page.getByLabel('Pieza',{exact:true}).selectOption(savedPieces[0].id);await page.getByRole('button',{name:'Modo oscuro',exact:true}).click();await mkdir('.local/design-preview',{recursive:true});await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:'.local/design-preview/graphical-v018.png'});
  }finally{await app.evaluate(({dialog})=>{Object.defineProperty(dialog,'showMessageBoxSync',{configurable:true,value:()=>1});});await app.close();}
 },60000);
