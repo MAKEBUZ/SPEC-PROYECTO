@@ -601,3 +601,14 @@ Las ejecuciones de API, E2E, impresión y ensayos físicos deben añadirse y rev
 | Rechazo atómico, deshacer/rehacer y guardar/reabrir | Mismas suites; historial y archivo real temporal | Automatizado correcto |
 | Validación y PDF de la pieza redondeada con margen | `tests/print/rounded-piece.spec.ts` | Automatizado correcto |
 | Uso del instalador 0.1.8 por el usuario | [Informe](cad-rounding.md) | Pendiente manual; arranque del paquete verificado |
+
+
+### Regresión de PDF 0.1.9 (2026-11-17)
+
+| Criterio | Evidencia | Estado |
+| --- | --- | --- |
+| Exportar esquina redondeada oblicua con otra curva y margen de 10 mm | `tests/print/rounded-oblique.spec.ts`; generación y verificación geométrica | Correcto automatizado |
+| Comparaciones exactas, solapes y distancias de aproximaciones puntuales | `algebraic-enclosure.spec.ts`, `point-approximation.spec.ts` y suites de geometría | Correcto automatizado |
+| Cancelar y recuperar edición sin perder trabajo | `tests/e2e/pdf-export.spec.ts` | Correcto automatizado |
+| Objetivo de 60 s en este caso complejo | [Medición](pdf-rounded-corner.md) | Parcial: aún excedido; se conserva el objetivo |
+| Instalación y prueba de 0.1.9 por el usuario | Paquete comprobado; aceptación del usuario no realizada | Pendiente manual |

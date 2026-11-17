@@ -59,3 +59,8 @@ No se entregan colaboración, notificaciones, importaciones externas, adjuntos a
 4. **Ctrl+Z** deshace el redondeo; **Ctrl+Y** lo rehace. Guarda el documento para conservarlo. **Esc** vuelve a editar puntos.
 
 El radio controla una aproximación con una curva Bézier editable. Un radio mayor produce una curva más amplia; si no cabe, aparece un aviso y la pieza permanece intacta. No admite extremos abiertos ni esquinas que ya conecten curvas. Para probar otro radio en la misma esquina, deshaz y vuelve a aplicarlo. **Redondear margen** actúa únicamente sobre el margen de costura.
+
+
+## Tiempo y avisos de exportación — 0.1.9
+
+El aviso de que cambió la pieza informa de que se usará su geometría actual conservando la colocación; no indica un fallo ni el progreso del PDF. Durante la exportación aparece el tiempo transcurrido. Tras 60 segundos se advierte de la demora, sin cancelar automáticamente. «Cancelar exportación» conserva la pieza y la preparación y devuelve la edición. Las curvas y márgenes complejos pueden superar el objetivo de un minuto; consulta la evidencia de rendimiento, no supongas que una espera larga significa un archivo inválido.

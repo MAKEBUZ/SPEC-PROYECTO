@@ -1,0 +1,15 @@
+{
+  "date": "2026-11-17T20:05:40.899Z",
+  "version": "0.1.9",
+  "commit": "9b03ada",
+  "generationAndVerificationMs": 132450.0102,
+  "pdfBytes": 40738,
+  "targetMs": 60000,
+  "targetMet": false,
+  "installer": {
+    "name": "PATRONAJE-0.1.9-Setup.exe",
+    "bytes": 186637824,
+    "sha256": "882332e71a6dd205f9e8c8e279fa265a3da60ec666e9171e44f5d360bc8ecaa5"
+  },
+  "manualInstallation": "pending"
+}

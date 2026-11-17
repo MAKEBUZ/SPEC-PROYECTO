@@ -555,3 +555,8 @@ README raíz, demo local aislada y consolidación de evidencias en `docs/validat
 ## Ampliación autorizada de edición — 2026-11-17
 
 - [X] T099 [US2] Redondear el contorno base desde el tablero con radio nominal, acción reversible, rechazo atómico de entradas no admitidas, persistencia y exportación; distinguirlo del redondeo del margen. Implementación `3b1625e`, versión 0.1.8. Pruebas y límites en [informe](../../docs/validation/cad-rounding.md). Comprobación manual del nuevo instalador pendiente; no cierra las ocho tareas anteriores de aceptación física/integral.
+
+
+### Seguimiento T078 / T099 — PDF de esquinas redondeadas, 2026-11-17
+
+Corrección 0.1.9 (`9b03ada`) del cálculo de márgenes casi tangentes, con fixture geométrica sin nombres ni datos de cuenta. Regresión completa 535/535; comprobaciones adicionales 22/22; exportación/cancelación en Electron correctas. El caso reportado vuelve a generar y verificar el PDF. El objetivo de 60 segundos sigue pendiente en este caso complejo y se declara en el [informe](../../docs/validation/pdf-rounded-corner.md); no se amplía ni se cambia por un límite automático. No se cierran tareas de aceptación física.
