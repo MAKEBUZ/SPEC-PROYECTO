@@ -17,11 +17,19 @@ Cada solicitud IPC incluye requestId único dentro de la ejecución. Main devuel
 | document.save | documentHandle, snapshot, revisionId esperado, modo save/saveAs | revisionId escrito y hash de bytes; cambios posteriores siguen modificados |
 | recovery.inspect | documentHandle o enumeración de recuperaciones autorizadas del usuario Windows | candidatos íntegros identificados, sin aplicarlos |
 | recovery.restore/discard | recoveryId y decisión explícita | snapshot recuperado como cambios sin guardar o descarte confirmado |
-| export.generate | documentHandle, revisionId guardado, preparationId | jobId; eventos con secuencia, fase y progreso; archivo final solo tras validación |
+| export.confirmSave | Sin ruta ni snapshot; confirmación nativa de guardar antes de exportar | confirmed; cancelar no genera PDF |
+| export.generate | documentHandle, revisionId guardado, preparationId | jobId; progreso por fases consultable con secuencia; archivo final solo tras validación |
+| export.status | jobId emitido para esa ventana | estado/fase, sequence creciente por transición y nombre final si se confirmó el guardado; consultas serializadas |
 | export.cancel | jobId | cancelación solicitada; evento final cancelled al liberar recursos y recuperar edición |
-| document.trash | documentHandle y confirmación local | enviado a papelera o fallo preservando archivo; nunca borrado definitivo |
+| publication.pdfs | documentHandle y revisionId guardado | metadatos de PDF íntegros de esa revisión/preparación, sin rutas libres |
+| publication.prepare | documentHandle, revisionId y pdfIds opcionales | manifiesto del editable, vista previa y PDF seleccionados tras verificar bytes y origen |
+| publication.action publish | documentHandle, revisionId; projectId, patternName y pdfIds opcionales | seguimiento de publicación del conjunto completo, sin aceptar rutas ni afirmaciones de verificación del renderer |
+| document.confirmTrash | documentHandle y estado dirty; main muestra nombre y alcance local | elección guardar/descartar/enviar/cancelar y confirmationId de un solo uso |
+| document.trash | documentHandle, confirmed y confirmationId emitido por main para ese archivo | enviado a papelera o fallo preservando archivo; nunca borrado definitivo |
 
 Errores locales estables: DOCUMENT_INVALID, FORMAT_UNSUPPORTED, EXTERNAL_FILE_CHANGED, STORAGE_UNAVAILABLE, ACCESS_DENIED, DISK_FULL, SAVE_UNCONFIRMED, RECOVERY_INVALID, EXPORT_INVALID y TRASH_UNAVAILABLE. EXTERNAL_FILE_CHANGED ofrece únicamente guardar como otro archivo o cancelar, nunca forzar sobrescritura. Los detalles de error geométrico incluyen pieza/vértice/tramo y motivo, sin cambiar el documento.
+
+La exportación consulta un único snapshot de estado cada vez; un fallo de consulta no desbloquea la preparación ni repite la generación. «Cancelando» se muestra de inmediato y no retrocede por una respuesta anterior. El archivo final tiene un punto de confirmación local: cancelar después no deshace un PDF ya guardado. Si se interrumpe su registro opcional en el catálogo, se informa que el PDF está guardado y que todavía no quedó disponible para publicación. La continuación de una carga remota obtiene los PDF del manifiesto persistido original, no de una selección nueva.
 
 ### Identidad y representación
 

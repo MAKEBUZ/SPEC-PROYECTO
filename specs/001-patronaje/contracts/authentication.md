@@ -40,6 +40,8 @@ La habilitación local tras el primer acceso verificado es un estado separado de
 
 ## Enlaces de un uso
 
+Concreción de transporte T022: cookie auxiliar `__Host-patron-csrf`, también Secure/HttpOnly/SameSite=Lax/Path=/ sin Domain. Token aleatorio firmado con HMAC y contexto propio, ligado al secreto de sesión (o al estado previo al login), devuelto al cliente para conservarlo solo en memoria. La API exige igualdad cookie/cabecera y verifica la firma y Origin exacto, sin CORS para orígenes ajenos. Login cambia la vinculación; logout/cierre de todas retira ambas cookies tras confirmación. Un cliente con indicadores de navegador no puede solicitar el transporte desktop para obtener el secreto en JavaScript. La cookie de sesión conserva el vencimiento absoluto original. Esta concreción no modifica los plazos ni permisos aprobados.
+
 Secretos aleatorios de 32 bytes, solo hash en base, vinculados a cuenta, propósito, emisión, expiración y consumo. Verificación: 2 horas. Recuperación: 30 minutos. Reenvío invalida el token anterior del mismo propósito al confirmar la emisión del nuevo. Confirmación valida y consume dentro de la transacción; dos confirmaciones concurrentes no producen dos efectos. Abrir un enlace GET no consume el token ni cambia contraseña: se requiere la confirmación correspondiente. Las respuestas y logs no exponen el secreto.
 
 ## Verificaciones futuras
@@ -48,8 +50,13 @@ Comprobar cookie/CSRF, secretos ausentes del renderer y logs, expiración absolu
 
 ## Credencial de comprobación U2
 
+Concreción local T023: AccountSession separa la sesión activa, la capacidad de invalidar una sesión cerrada y las credenciales de comprobación por solicitud. Las tres residen exclusivamente en main y en el almacén cifrado Windows. El IPC de cuenta devuelve estados, nunca esos secretos; el proceso principal no admite URLs ni credenciales aportadas por renderer. Una comprobación pendiente de cierre global conserva su identidad y no se repite automáticamente. La habilitación local verificada es independiente de las credenciales remotas.
+
 Separada de sesiones, enlaces de reset y capacidades de revocación de logout. Secreto aleatorio de 32 bytes, verificador hash en servidor, vinculado a requestId y credentialId; comprobación de propósito y vencimiento en cada solicitud. Nunca permite recuperar cuenta ni acceder a contenido. El logout de sesión normal no lo borra ni lo usa para otros endpoints.
 
 CAD: secreto solo en main, safeStorage y permisos del usuario Windows, nunca renderer. Web/PWA: cookie HttpOnly/Secure/SameSite=Strict sin Domain y con Path restringido a la ruta de comprobación de esa solicitud; nombre __Secure-deletion-status. No localStorage ni caché del service worker. Emisión con cookie de acceso limitado requiere protección CSRF/Origin. La ruta de consulta solo lee estado y no devuelve secretos. Cookie existente después del vencimiento no autoriza nada: manda el plazo del servidor; retirar cookie al comprobar caducidad. La persistencia del navegador puede perderse si el usuario borra sus datos; no reconstruir una credencial a partir de correo ni declarar eliminación por esa pérdida.
 
 Conservar evidencia mínima 90 días desde el resultado terminal según FR-287/288, sin ampliación. Autenticación normal o recuperación no se obtienen con esta capacidad. Reintentos y efectos locales: contracts/api.md. U2 cerrado documentalmente, pruebas pendientes.
+
+Concreción T024: CAD recibe X-Deletion-Credential únicamente al emitir una capacidad; main debe guardarla protegida. Web/PWA recibe la cookie de ruta restringida. El resultado idempotente conserva requestId, nunca el secreto; si se perdió la respuesta de emisión, otro intento nuevo durante recuperación puede emitir otra capacidad sin ampliar plazos. Pruebas del servidor y límites: docs/validation/deletion.md.
+

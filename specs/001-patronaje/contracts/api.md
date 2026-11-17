@@ -45,6 +45,8 @@ Listas: items y nextCursor nullable; consulta cursor opcional, limit opcional, t
 
 ## Cuenta
 
+Concreción técnica T022: `GET /auth/csrf` prepara la protección CSRF con cabecera `X-Patron-Client: browser`, devuelve `{ token }` y cookie auxiliar HttpOnly, siempre no-store. No inicia sesión ni modifica recursos de negocio. Web/PWA obtiene este token antes de login y envía `X-CSRF-Token` en mutaciones con Origin exacto autorizado. Login rota el token, devuelve el nuevo en esa cabecera y entrega únicamente la cookie de sesión; CAD conserva su transporte Bearer. La ruta técnica figura en el registro compartido/OpenAPI y no añade funcionalidades de producto.
+
 | Operación | Entrada | Acceso y resultado |
 |---|---|---|
 | POST /accounts | operationId, email, password; displayName opcional | Público; registra pendiente, devuelve 201 con accountId y estado pendiente; no habilita CAD ni sesión normal |
@@ -87,6 +89,7 @@ Manifest: documentId, localRevisionId, files y manifestHash calculable. Cada arc
 | PUT /publications/{id}/files/{fileId} | Bytes del archivo declarado; Content-Length, checksum | 200 fileId, bytes, sha256, uploadState=received solo después de persistencia; repetición idéntica no duplica ni reserva doble |
 | GET /publications/{id} | id | publicationId, state, manifestHash, files/uploadState, validationState, commitOperationId nullable; autorizado por propietario |
 | POST /publications/{id}/commit | operationId distinto de creación de staging, manifestHash | 202 pendiente si validación en curso; 200 resolved/success con patternId, versionId, ordinal, committedAt y archivos solo al commit íntegro |
+| POST /publications/{id}/abandon | operationId | Resultado idempotente; libera la reserva de staging o de un commit confirmado fallido, nunca de un commit pendiente/desconocido ni de una versión publicada. Materializa la operación de abandono ya definida, sin limpiar por antigüedad. |
 | GET /operations/{operationId} | operationId; operationType | OperationView; autorización vigente y, si recurso eliminado, identidad histórica de solicitante/propietario |
 
 Orden: validar manifiesto y cuota → recibir archivos privados → verificar contenido/artefactos → revalidar sesión/cuenta/proyecto/patrón/versión/cuota en transacción → Version, StoredFile, cabecera y OperationResult juntos. El blob debe ser durable antes del commit. Si falla un archivo, no omitirlo ni publicar el resto. Bloqueo por patrón/proyecto en papelera; recurso definitivamente eliminado solo permite otra primera publicación explícita, con nuevos IDs e historial.
@@ -146,3 +149,5 @@ Estados: pending (solicitud aún sin resultado terminal), cancelled (recuperaci�
 Al vencer, deshabilitar consulta y retirar evidencia/credenciales de esa comprobación; HTTP 401/404, una credencial inválida o resultado no disponible no prueban eliminación. No conservar por esta vía OperationResult de la última cuenta. Solo deleted autenticado, vinculado inequívocamente a la solicitud/cuenta local original y persistido correctamente activa FR-140/228; cancelled nunca lo hace. No mostrar historiales ocultos o detalles a otra cuenta. El CAD conserva sus documentos.
 
 Plan de consulta técnico: reutilizar el planificador existente, con estado y contador separados de la comprobación temporal FR-242. Timeout de consulta 30 segundos; esperas 5, 10, 20, 40, 80 y luego 120 segundos tras fallos temporales. Una consulta en curso por solicitud; «Comprobar ahora» solicita consulta inmediata cuando no hay una activa, sin encolar duplicados. Aplicación cerrada/sin conexión no consulta. Un éxito termina los reintentos de fallo; pending no es error ni prueba de eliminación y se vuelve a consultar por los disparadores aprobados. No renovar credenciales/plazos automáticamente. Error de autorización o evidencia no disponible no se trata como fallo temporal que deba repetirse indefinidamente. No guardar secretos en URL, parámetros de consulta, logs ni OperationResult. Estas son elecciones técnicas, no nuevos plazos funcionales.
+
+Detalle de reconciliación de publicación (implementación 2026-11-16): OperationView.authorizedResourceRefs incluye kind=publication e id=publicationId para beginPublication confirmado, además de las referencias existentes de proyecto/patrón/versión. La consulta conserva autorización histórica y no expone claves de almacenamiento ni contenido. Permite recuperar un inicio cuya respuesta se perdió sin reenviar la mutación.

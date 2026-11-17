@@ -1,12 +1,32 @@
-# Guía de validación futura
+# Guía de validación local
 
-Implementación local iniciada el 2026-11-14. Ya existen manifiestos, lockfile y pruebas de fundamentos. Disponibles: `npm ci --ignore-scripts`, `npm run check` y `npm run test:unit`. Véanse `../../tools/validation/commands.md` y `../../docs/validation/foundations.md`. No hay todavía una aplicación funcional ni despliegue AWS.
+Implementación local autorizada y en curso en `patronaje`, funcionalidad `001-patronaje`. Existen recorridos ejecutables de cuenta, CAD, guardado/recuperación, preparación/PDF, publicación, biblioteca/PWA y papelera. No se declara terminada la primera entrega: `tasks.md` conserva las tareas pendientes, incluidas aceptación física, rendimiento, respaldos e instalación. No hay despliegue AWS.
 
-## Interfaz prevista de validación
+Usar Node 24.22.3/npm 12.2.2, lockfile y activos fijados. En este equipo el ejecutable está en `.local/toolchain/node.exe`; los ejemplos siguientes se ejecutan desde la raíz del repositorio. Requieren dependencias instaladas, corpus de contraseñas, fuente y Resvg verificados; Electron y el adaptador C++ de Windows son necesarios para sus respectivos ensayos. Véanse `../../tools/validation/commands.md` y `../../docs/user-guide.md`.
 
-La tabla describe el contrato completo de validación. Solo los comandos señalados arriba están operativos; las suites restantes fallan explícitamente si aún no existen y los comandos dev siguen pendientes. El gestor es npm con workspaces y lockfile versionado.
+```powershell
+.local/toolchain/node.exe node_modules/typescript/bin/tsc --noEmit
+.local/toolchain/node.exe tools/validation/openapi.mjs --check
+.local/toolchain/node.exe tools/validation/build-desktop.mjs
+.local/toolchain/node.exe tools/validation/postgres.mjs tests/integration/account-purge.spec.ts
+.local/toolchain/node.exe tools/validation/postgres.mjs --e2e tests/e2e/publication.spec.ts
+.local/toolchain/node.exe node_modules/vitest/vitest.mjs run tests/print/pdf-geometry.spec.ts --maxWorkers=1
+```
 
-| Orden futuro | Propósito y resultado esperado |
+Los E2E de portal requieren construirlo antes:
+
+```powershell
+$env:NEXT_TELEMETRY_DISABLED='1'
+.local/toolchain/node.exe node_modules/next/dist/bin/next build apps/web --webpack
+```
+
+El arnés PostgreSQL crea una base efímera exclusivamente en loopback, captura correo y retira su contenedor. Docker debe estar disponible; no apuntar a bases existentes ni introducir credenciales AWS. Compilar antes de pruebas con workers: estos ejecutan JavaScript de `dist`, no TypeScript en memoria.
+
+## Comandos disponibles y límites
+
+Los scripts siguientes existen en el `package.json` raíz. Una suite o entorno no preparado falla; no equivale a aceptación superada. El gestor es npm con workspaces y lockfile versionado. `test:e2e` y `test:integration` requieren el entorno de ensayo; para prepararlo usar el arnés `postgres.mjs`, como en los ejemplos.
+
+| Comando | Propósito y resultado esperado |
 |---|---|
 | npm ci | Instalar exactamente el lockfile aprobado; falla ante divergencias |
 | npm run check | Tipos y análisis estático en todas las aplicaciones/paquetes |
@@ -16,7 +36,10 @@ La tabla describe el contrato completo de validación. Solo los comandos señala
 | npm run test:recovery | USB, disco lleno, cambio externo, interrupciones y reconstrucción de estados |
 | npm run test:print | Medición independiente y fixtures de PDF grande/mosaicos |
 | npm run test:performance | Registrar cada ejecución y sus recursos, objetivos 60s/5s y recuperación 60s |
-| npm run dev:desktop / dev:web / dev:api | Arranque local de cada aplicación; no despliega AWS |
+| npm run build:desktop | Compila main, workers, preload y renderer; no genera instalador |
+| npm run test:integration:local | Prepara PostgreSQL local efímero y ejecuta integración |
+
+No existen scripts `dev:desktop`, `dev:web` ni `dev:api` en el manifiesto raíz. No usar esos nombres como instrucciones de arranque. Los recorridos integrados disponibles se ejecutan mediante los arneses E2E; preparar un instalador sigue siendo T093.
 
 Prerequisitos futuros: runtime-matrix.md, herramientas Windows del adaptador, PostgreSQL de ensayo, almacenamiento privado de ensayo y correo capturado sin destinatarios reales. Configuración separada de pruebas, credenciales fuera del repositorio y ninguna dependencia de datos productivos. La preparación de base y fixtures será parte del arnés de integración, con protección explícita contra apuntar a una base ajena. No se promete que un comando compruebe impresión física o instalación PWA: esos ensayos requieren los dispositivos definidos.
 
@@ -64,6 +87,6 @@ Casos futuros de aceptación:
 
 Red interrumpida en carga/commit/descarga; disco lleno, archivo ocupado y permisos denegados; terminar procesos en fronteras de persistencia; publicaciones concurrentes. Restaurar backup en entorno aislado y aplicar tombstones antes de servir datos.
 
-## Puerta a implementación
+## Evidencia y autorización
 
-Revisar plan, contratos y pendientes operacionales; obtener autorización expresa antes de código. Probar viabilidad geométrica/PDF/PWA será trabajo de implementación futura, no ejecutado aquí. Esta guía no autoriza contratar ni desplegar servicios.
+La implementación local ya fue autorizada. Los resultados ejecutados y sus límites se recogen en `../../docs/validation/current-status.md`; la evidencia específica está en `pdf-production.md`, `deletion.md`, `pwa-devices.md` y los demás informes de esa carpeta. El caso cúbico rotado 37° ya genera y verifica en 36,5 s localmente; T078/T081 siguen abiertos por el corpus completo y el guardado medido, sin cancelación automática al exceder 60 segundos. Impresión y teléfonos físicos no quedan validados por una prueba automatizada. Esta guía no autoriza contratar ni desplegar servicios.

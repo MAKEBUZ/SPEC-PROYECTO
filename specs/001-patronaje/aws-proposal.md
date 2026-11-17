@@ -1,5 +1,9 @@
 # Propuesta AWS y consumo de créditos
 
+## Actualización autorizada 2026-11-16
+
+El usuario autorizó configurar el piloto AWS con créditos, sin pasar a Paid ni superar 100 USD. Se aprobó y aplicó `m7i-flex.large` (2 vCPU, 8 GiB) sobre la misma instancia de Ohio. Sustituye la elección histórica `t3.small` de las tablas siguientes. Tarifa Linux Shared OnDemand consultada mediante AWS Pricing: 0,09576 USD/h; 160 h = 15,3216 USD. Con los supuestos auxiliares históricos (9,76384 USD), total orientativo 25,08544 USD/mes; 100 USD equivalen aritméticamente a 3,986 meses. Se recomienda revisar antes de consumir 80 USD. No es límite técnico ni garantía de saldo. FREE/ACTIVE y 100 USD informados por la API antes del encendido; recursos y evidencia actual en `../../infra/aws/README.md`. Las prohibiciones de despliegue del texto de planificación siguiente describen la autorización histórica, posteriormente ampliada por el usuario.
+
 Fecha: 2026-11-14. Estado: diseño de pruebas aprobado como parte del plan técnico el 2026-11-14; no autoriza despliegue ni gasto. Complementa plan.md; no modifica spec.md ni su aprobación.
 
 **Elección aprobada por el usuario:** EC2 para pruebas, encendido aproximadamente 160 horas al mes. Se adopta el escenario de 13,09 USD/mes bajo las hipótesis de este documento, no como precio garantizado ni límite técnico automático. No se selecciona Lightsail ni servicio continuo. La aprobación no autoriza crear recursos, programar encendidos/apagados, gastar fuera de los créditos o implementar. Región de pruebas aprobada: us-east-2 (Ohio, Estados Unidos). Los detalles de operación pendientes permanecen abiertos; la política de respaldo de pruebas se registra a continuación.
