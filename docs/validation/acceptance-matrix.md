@@ -591,3 +591,13 @@ Las ejecuciones de API, E2E, impresión y ensayos físicos deben añadirse y rev
 | SC-282 | Incluido | T023, T024, T061 | Apertura, reconexión, acción manual y ausencia de red sin limpieza ni cambio de plazos | No acreditado: sin evidencia individual en esta ejecución | — | Revisión individual pendiente |
 | FR-292 | Incluido | T061, T062 | Reintentos crecientes y Comprobar ahora sin sesión normal, mutaciones ni extensión de plazos | Evidencia parcial; falta acreditar cada cláusula | [tests/recovery/operation-history.spec.ts](https://github.com/MAKEBUZ/SPEC-PROYECTO/blob/1af579f8b05af207b8ebd739da61620495623401/tests/recovery/operation-history.spec.ts): passed; [tests/recovery/deletion-check.spec.ts](https://github.com/MAKEBUZ/SPEC-PROYECTO/blob/1af579f8b05af207b8ebd739da61620495623401/tests/recovery/deletion-check.spec.ts): passed | Revisión individual pendiente |
 | SC-283 | Incluido | T061, T062 | Fallos temporales, desconexión y cierre sin limpieza falsa | Evidencia parcial; falta acreditar cada cláusula | [tests/recovery/operation-history.spec.ts](https://github.com/MAKEBUZ/SPEC-PROYECTO/blob/1af579f8b05af207b8ebd739da61620495623401/tests/recovery/operation-history.spec.ts): passed; [tests/recovery/deletion-check.spec.ts](https://github.com/MAKEBUZ/SPEC-PROYECTO/blob/1af579f8b05af207b8ebd739da61620495623401/tests/recovery/deletion-check.spec.ts): passed | Revisión individual pendiente |
+
+
+### Ampliación FR-005 / T099 — redondeo del contorno (2026-11-17)
+
+| Requisito | Evidencia | Estado |
+| --- | --- | --- |
+| Radio nominal, clic en esquina y contorno independiente del margen | `tests/unit/round-corner.spec.ts`, `tests/e2e/cad-graphical.spec.ts` | Automatizado correcto |
+| Rechazo atómico, deshacer/rehacer y guardar/reabrir | Mismas suites; historial y archivo real temporal | Automatizado correcto |
+| Validación y PDF de la pieza redondeada con margen | `tests/print/rounded-piece.spec.ts` | Automatizado correcto |
+| Uso del instalador 0.1.8 por el usuario | [Informe](cad-rounding.md) | Pendiente manual; arranque del paquete verificado |

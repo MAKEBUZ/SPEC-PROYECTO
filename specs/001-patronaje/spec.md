@@ -2502,3 +2502,10 @@ El usuario distingue la eliminación de una copia local de la eliminación del p
 - La identidad de usuario es común a las tres aplicaciones.
 - Las salidas de impresión de la primera entrega están definidas en FR-027. Las importaciones externas quedan aplazadas y la primera entrega se limita al formato editable propio y exportación PDF conforme a FR-280. El proveedor de almacenamiento, la biblioteca de persistencia, el runtime del CAD, los detalles técnicos de la PWA móvil y los mecanismos técnicos de generación de archivos se decidirán en `plan.md` antes de implementar las funcionalidades que dependen de ellos.
 - La edición colaborativa en tiempo real y la simulación de telas quedan fuera de este alcance y requieren una especificación propia.
+
+
+### Ampliación autorizada — redondeo del contorno (2026-11-17)
+
+A petición expresa del usuario, FR-005 incorpora «Redondear pieza» desde el tablero: seleccionar una esquina entre dos tramos rectos e introducir un radio positivo en milímetros. Modifica el contorno base mediante curvas Bézier tangentes, independientemente de que exista margen. Debe permitir Ctrl+Z y rehacer en un solo paso, persistir al guardar y reabrir, conservar la identidad y propiedades de la pieza y volver a calcular su margen.
+
+«Redondear margen» conserva su comportamiento de FR-024 y no modifica el contorno base. El nuevo redondeo rechaza extremos abiertos, uniones con curvas, esquinas degeneradas, radios no representables y radios que consuman por completo un tramo, sin modificar el documento. No añade herramientas independientes de círculos o arcos ni habilita módulos aplazados. Las validaciones de producción siguen siendo obligatorias.

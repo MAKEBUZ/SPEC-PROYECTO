@@ -49,3 +49,13 @@ Eliminar la cuenta exige contraseña y escribir «ELIMINAR MI CUENTA». Durante 
 ## Alcance pendiente
 
 No se entregan colaboración, notificaciones, importaciones externas, adjuntos arbitrarios ni módulos aplazados. La entrega actual tampoco habilita publicación automática ni escalado de tallas aplazados. Para aceptación faltan, entre otros, seguimiento transversal, respaldos/restauración, instalador, ensayos físicos y rendimiento completo. No se han desplegado servicios AWS.
+
+
+## Redondear una esquina de la pieza — 0.1.8
+
+1. Selecciona la pieza y pulsa **Redondear pieza** sobre el tablero.
+2. Escribe el radio en milímetros; prueba con **10 mm**.
+3. Pulsa la cruz de una esquina entre dos tramos rectos. El contorno cambia aunque no haya margen de costura.
+4. **Ctrl+Z** deshace el redondeo; **Ctrl+Y** lo rehace. Guarda el documento para conservarlo. **Esc** vuelve a editar puntos.
+
+El radio controla una aproximación con una curva Bézier editable. Un radio mayor produce una curva más amplia; si no cabe, aparece un aviso y la pieza permanece intacta. No admite extremos abiertos ni esquinas que ya conecten curvas. Para probar otro radio en la misma esquina, deshaz y vuelve a aplicarlo. **Redondear margen** actúa únicamente sobre el margen de costura.
