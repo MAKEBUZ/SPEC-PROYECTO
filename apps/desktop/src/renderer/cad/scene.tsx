@@ -6,11 +6,12 @@ import type {PiecePreview} from './geometry-preview.js';
 import {ActionForm,Numeric,number} from './controls.js';
 export function Scene({tools,onError,previews}:{tools:CadTools;onError:(s:string)=>void;previews:Record<string,PiecePreview>}){
   const ref=useRef<HTMLCanvasElement>(null),drag=useRef<number|null>(null),panStart=useRef<{x:number;y:number;cx:number;cy:number}|null>(null);
-  type Mode='edit'|'pan'|'draw'|'curve'|'round';
+  type Mode='edit'|'pan'|'draw'|'curve'|'round'|'roundPiece';
   const [mode,setMode]=useState<Mode>('edit'),[nextKind,setNextKind]=useState<'line'|'cubic'>('line'),[hint,setHint]=useState('');
   const sketch=useRef<string|null>(null),handleDrag=useRef<{index:number;end:'start'|'end'}|null>(null);
   const [ghost,setGhost]=useState<{index:number;end:'start'|'end';x:number;y:number}|null>(null);
   const [menu,setMenu]=useState<{x:number;y:number;world:{x:number;y:number}}|null>(null),menuRef=useRef<HTMLDivElement>(null);
+  const [radius,setRadius]=useState('10');
   const panMode=mode==='pan';
   const perform=(action:()=>void)=>{try{action();onError('');}catch(e){onError(e instanceof Error?e.message:String(e));}};
   const begin=()=>{drag.current=null;handleDrag.current=null;panStart.current=null;setGhost(null);sketch.current=null;setMode('draw');setHint('Haz clic para colocar el primer punto. Cada clic añade un punto; pulsa el primero para cerrar.');ref.current?.focus({preventScroll:true});};
@@ -92,6 +93,7 @@ export function Scene({tools,onError,previews}:{tools:CadTools;onError:(s:string
     if(mode==='draw'){add(point);return;}
     if(mode==='curve'){const hit=nearestSegment(point);if(hit&&hit.distance<=12/tools.zoom){perform(()=>tools.curve(hit.index));setMode('edit');setHint('Arrastra los rombos naranjas para ajustar la curva. Ctrl+Z deshace el cambio.');}else setHint('Haz clic cerca del tramo que quieras convertir en curva.');return;}
     const hits=(selected?.contour.points??[]).map((v,i)=>({i,v,d:Math.hypot(v.x-point.x,v.y-point.y)})).sort((a,b)=>a.d-b.d);
+    if(mode==='roundPiece'){if(hits[0]&&hits[0].d<=12/tools.zoom){setHint('');perform(()=>{tools.roundPieceCorner(hits[0]!.v.id,Number(radius));setHint('Esquina de la pieza redondeada. Ctrl+Z recupera el contorno anterior.');});}else setHint('Pulsa la cruz de una esquina entre dos tramos rectos.');return;}
     if(mode==='round'){if(hits[0]&&hits[0].d<=12/tools.zoom){perform(()=>tools.corner(hits[0]!.v.id,'round'));setHint(selected?.seamWidth?'Esquina del margen redondeada. El contorno base se conserva.':'Esquina configurada. Aplica un margen mayor que 0 para ver el redondeado.');}else setHint('Pulsa la cruz de la esquina que quieres redondear.');return;}
     const handles=selected?.contour.segments.flatMap((s,index)=>s.kind==='cubic'?(['start','end'] as const).map(end=>({index,end,h:end==='start'?s.handleStart:s.handleEnd})):[])??[];
     const handle=handles.map(v=>({...v,d:Math.hypot(v.h.x-point.x,v.h.y-point.y)})).sort((a,b)=>a.d-b.d)[0];
@@ -104,10 +106,12 @@ export function Scene({tools,onError,previews}:{tools:CadTools;onError:(s:string
     <button className="primary" disabled={tools.locked} aria-pressed={mode==='draw'} onClick={begin}>Nuevo contorno · P</button>
     <button aria-pressed={mode==='edit'} onClick={()=>{setMode('edit');sketch.current=null;}}>Editar puntos</button><button aria-pressed={panMode} onClick={()=>setMode('pan')}>Mover vista</button>
     <button disabled={!selected||tools.locked} aria-pressed={mode==='curve'} onClick={()=>{setMode('curve');setHint('Haz clic en una línea para curvarla. Después arrastra sus tiradores naranjas.');}}>Curvar tramo</button>
-    <button disabled={!selected||tools.locked} aria-pressed={mode==='round'} onClick={()=>{setMode('round');setHint('Pulsa una esquina para redondear el margen de costura. No modifica el contorno base.');}}>Redondear esquina</button>
+    <button disabled={!selected||tools.locked} aria-pressed={mode==='round'} onClick={()=>{setMode('round');setHint('Pulsa una esquina para redondear el margen de costura. No modifica el contorno base.');}}>Redondear margen</button>
+    <button disabled={!selected||tools.locked} aria-pressed={mode==='roundPiece'} onClick={()=>{setMode('roundPiece');setHint('Elige el radio y pulsa una esquina. Modifica el contorno real; Ctrl+Z lo deshace.');}}>Redondear pieza</button>
     <button onClick={fit}>Centrar piezas</button><button aria-label="Alejar vista" onClick={()=>tools.view(tools.unit,Math.max(.0001,tools.zoom/1.25))}>−</button><span>{Math.round(tools.zoom*100)} %</span><button aria-label="Acercar vista" onClick={()=>tools.view(tools.unit,Math.min(100,tools.zoom*1.25))}>+</button>
   </div>
   {mode==='draw'&&<div className="drawing-assistant"><strong>Coloca los puntos con clics</strong><label>Próximo tramo<select aria-label="Próximo tramo" value={nextKind} onChange={e=>setNextKind(e.target.value==='cubic'?'cubic':'line')}><option value="line">Recto</option><option value="cubic">Curvo</option></select></label><button onClick={()=>{setMode('edit');sketch.current=null;setHint('Trazado terminado. Puedes seguir editando sus puntos.');}}>Terminar trazado · Esc</button><p>Vuelve al primer punto para cerrar. Cada punto se guarda en el borrador y se puede deshacer.</p></div>}
+  {mode==='roundPiece'&&<div className="drawing-assistant"><label>Radio de la esquina (mm)<input type="number" min="0" step="any" value={radius} onChange={e=>setRadius(e.target.value)}/></label><p>Un radio mayor crea una curva más amplia. El redondeo se aproxima con una curva Bézier editable. Pulsa una esquina entre dos tramos rectos. Funciona sin margen de costura. Esc vuelve a editar puntos.</p></div>}
   {mode==='round'&&selected&&<div className="drawing-assistant"><p>El redondeado afecta al margen violeta. Primero aplica un ancho y después pulsa la esquina.</p><ActionForm name="quick-margin" title="Aplicar ancho" onError={onError} run={f=>tools.margin(number(f,'width'))}><Numeric name="width" label="Margen de costura (mm)" value={selected.seamWidth??10}/></ActionForm></div>}
   <p className="drawing-hint" aria-live="polite">{hint||'P: colocar puntos · Clic derecho: acciones · Rueda: zoom · Ctrl+Z: deshacer'}</p>
   <div className="canvas-wrap"><canvas ref={ref} tabIndex={0} width={width} height={height} data-mode={mode} data-center-x={tools.viewCenter.x} data-center-y={tools.viewCenter.y} data-zoom={tools.zoom} className={panMode?'pan-canvas':mode==='draw'?'draw-canvas':''} aria-label="Editor del patrón" onPointerDown={down}

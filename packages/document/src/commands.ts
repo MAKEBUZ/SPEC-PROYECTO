@@ -6,6 +6,7 @@ import { assertCoordinate, hasExplicitClosure } from '../../geometry/src/model.j
 import type { Coordinate, Segment, CornerJoin } from '../../geometry/src/model.js';
 import { finite, uuid } from '../../contracts/src/validation.js';
 import { applyPreparation,isPreparationCommand } from './preparation.js';
+import { roundCorner } from '../../geometry/src/round-corner.js';
 import type { PreparationCommand } from './preparation.js';
 
 type Target={pieceId:string};
@@ -30,6 +31,7 @@ export type DocumentCommand=
     {type:'deletePiece';confirmed:boolean} |
     {type:'margin';width:number|null} |
     {type:'corner';pointId:string;join:CornerJoin} |
+    {type:'roundPieceCorner';pointId:string;radius:number} |
     {type:'properties';properties:Properties}));
 
 export class CommandError extends Error {constructor(readonly code:string){super(code);}}
@@ -98,6 +100,19 @@ export class DocumentCommands {
         if(p.grainline)p.grainline={start:checked(p.grainline.start),end:checked(p.grainline.end)};
       };
       switch(input.type){
+        case 'roundPieceCorner':{
+          const incoming=c.segments.filter(s=>s.endId===input.pointId),outgoing=c.segments.filter(s=>s.startId===input.pointId);
+          if(incoming.length!==1||outgoing.length!==1||incoming[0]!.kind!=='line'||outgoing[0]!.kind!=='line')throw new Error('Elige una esquina entre dos tramos rectos. Los extremos abiertos y las uniones con curvas no se pueden redondear con esta herramienta.');
+          const before=incoming[0]!,after=outgoing[0]!,corner=point(input.pointId);
+          const rounded=roundCorner(point(before.startId),corner,point(after.endId),input.radius);
+          const start={id:identity(),...rounded.start},points=[start],segments:Segment[]=[];
+          for(const arc of rounded.arcs){const end={id:identity(),...arc.end};segments.push({id:identity(),kind:'cubic',startId:points.at(-1)!.id,endId:end.id,handleStart:arc.handleStart,handleEnd:arc.handleEnd});points.push(end);}
+          before.endId=start.id;after.startId=points.at(-1)!.id;
+          c.segments.splice(c.segments.indexOf(before)+1,0,...segments);
+          c.points.splice(c.points.indexOf(corner),1,...points);delete p.cornerJoins[corner.id];
+          for(const v of points)p.cornerJoins[v.id]='miter';
+          break;
+        }
         case 'point':assertCoordinate(input.position);Object.assign(point(input.pointId),input.position);break;
         case 'shiftPoint':{finite(input.dx);finite(input.dy);const v=point(input.pointId);v.x+=input.dx;v.y+=input.dy;break;}
         case 'appendPoint':{
