@@ -14,4 +14,4 @@ El historial incluye commits de Diego Alejandro Ocampo Madroñero y MAKEBUZ; se 
 
 ## Cambio de esta entrega
 
-Se prepara mediante commits descriptivos y PR dirigido a `patronaje`, sin reescribir el historial ni fusionarlo automáticamente. El enlace se registra al crear el PR. Las revisiones o aprobaciones de terceros solo se atribuirán cuando existan realmente.
+[PR #1: Preparar entrega: README, demo local y evidencia verificable](https://github.com/MAKEBUZ/SPEC-PROYECTO/pull/1), desde `codex/documentacion-entrega` hacia `patronaje`. Commit inicial `664d697`: documentación y demo; un commit posterior enlaza este PR. Está abierto, sin fusionar. Las revisiones o aprobaciones de terceros solo se atribuirán cuando existan realmente.

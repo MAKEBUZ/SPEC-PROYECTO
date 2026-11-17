@@ -56,7 +56,7 @@ Electron proporciona el escritorio y acceso controlado a archivos; React compone
 Desde PowerShell, con Node/npm en `PATH`:
 
 ```powershell
-git clone --branch patronaje https://github.com/MAKEBUZ/SPEC-PROYECTO.git
+git clone --branch codex/documentacion-entrega https://github.com/MAKEBUZ/SPEC-PROYECTO.git
 cd SPEC-PROYECTO
 node --version
 npm --version
@@ -71,7 +71,7 @@ node node_modules/next/dist/bin/next build apps/web --webpack
 npm run password-index:build
 ```
 
-El bloque corresponde a la rama `patronaje` **una vez integrado el PR de esta entrega documental**; antes de esa integración debe obtenerse la rama del PR enlazado en [evidencia Git](docs/git-evidence.md). Los resultados reales por comando, incluido el bloqueo de Electron, están en el [informe](docs/validation/delivery-report.md).
+El bloque obtiene la rama de esta entrega documental, disponible en el [PR #1](https://github.com/MAKEBUZ/SPEC-PROYECTO/pull/1). Su destino de integración es `patronaje`; el PR aún no está fusionado. Los resultados reales por comando, incluido el bloqueo de Electron, están en el [informe](docs/validation/delivery-report.md).
 
 `--ignore-scripts` no instala el ejecutable de Electron ni compila el adaptador: por eso los pasos están explícitos. `assets:prepare` verifica fuente, licencia, corpus y WASM por hash; `password-index:build` construye el índice completo. No copiar `.local` de otra persona como sustituto de estos pasos.
 
