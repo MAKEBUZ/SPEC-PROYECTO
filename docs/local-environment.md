@@ -1,20 +1,23 @@
-# Entorno local de fundamentos
+# Entorno local reproducible
 
-Copiar `.env.example` a `.env` solo para configurar servicios locales. Los secretos reales
-no se versionan. No usar endpoints AWS ni bases compartidas. `APP_ENV=test` utiliza blobs
-y correo de ensayo; ningún correo debe enviarse a destinatarios reales.
+Guía vigente: [README](../README.md), [demo](demo.md) e [informe de validación](https://github.com/MAKEBUZ/SPEC-PROYECTO/blob/codex/docs-constitucion/docs/validation/delivery-report.md). Node 24.22.3/npm 12.2.2 y PostgreSQL 18.7 son las versiones verificadas; los runtimes anteriores citados en informes históricos no son la referencia actual.
 
-La referencia del plan es Node 24.22.3/npm 12.2.2. El host inicial tiene Node 24.15.0/npm
-11.12.1; registrar resultados con las versiones realmente utilizadas. Eso no demuestra
-compatibilidad con el runtime objetivo. PostgreSQL 18.7 se verificará localmente antes
-de ejecutar pruebas SQL: no sustituir por una base remota para completar esas pruebas.
+## Tres composiciones distintas
 
-## PostgreSQL de fundamentos
+- Demo: `node tools/demo/start.mjs` crea su propio PostgreSQL efímero, claves aleatorias, blobs locales y correo capturado. Abre portal y CAD con transporte loopback de ensayo; no certifica HTTPS/PWA física. No lee DATABASE_URL ni claves AWS de .env. Cada sesión parte de una base nueva.
+- Pruebas: `npm run test:integration:local` crea y retira otro contenedor aislado, etiquetado `patronaje.purpose=foundation-test`; no usa bases existentes. Electron/Next y corpus deben prepararse según README.
+- Piloto: `apps/api/src/runtime/main.ts` compone S3, SES y respaldos remotos. Requiere configuración de producción y autorización independiente. No ejecutarlo para preparar la entrega local.
 
-Docker local ya se inició y PostgreSQL 18.7 se validó. `npm run test:integration:local` crea su propio contenedor temporal y lo retira al terminar; no reutiliza la base configurada en .env. Si se interrumpe abruptamente el proceso, revisar únicamente contenedores etiquetados `patronaje.purpose=foundation-test`.
+## Variables y secretos
 
-## Toolchain de referencia disponible
+Copiar .env.example a .env conserva una plantilla local ignorada por Git. Sus valores CHANGE_ME son ejemplos inválidos; copiarla no inicia ni configura servicios automáticamente. El lanzador de demo genera los valores efímeros en su propia composición. No trasladar runtime.env del piloto, correo capturado, perfiles del CAD ni credenciales a Git.
 
-Node 24.22.3 y npm 12.2.2 están aislados en .local/toolchain (ignorado por Git). Ejecutar, por ejemplo, `./tools/validation/toolchain.ps1 run check`. No modifica Node global. En otra máquina instalar esas versiones o descargar node.exe desde https://nodejs.org/dist/v24.22.3/win-x64/node.exe y verificar contra https://nodejs.org/dist/v24.22.3/SHASUMS256.txt; npm está fijado por packageManager.
+Los recursos se descargan por URL/revisión fijada y se verifican por SHA-256 con `npm run assets:prepare`. Construir el corpus con `npm run password-index:build`. La instalación usa `npm ci --ignore-scripts`; ejecutar explícitamente el instalador oficial de Electron y la compilación nativa indicada en README. No hay fallback silencioso a AWS.
 
-Después de npm ci --ignore-scripts, ejecutar npm run assets:prepare para recuperar corpus y TTF por revisión y hash. Los binarios nativos deben instalarse/validarse expresamente en su plataforma; no se consideran ejecutados por npm ci --ignore-scripts.
+## Toolchain del equipo de desarrollo
+
+En este equipo existe .local/toolchain (ignorado por Git) con Node 24.22.3/npm 12.2.2. `./tools/validation/toolchain.ps1 run check` lo utiliza; ese directorio no se distribuye con el repositorio. En un equipo nuevo instalar esas versiones y comprobar `node --version` y `npm --version` antes de usar los comandos estándar del README.
+
+## Limpieza
+
+Cerrar la demo con Ctrl+C retira solo su contenedor. Si hubo terminación forzada, inventariar contenedores con etiqueta `patronaje.purpose=demo` o `patronaje.purpose=foundation-test` y revisar el identificador antes de retirar alguno. Nunca eliminar contenedores ajenos, perfiles personales ni documentos del usuario.
