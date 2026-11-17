@@ -1,10 +1,10 @@
 # Implementation Plan: PATRONAJE — primera entrega
 
-> Estado vigente 2026-11-14: implementación local autorizada por el usuario, comenzando por fundamentos con speckit-implement. No autoriza despliegue ni gasto AWS. Las prohibiciones de implementación de registros anteriores describen aquella fase documental.
+> Estado vigente 2026-11-17: primera entrega aprobada, implementación local autorizada desde el 2026-11-14 y en validación. 90/98 tareas completas; aceptación integral pendiente. El piloto AWS tuvo autorización posterior independiente; esta revisión documental no realiza operaciones ni gastos AWS. Véase [informe consolidado](../../docs/validation/delivery-report.md).
 
 
 **Rama:** patronaje. **Feature:** 001-patronaje. **Fecha:** 2026-11-14.
-**Spec:** [spec.md](spec.md), aprobada. **Estado:** Approved — aprobado explícitamente por el usuario el 2026-11-14; autoriza preparar tareas, no implementación ni despliegue.
+**Spec:** [spec.md](spec.md), aprobada. **Estado:** Approved — aprobado explícitamente por el usuario el 2026-11-14; la implementación local fue autorizada posteriormente. La autorización inicial para preparar tareas es un antecedente histórico, no una restricción vigente.
 
 ## Summary
 
@@ -18,7 +18,7 @@ CAD descargable Windows 11 de 64 bits (x64) para crear, guardar, recuperar y exp
 - Backend: monolito modular NestJS, PostgreSQL y node-postgres; migraciones versionadas, SQL parametrizado, una conexión por transacción.
 - Archivos: .patron JSON UTF-8 versionado, revisión canónica JCS/SHA-256, recuperación/journal independientes, almacenamiento remoto S3 privado. Documentos locales y USB; guardado directo en red y carpetas sincronizadas aplazado.
 - Impresión: PDFKit vectorial, procesos separados, perfiles reproducibles y comprobación independiente. Contrato [geometry-print.md](contracts/geometry-print.md).
-- Pruebas futuras: unitarias, integración PostgreSQL, E2E, fallos de guardado, geometría/PDF y teléfonos reales. Ninguna dependencia instalada ni prueba de aplicación ejecutada en planificación.
+- Validación: existen ejecuciones unitarias, integración PostgreSQL, E2E, fallos de guardado y geometría/PDF. Teléfonos reales, USB, impresión y equipo de referencia conservan pendientes. Durante la fase histórica de planificación no se habían instalado dependencias ni ejecutado la aplicación.
 - Objetivos aprobados: PDF completo <=60s; cancelación <=5s; recuperación local <=60s. Máximos de pieza 5m por eje, composición 10m más auxiliares, 100 piezas y 250 páginas; desviación PDF <=0,1mm. No se añaden mínimos positivos ni límites de complejidad geométrica.
 
 ## Decisiones aprobadas conservadas
@@ -36,7 +36,7 @@ Modelo independiente de Three.js, líneas y Bézier cúbicas en mm; la escena no
 
 Persistencia con escritor único, temporal verificado en mismo volumen, copia anterior independiente, intención persistida y reemplazo Windows; reconciliar candidatos por hash ante interrupción. Recuperación en disco local aunque el destino sea USB. No afirmar atomicidad entre varios archivos ni inmunidad a daño físico. Contrato completo: [local-document.md](contracts/local-document.md).
 
-Márgenes mixtos se construyen por tramo/vértice sin reparación silenciosa ni MiterLimit que cambie la forma. Geometría, tolerancia y verificación de artefactos en [geometry-print.md](contracts/geometry-print.md). Las pruebas numéricas son una puerta de implementación futura, no una pregunta pendiente de producto.
+Márgenes mixtos se construyen por tramo/vértice sin reparación silenciosa ni MiterLimit que cambie la forma. Geometría, tolerancia y verificación de artefactos en [geometry-print.md](contracts/geometry-print.md). Las pruebas numéricas son una puerta de validación; no una pregunta pendiente de producto.
 
 ### Autenticación, publicación y recuperación remota
 
@@ -61,7 +61,7 @@ Selección técnica de reintento local: 5, 10, 20, 40, 80 y luego 120 segundos; 
 | Local sin backend | Archivos, papelera y recuperación local no requieren autorización remota |
 | Geometría separada del renderizado | Modelo y algoritmos propios; no usar Three.js como CAD |
 | Publicación íntegra y permisos | Staging, verificación y commit transaccional con revalidación |
-| No código sombra | Solo documentación; sin dependencias, aplicación, infraestructura o tareas ejecutadas |
+| Implementación autorizada | Código y pruebas locales conforme a tasks.md; no incorporar módulos aplazados. En la evaluación histórica de planificación solo existía documentación. |
 
 ## Estructura prevista
 

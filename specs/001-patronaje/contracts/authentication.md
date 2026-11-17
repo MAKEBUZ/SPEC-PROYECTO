@@ -59,4 +59,3 @@ CAD: secreto solo en main, safeStorage y permisos del usuario Windows, nunca ren
 Conservar evidencia mínima 90 días desde el resultado terminal según FR-287/288, sin ampliación. Autenticación normal o recuperación no se obtienen con esta capacidad. Reintentos y efectos locales: contracts/api.md. U2 cerrado documentalmente, pruebas pendientes.
 
 Concreción T024: CAD recibe X-Deletion-Credential únicamente al emitir una capacidad; main debe guardarla protegida. Web/PWA recibe la cookie de ruta restringida. El resultado idempotente conserva requestId, nunca el secreto; si se perdió la respuesta de emisión, otro intento nuevo durante recuperación puede emitir otra capacidad sin ampliar plazos. Pruebas del servidor y límites: docs/validation/deletion.md.
-

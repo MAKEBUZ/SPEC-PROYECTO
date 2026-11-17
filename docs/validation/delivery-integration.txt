@@ -1,0 +1,11 @@
+Creando PostgreSQL 18.7 efímero en 127.0.0.1, sin volúmenes del usuario.
+
+ RUN  v5.1.0 REPOSITORIO/.local/delivery-clean/source
+
+
+ Test Files  26 passed (26)
+      Tests  162 passed (162)
+   Start at  10:16:58
+   Duration  78.02s (tests 85%, import 13%, transform 2%)
+
+Contenedor de ensayo retirado.

@@ -1,0 +1,4440 @@
+{
+  "revision": "8a93c4ed6a1d021da2d98a33945fa2d4a1f3a898",
+  "desktopVersion": "0.1.7",
+  "command": "node node_modules/vitest/vitest.mjs run tests/unit tests/geometry tests/recovery tests/print tests/contracts --maxWorkers=1 --reporter=json --outputFile=.local/validation/delivery-tests.json",
+  "startTime": 1794927962244,
+  "numTotalTests": 700,
+  "numPassedTests": 700,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "testResults": [
+    {
+      "name": "tests/contracts/access.spec.ts",
+      "status": "passed",
+      "startTime": 1794928103256,
+      "endTime": 1794928103261.421,
+      "assertionResults": [
+        {
+          "fullName": "deniega sesión ausente, vencida, revocada y clases limitadas para recursos normales",
+          "status": "passed",
+          "duration": 4.627700000000004
+        },
+        {
+          "fullName": "credencial de eliminación no abre recursos ni otra solicitud",
+          "status": "passed",
+          "duration": 0.42099999999999227
+        },
+        {
+          "fullName": "cerrar la propia sesión vencida no amplía sus facultades",
+          "status": "passed",
+          "duration": 0.3211000000000013
+        }
+      ]
+    },
+    {
+      "name": "tests/contracts/foundation.spec.ts",
+      "status": "passed",
+      "startTime": 1794928095834,
+      "endTime": 1794928095852.9976,
+      "assertionResults": [
+        {
+          "fullName": "rechaza campos de propiedad o fechas impuestas por clientes y no convierte tipos",
+          "status": "passed",
+          "duration": 2.8094000000000108
+        },
+        {
+          "fullName": "exige confirmaciones explícitas y conserva la contraseña sin normalizar",
+          "status": "passed",
+          "duration": 0.5658999999999992
+        },
+        {
+          "fullName": "distingue estado pendiente y terminal de la credencial de eliminación",
+          "status": "passed",
+          "duration": 0.3393000000000086
+        },
+        {
+          "fullName": "OpenAPI publicado coincide con los DTO y cubre cada ruta aprobada",
+          "status": "passed",
+          "duration": 14.494599999999991
+        },
+        {
+          "fullName": "rechaza publicaciones incompletas y cambios ambiguos de patrón",
+          "status": "passed",
+          "duration": 0.9976000000000056
+        }
+      ]
+    },
+    {
+      "name": "tests/contracts/http-server.spec.ts",
+      "status": "passed",
+      "startTime": 1794928087260,
+      "endTime": 1794928087330.2456,
+      "assertionResults": [
+        {
+          "fullName": "valida cuerpo antes del controlador y devuelve respuestas no cacheables",
+          "status": "passed",
+          "duration": 30.43060000000014
+        },
+        {
+          "fullName": "rechaza JSON duplicado y UTF-8 mal formado",
+          "status": "passed",
+          "duration": 15.343400000000202
+        },
+        {
+          "fullName": "rechaza sesión ausente y conserva 404 para ruta no disponible",
+          "status": "passed",
+          "duration": 11.177799999999934
+        },
+        {
+          "fullName": "rechaza Content-Length por encima de 100 MB sin recibir ni procesar el archivo",
+          "status": "passed",
+          "duration": 5.432600000000093
+        },
+        {
+          "fullName": "el contador de bytes admite el límite exacto y bloquea exceso aunque el encabezado mienta",
+          "status": "passed",
+          "duration": 8.245699999999943
+        }
+      ]
+    },
+    {
+      "name": "tests/contracts/pdf-metadata.spec.ts",
+      "status": "passed",
+      "startTime": 1794928101654,
+      "endTime": 1794928101658.3313,
+      "assertionResults": [
+        {
+          "fullName": "requires finite positive page dimensions, scale 1:1 and one to 250 pages",
+          "status": "passed",
+          "duration": 4.331400000000002
+        }
+      ]
+    },
+    {
+      "name": "tests/geometry/algebraic-elimination.spec.ts",
+      "status": "passed",
+      "startTime": 1794928103425,
+      "endTime": 1794928103433.2888,
+      "assertionResults": [
+        {
+          "fullName": "eliminates a variable without rounding algebraic coefficients",
+          "status": "passed",
+          "duration": 6.591000000000008
+        },
+        {
+          "fullName": "eliminates a quadratic against a linear equation and preserves multiplicity",
+          "status": "passed",
+          "duration": 1.2889000000000124
+        },
+        {
+          "fullName": "returns zero for a common component instead of inventing isolated roots",
+          "status": "passed",
+          "duration": 0.272199999999998
+        }
+      ]
+    },
+    {
+      "name": "tests/geometry/bivariate-sign.spec.ts",
+      "status": "passed",
+      "startTime": 1794928100503,
+      "endTime": 1794928100519.1384,
+      "assertionResults": [
+        {
+          "fullName": "classifies repeated diagonal",
+          "status": "passed",
+          "duration": 7.427799999999991
+        },
+        {
+          "fullName": "classifies negative stripe narrower than a floatin…",
+          "status": "passed",
+          "duration": 0.19199999999997885
+        },
+        {
+          "fullName": "classifies zero polynomial",
+          "status": "passed",
+          "duration": 0.10239999999998872
+        },
+        {
+          "fullName": "classifies vanishing fibre with a sign change",
+          "status": "passed",
+          "duration": 0.19069999999999254
+        },
+        {
+          "fullName": "classifies isolated equality",
+          "status": "passed",
+          "duration": 4.643299999999982
+        },
+        {
+          "fullName": "classifies boundary crossing",
+          "status": "passed",
+          "duration": 0.15350000000000819
+        },
+        {
+          "fullName": "classifies positive constant",
+          "status": "passed",
+          "duration": 0.1203999999999894
+        },
+        {
+          "fullName": "detects a negative interior disk smaller than binary64 rounding at its centre",
+          "status": "passed",
+          "duration": 3.1384999999999934
+        }
+      ]
+    },
+    {
+      "name": "tests/geometry/offset.spec.ts",
+      "status": "passed",
+      "startTime": 1794928041500,
+      "endTime": 1794928042683.2854,
+      "assertionResults": [
+        {
+          "fullName": "certifies the whole mixed boundary at scale 7.888609052210118e-31 without altering draft geometry",
+          "status": "passed",
+          "duration": 101.31439999999998
+        },
+        {
+          "fullName": "certifies the whole mixed boundary at scale 1 without altering draft geometry",
+          "status": "passed",
+          "duration": 55.164800000000014
+        },
+        {
+          "fullName": "certifies the whole mixed boundary at scale 128 without altering draft geometry",
+          "status": "passed",
+          "duration": 1003.9261000000001
+        },
+        {
+          "fullName": "retains a valid long miter and rejects only when the existing size bound is exceeded",
+          "status": "passed",
+          "duration": 19.27260000000001
+        },
+        {
+          "fullName": "retains invalid self-crossing draft geometry and never substitutes a repaired margin",
+          "status": "passed",
+          "duration": 3.2853999999999814
+        }
+      ]
+    },
+    {
+      "name": "tests/geometry/predicates.spec.ts",
+      "status": "passed",
+      "startTime": 1794928092255,
+      "endTime": 1794928092411.125,
+      "assertionResults": [
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos el oráculo conserva binary64, subnormales, signo y cero",
+          "status": "passed",
+          "duration": 2.6428999999999974
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos triángulo colineal, área nula: integral algebraica exacta conocida",
+          "status": "passed",
+          "duration": 0.5018000000000029
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos cuadrado positivo: integral algebraica exacta conocida",
+          "status": "passed",
+          "duration": 0.23570000000000846
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos área positiva de cúbica cerrada: integral algebraica exacta conocida",
+          "status": "passed",
+          "duration": 0.8264000000000067
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos área positiva pequeña: integral algebraica exacta conocida",
+          "status": "passed",
+          "duration": 0.2942999999999927
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos área positiva inferior a Number.MIN_VAL…: integral algebraica exacta conocida",
+          "status": "passed",
+          "duration": 0.2746999999999957
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos autocruce con área algebraica no nula: integral algebraica exacta conocida",
+          "status": "passed",
+          "duration": 0.22560000000001423
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos recta constante: coeficientes no constantes nulos solo si la trayectoria es constante",
+          "status": "passed",
+          "duration": 0.4064999999999941
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos cúbica constante: coeficientes no constantes nulos solo si la trayectoria es constante",
+          "status": "passed",
+          "duration": 0.20050000000000523
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos lazo cúbico no constante con extremos c…: coeficientes no constantes nulos solo si la trayectoria es constante",
+          "status": "passed",
+          "duration": 0.20920000000000982
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos cúbica colineal que recorre y vuelve: coeficientes no constantes nulos solo si la trayectoria es constante",
+          "status": "passed",
+          "duration": 0.14159999999998263
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos recta positiva menor que 0,1 mm: coeficientes no constantes nulos solo si la trayectoria es constante",
+          "status": "passed",
+          "duration": 0.10910000000001219
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos recta positiva cuyo cuadrado subdesbord…: coeficientes no constantes nulos solo si la trayectoria es constante",
+          "status": "passed",
+          "duration": 0.07830000000001291
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos tangencia doble demostrada por y=12(t-1/2)^2, no por muestreo",
+          "status": "passed",
+          "duration": 0.3680999999999983
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos cruce interior recta/recta: testigos paramétricos exactos",
+          "status": "passed",
+          "duration": 0.30049999999999955
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos contacto extremo/interior: testigos paramétricos exactos",
+          "status": "passed",
+          "duration": 0.16429999999999723
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos solape parcial: testigos paramétricos exactos",
+          "status": "passed",
+          "duration": 0.213799999999992
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos solape invertido: testigos paramétricos exactos",
+          "status": "passed",
+          "duration": 0.2529999999999859
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos tangencia interior doble sin cambio de …: testigos paramétricos exactos",
+          "status": "passed",
+          "duration": 0.15529999999998267
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos dos cruces con la misma cúbica: testigos paramétricos exactos",
+          "status": "passed",
+          "duration": 0.32049999999998136
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos casi tangencia separada por 2^-40: testigos paramétricos exactos",
+          "status": "passed",
+          "duration": 0.1133999999999844
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos tangencia cúbica/cúbica: testigos paramétricos exactos",
+          "status": "passed",
+          "duration": 0.17130000000000223
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos coincidencia curva completa: testigos paramétricos exactos",
+          "status": "passed",
+          "duration": 0.3739999999999952
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos coincidencia curva invertida: testigos paramétricos exactos",
+          "status": "passed",
+          "duration": 0.32560000000000855
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos autocruce interno con parámetros distintos y tangentes no paralelas",
+          "status": "passed",
+          "duration": 0.1904999999999859
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos el área no se redondea a cero cuando el producto double subdesborda",
+          "status": "passed",
+          "duration": 0.15200000000001523
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos 5000 × 5000 inclusivo: datos analíticos y exterior con margen",
+          "status": "passed",
+          "duration": 0.0941999999999723
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos solo ancho excedido: datos analíticos y exterior con margen",
+          "status": "passed",
+          "duration": 0.7045000000000243
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos solo alto excedido: datos analíticos y exterior con margen",
+          "status": "passed",
+          "duration": 0.07080000000001974
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos ambos ejes excedidos: datos analíticos y exterior con margen",
+          "status": "passed",
+          "duration": 0.057900000000017826
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos contacto: soportes paralelos con distancia exacta",
+          "status": "passed",
+          "duration": 0.09590000000000032
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos inferior a 2 mm: soportes paralelos con distancia exacta",
+          "status": "passed",
+          "duration": 0.05170000000001096
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos exactamente 2 mm: soportes paralelos con distancia exacta",
+          "status": "passed",
+          "duration": 0.04449999999999932
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos superior a 2 mm: soportes paralelos con distancia exacta",
+          "status": "passed",
+          "duration": 0.04460000000000264
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos uniones consecutivas normales incluido …: borrador estructuralmente válido, sin reparación",
+          "status": "passed",
+          "duration": 0.8766000000000247
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos mismo lugar, identidades sin unir: borrador estructuralmente válido, sin reparación",
+          "status": "passed",
+          "duration": 0.23969999999999914
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos abertura inferior a tolerancia PDF: borrador estructuralmente válido, sin reparación",
+          "status": "passed",
+          "duration": 0.20900000000000318
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos solape entre tramos consecutivos no se …: borrador estructuralmente válido, sin reparación",
+          "status": "passed",
+          "duration": 0.17169999999998709
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos contacto entre vértices no consecutivos: borrador estructuralmente válido, sin reparación",
+          "status": "passed",
+          "duration": 0.147199999999998
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos autocruce de área algebraica positiva: borrador estructuralmente válido, sin reparación",
+          "status": "passed",
+          "duration": 0.14470000000000027
+        },
+        {
+          "fullName": "T027: consistencia independiente de fixtures analíticos rectángulo positivo sin umbral mínimo: borrador estructuralmente válido, sin reparación",
+          "status": "passed",
+          "duration": 0.17560000000000286
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-043/046: recta constante",
+          "status": "passed",
+          "duration": 36.836900000000014
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-043/046: cúbica constante",
+          "status": "passed",
+          "duration": 2.2649000000000115
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-043/046: lazo cúbico no constante con extremos c…",
+          "status": "passed",
+          "duration": 2.079199999999986
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-043/046: cúbica colineal que recorre y vuelve",
+          "status": "passed",
+          "duration": 1.2771000000000186
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-043/046: recta positiva menor que 0,1 mm",
+          "status": "passed",
+          "duration": 1.1174999999999784
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-043/046: recta positiva cuyo cuadrado subdesbord…",
+          "status": "passed",
+          "duration": 1.2215999999999951
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-042/046: triángulo colineal, área nula sin mínimo adicional",
+          "status": "passed",
+          "duration": 1.901299999999992
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-042/046: cuadrado positivo sin mínimo adicional",
+          "status": "passed",
+          "duration": 1.2920000000000016
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-042/046: área positiva de cúbica cerrada sin mínimo adicional",
+          "status": "passed",
+          "duration": 1.1962000000000046
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-042/046: área positiva pequeña sin mínimo adicional",
+          "status": "passed",
+          "duration": 1.6234000000000037
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-042/046: área positiva inferior a Number.MIN_VAL… sin mínimo adicional",
+          "status": "passed",
+          "duration": 1.5062999999999818
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-042/046: autocruce con área algebraica no nula sin mínimo adicional",
+          "status": "passed",
+          "duration": 1.862799999999993
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-037/039: cruce interior recta/recta",
+          "status": "passed",
+          "duration": 5.183099999999996
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-037/039: contacto extremo/interior",
+          "status": "passed",
+          "duration": 2.4860000000000184
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-037/039: solape parcial",
+          "status": "passed",
+          "duration": 2.550600000000003
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-037/039: solape invertido",
+          "status": "passed",
+          "duration": 2.072900000000004
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-037/039: tangencia interior doble sin cambio de …",
+          "status": "passed",
+          "duration": 3.697399999999959
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-037/039: dos cruces con la misma cúbica",
+          "status": "passed",
+          "duration": 10.262
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-037/039: casi tangencia separada por 2^-40",
+          "status": "passed",
+          "duration": 1.9078000000000088
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-037/039: tangencia cúbica/cúbica",
+          "status": "passed",
+          "duration": 2.680999999999983
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-037/039: coincidencia curva completa",
+          "status": "passed",
+          "duration": 1.7800999999999476
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-037/039: coincidencia curva invertida",
+          "status": "passed",
+          "duration": 1.466799999999978
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-037: autocruce dentro de un único tramo cúbico",
+          "status": "passed",
+          "duration": 8.618100000000027
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-035/039/046: uniones consecutivas normales incluido …",
+          "status": "passed",
+          "duration": 4.55540000000002
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-035/039/046: mismo lugar, identidades sin unir",
+          "status": "passed",
+          "duration": 3.8729000000000156
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-035/039/046: abertura inferior a tolerancia PDF",
+          "status": "passed",
+          "duration": 2.8652999999999906
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-035/039/046: solape entre tramos consecutivos no se …",
+          "status": "passed",
+          "duration": 4.517400000000009
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-035/039/046: contacto entre vértices no consecutivos",
+          "status": "passed",
+          "duration": 7.5989999999999895
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-035/039/046: autocruce de área algebraica positiva",
+          "status": "passed",
+          "duration": 4.756399999999985
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-035/039/046: rectángulo positivo sin umbral mínimo",
+          "status": "passed",
+          "duration": 3.9569000000000187
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-044/045: 5000 × 5000 inclusivo",
+          "status": "passed",
+          "duration": 3.0622000000000185
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-044/045: solo ancho excedido",
+          "status": "passed",
+          "duration": 1.7882999999999925
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-044/045: solo alto excedido",
+          "status": "passed",
+          "duration": 1.6603999999999814
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-044/045: ambos ejes excedidos",
+          "status": "passed",
+          "duration": 1.375
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-036: contacto",
+          "status": "passed",
+          "duration": 1.4446999999999548
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-036: inferior a 2 mm",
+          "status": "passed",
+          "duration": 1.5398999999999887
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-036: exactamente 2 mm",
+          "status": "passed",
+          "duration": 1.2352000000000203
+        },
+        {
+          "fullName": "T027: contrato RED del motor pendiente T029–T032 FR-036: superior a 2 mm",
+          "status": "passed",
+          "duration": 1.1248999999999683
+        }
+      ]
+    },
+    {
+      "name": "tests/geometry/radical-sign.spec.ts",
+      "status": "passed",
+      "startTime": 1794928097333,
+      "endTime": 1794928097379.9214,
+      "assertionResults": [
+        {
+          "fullName": "does not infer the actual radical sign from a zero norm: 1",
+          "status": "passed",
+          "duration": 15.555800000000005
+        },
+        {
+          "fullName": "does not infer the actual radical sign from a zero norm: -1",
+          "status": "passed",
+          "duration": 7.353899999999982
+        },
+        {
+          "fullName": "tracks a branch collision with a sign change on an interior fibre",
+          "status": "passed",
+          "duration": 2.347799999999978
+        },
+        {
+          "fullName": "handles identical nonconstant radicals and their identically zero norm",
+          "status": "passed",
+          "duration": 13.818000000000012
+        },
+        {
+          "fullName": "keeps the positive square-root branch at a repeated zero",
+          "status": "passed",
+          "duration": 7.9214000000000055
+        }
+      ]
+    },
+    {
+      "name": "tests/print/bezier-production.spec.ts",
+      "status": "passed",
+      "startTime": 1794928051134,
+      "endTime": 1794928058996.2808,
+      "assertionResults": [
+        {
+          "fullName": "certifies the exact oblique normal gap between positive offsets: 0",
+          "status": "passed",
+          "duration": 2095.8340000000003
+        },
+        {
+          "fullName": "certifies the exact oblique normal gap between positive offsets: -1.4551915228366852e-11",
+          "status": "passed",
+          "duration": 1057.2087999999999
+        },
+        {
+          "fullName": "certifies the exact oblique normal gap between positive offsets: 1.4551915228366852e-11",
+          "status": "passed",
+          "duration": 2376.4563999999996
+        },
+        {
+          "fullName": "finds extrema along a rotated axis without rounding the offset control geometry",
+          "status": "passed",
+          "duration": 1.12920000000031
+        },
+        {
+          "fullName": "certifies positive offsets across facing Bézier boundaries at translation 7",
+          "status": "passed",
+          "duration": 1281.1756999999998
+        },
+        {
+          "fullName": "certifies positive offsets across facing Bézier boundaries at translation 6",
+          "status": "passed",
+          "duration": 396.27520000000004
+        },
+        {
+          "fullName": "validates a positive Bézier offset after a non-cardinal rotation",
+          "status": "passed",
+          "duration": 493.8683000000001
+        },
+        {
+          "fullName": "detects containment even when the certified Bézier boundaries are more than 2 mm apart",
+          "status": "passed",
+          "duration": 159.28070000000025
+        }
+      ]
+    },
+    {
+      "name": "tests/print/concave-separation.spec.ts",
+      "status": "passed",
+      "startTime": 1794928029839,
+      "endTime": 1794928041305.339,
+      "assertionResults": [
+        {
+          "fullName": "certifies a curved U without a global separating line: 0, 0",
+          "status": "passed",
+          "duration": 61.7638
+        },
+        {
+          "fullName": "certifies a curved U without a global separating line: 0, -9.313225746154785e-10",
+          "status": "passed",
+          "duration": 36.96440000000001
+        },
+        {
+          "fullName": "certifies a curved U without a global separating line: 0, 9.313225746154785e-10",
+          "status": "passed",
+          "duration": 36.65530000000001
+        },
+        {
+          "fullName": "certifies a curved U without a global separating line: 0.25, 0",
+          "status": "passed",
+          "duration": 2376.0677
+        },
+        {
+          "fullName": "certifies a curved U without a global separating line: 0.25, -9.313225746154785e-10",
+          "status": "passed",
+          "duration": 2359.8207
+        },
+        {
+          "fullName": "certifies a curved U without a global separating line: 0.25, 9.313225746154785e-10",
+          "status": "passed",
+          "duration": 2643.2932
+        },
+        {
+          "fullName": "validates facing curved boundaries in a concavity at exactly 2 mm, margin 0",
+          "status": "passed",
+          "duration": 68.15049999999974
+        },
+        {
+          "fullName": "validates facing curved boundaries in a concavity at exactly 2 mm, margin 0.25",
+          "status": "passed",
+          "duration": 3883.3391
+        }
+      ]
+    },
+    {
+      "name": "tests/print/duplicate-pieces.spec.ts",
+      "status": "passed",
+      "startTime": 1794928094172,
+      "endTime": 1794928094254.515,
+      "assertionResults": [
+        {
+          "fullName": "keeps identity, labels and translations of equal shapes and still rejects their overlap",
+          "status": "passed",
+          "duration": 38.167699999999996
+        },
+        {
+          "fullName": "does not reuse an earlier evaluation or another width, topology, rotation or piece metadata",
+          "status": "passed",
+          "duration": 37.88300000000001
+        },
+        {
+          "fullName": "preserves sub-millimetre placement when repeated rotated shapes have a huge common translation",
+          "status": "passed",
+          "duration": 6.514800000000008
+        }
+      ]
+    },
+    {
+      "name": "tests/print/export-job.spec.ts",
+      "status": "passed",
+      "startTime": 1794928081066,
+      "endTime": 1794928081562.1523,
+      "assertionResults": [
+        {
+          "fullName": "returns only independently verified immutable snapshot bytes from a separate worker",
+          "status": "passed",
+          "duration": 486.0572000000001
+        },
+        {
+          "fullName": "shows cancelling immediately and terminates CPU work within the five second objective",
+          "status": "passed",
+          "duration": 10.152300000000082
+        }
+      ]
+    },
+    {
+      "name": "tests/print/path-separation.spec.ts",
+      "status": "passed",
+      "startTime": 1794928082197,
+      "endTime": 1794928082576.4724,
+      "assertionResults": [
+        {
+          "fullName": "detects containment of disjoint circular boundaries with winding 1",
+          "status": "passed",
+          "duration": 11.36439999999999
+        },
+        {
+          "fullName": "detects containment of disjoint circular boundaries with winding -1",
+          "status": "passed",
+          "duration": 4.089500000000015
+        },
+        {
+          "fullName": "compares diagonal circular separation to 2 exactly: 0",
+          "status": "passed",
+          "duration": 28.831699999999984
+        },
+        {
+          "fullName": "compares diagonal circular separation to 2 exactly: -9.094947017729282e-13",
+          "status": "passed",
+          "duration": 152.1298
+        },
+        {
+          "fullName": "compares diagonal circular separation to 2 exactly: 9.094947017729282e-13",
+          "status": "passed",
+          "duration": 143.52460000000002
+        },
+        {
+          "fullName": "detects crossing circular boundaries and a line piercing an arc",
+          "status": "passed",
+          "duration": 38.47229999999996
+        }
+      ]
+    },
+    {
+      "name": "tests/print/pdf-catalog.spec.ts",
+      "status": "passed",
+      "startTime": 1794928069240,
+      "endTime": 1794928070294.9712,
+      "assertionResults": [
+        {
+          "fullName": "persists and reopens a PDF catalog using real isolated verification",
+          "status": "passed",
+          "duration": 1054.9713
+        }
+      ]
+    },
+    {
+      "name": "tests/print/pdf-geometry.spec.ts",
+      "status": "passed",
+      "startTime": 1794928070709,
+      "endTime": 1794928071942.6458,
+      "assertionResults": [
+        {
+          "fullName": "keeps piece labels clear of alignment crosses on A4",
+          "status": "passed",
+          "duration": 195.86119999999994
+        },
+        {
+          "fullName": "keeps piece labels clear of alignment crosses on Letter",
+          "status": "passed",
+          "duration": 62.05549999999994
+        },
+        {
+          "fullName": "verifies a rotated cubic contour over its complete path",
+          "status": "passed",
+          "duration": 84.99199999999996
+        },
+        {
+          "fullName": "creates a deterministic vector PDF in large mode, preserving the saved document",
+          "status": "passed",
+          "duration": 85.2177999999999
+        },
+        {
+          "fullName": "creates a deterministic vector PDF in tiled mode, preserving the saved document",
+          "status": "passed",
+          "duration": 93.03380000000004
+        },
+        {
+          "fullName": "rejects unsaved and invalid selected geometry before producing a PDF",
+          "status": "passed",
+          "duration": 7.358799999999974
+        },
+        {
+          "fullName": "keeps tiled pages at real size on A4 and rejects modified graphics",
+          "status": "passed",
+          "duration": 78.40199999999993
+        },
+        {
+          "fullName": "keeps tiled pages at real size on Letter and rejects modified graphics",
+          "status": "passed",
+          "duration": 72.99430000000007
+        },
+        {
+          "fullName": "uses UserUnit for a 5 metre piece without changing physical scale",
+          "status": "passed",
+          "duration": 44.906999999999925
+        },
+        {
+          "fullName": "renders the generated page for visual inspection",
+          "status": "passed",
+          "duration": 93.7677000000001
+        },
+        {
+          "fullName": "ignores an invalid unselected draft and generates the inclusive 250-page maximum",
+          "status": "passed",
+          "duration": 414.6456999999998
+        }
+      ]
+    },
+    {
+      "name": "tests/print/pdf-remote.spec.ts",
+      "status": "passed",
+      "startTime": 1794928087757,
+      "endTime": 1794928088068.5388,
+      "assertionResults": [
+        {
+          "fullName": "regenerates and independently verifies a PDF of the exact editable revision",
+          "status": "passed",
+          "duration": 311.5389
+        }
+      ]
+    },
+    {
+      "name": "tests/print/primitive-separation.spec.ts",
+      "status": "passed",
+      "startTime": 1794928061737,
+      "endTime": 1794928064738.2444,
+      "assertionResults": [
+        {
+          "fullName": "decides an arch around a line with no separating support: 0",
+          "status": "passed",
+          "duration": 5.896000000000015
+        },
+        {
+          "fullName": "decides an arch around a line with no separating support: -9.313225746154785e-10",
+          "status": "passed",
+          "duration": 1.0561999999999898
+        },
+        {
+          "fullName": "decides an arch around a line with no separating support: 9.313225746154785e-10",
+          "status": "passed",
+          "duration": 1.3963999999999999
+        },
+        {
+          "fullName": "certifies a positive offset arch with the complete-domain base-distance bound",
+          "status": "passed",
+          "duration": 1.7416000000000054
+        },
+        {
+          "fullName": "uses the positive radical branch when the base-distance bound cannot certify an outward curved offset",
+          "status": "passed",
+          "duration": 2.5164000000000044
+        },
+        {
+          "fullName": "resolves an even stationary tangent and a continuum of closest points: 0",
+          "status": "passed",
+          "duration": 2786.0778999999998
+        },
+        {
+          "fullName": "resolves an even stationary tangent and a continuum of closest points: -9.313225746154785e-10",
+          "status": "passed",
+          "duration": 0.8037999999996828
+        },
+        {
+          "fullName": "resolves concentric arc components with a continuum at exactly 2 mm",
+          "status": "passed",
+          "duration": 0.895600000000286
+        },
+        {
+          "fullName": "integrates the full-domain fallback for two pieces whose closest sources have no separating support",
+          "status": "passed",
+          "duration": 200.24450000000024
+        }
+      ]
+    },
+    {
+      "name": "tests/print/production-validation.spec.ts",
+      "status": "passed",
+      "startTime": 1794928064936,
+      "endTime": 1794928067245.0737,
+      "assertionResults": [
+        {
+          "fullName": "validates only selected pieces but always validates document structure",
+          "status": "passed",
+          "duration": 25.4195
+        },
+        {
+          "fullName": "classifies exact gap 2 without epsilon",
+          "status": "passed",
+          "duration": 4.411600000000021
+        },
+        {
+          "fullName": "classifies exact gap 1.9999999999990905 without epsilon",
+          "status": "passed",
+          "duration": 4.612499999999983
+        },
+        {
+          "fullName": "classifies exact gap 2.0000000000009095 without epsilon",
+          "status": "passed",
+          "duration": 3.800299999999993
+        },
+        {
+          "fullName": "detects crossings and nested pieces even if their edges are separated",
+          "status": "passed",
+          "duration": 8.454000000000008
+        },
+        {
+          "fullName": "includes seam margins and preserves requested geometry",
+          "status": "passed",
+          "duration": 11.581999999999994
+        },
+        {
+          "fullName": "accepts inclusive piece and composition limits and rejects excess",
+          "status": "passed",
+          "duration": 11.640500000000003
+        },
+        {
+          "fullName": "reports missing metadata and references, and accepts positive tiny areas",
+          "status": "passed",
+          "duration": 5.390899999999988
+        },
+        {
+          "fullName": "requires 1–100 selections and accepts 100",
+          "status": "passed",
+          "duration": 30.088799999999992
+        },
+        {
+          "fullName": "rotates placement without changing the base and includes page limits",
+          "status": "passed",
+          "duration": 5.802500000000009
+        },
+        {
+          "fullName": "uses true Bézier extrema for rotated placement and certifies distant curves",
+          "status": "passed",
+          "duration": 1563.9297000000001
+        },
+        {
+          "fullName": "handles round margins without treating their bounding boxes as filled pieces",
+          "status": "passed",
+          "duration": 16.0471
+        },
+        {
+          "fullName": "resolves diagonal round margins with exact 2 mm boundary (0)",
+          "status": "passed",
+          "duration": 31.814699999999903
+        },
+        {
+          "fullName": "resolves diagonal round margins with exact 2 mm boundary (-9.094947017729282e-13)",
+          "status": "passed",
+          "duration": 259.13009999999986
+        },
+        {
+          "fullName": "resolves diagonal round margins with exact 2 mm boundary (9.094947017729282e-13)",
+          "status": "passed",
+          "duration": 253.41849999999977
+        },
+        {
+          "fullName": "certifies separated round corners despite nearby bounding boxes and supports rotation",
+          "status": "passed",
+          "duration": 62.909999999999854
+        },
+        {
+          "fullName": "rejects an open contour, zero-length segment, null area and crossings without repair",
+          "status": "passed",
+          "duration": 8.299499999999625
+        },
+        {
+          "fullName": "enforces all required metadata, without requiring cut-on-fold",
+          "status": "passed",
+          "duration": 2.073699999999917
+        }
+      ]
+    },
+    {
+      "name": "tests/print/rotated-export.spec.ts",
+      "status": "passed",
+      "startTime": 1794927962757,
+      "endTime": 1794928010432.8728,
+      "assertionResults": [
+        {
+          "fullName": "generates and independently verifies a non-quadrant cubic within the 60-second target",
+          "status": "passed",
+          "duration": 47675.872800000005
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/backup-coordinator.spec.ts",
+      "status": "passed",
+      "startTime": 1794928098485,
+      "endTime": 1794928098498.789,
+      "assertionResults": [
+        {
+          "fullName": "T091 drains, validates readback and registers before daily completion",
+          "status": "passed",
+          "duration": 3.0915999999999997
+        },
+        {
+          "fullName": "T091 drains, validates readback and registers before shutdown completion",
+          "status": "passed",
+          "duration": 0.5198999999999785
+        },
+        {
+          "fullName": "T091 capture failure cancels shutdown and exits maintenance",
+          "status": "passed",
+          "duration": 1.56959999999998
+        },
+        {
+          "fullName": "T091 store failure cancels shutdown and exits maintenance",
+          "status": "passed",
+          "duration": 0.4633000000000038
+        },
+        {
+          "fullName": "T091 register failure cancels shutdown and exits maintenance",
+          "status": "passed",
+          "duration": 0.5477000000000203
+        },
+        {
+          "fullName": "T091 corrupt failure cancels shutdown and exits maintenance",
+          "status": "passed",
+          "duration": 0.5045000000000073
+        },
+        {
+          "fullName": "T091 never captures while drain fails",
+          "status": "passed",
+          "duration": 0.2967000000000155
+        },
+        {
+          "fullName": "T092 isolated restoration: valid",
+          "status": "passed",
+          "duration": 2.213099999999997
+        },
+        {
+          "fullName": "T092 isolated restoration: incomplete",
+          "status": "passed",
+          "duration": 0.7563999999999851
+        },
+        {
+          "fullName": "T092 isolated restoration: missing-active",
+          "status": "passed",
+          "duration": 0.8854999999999791
+        },
+        {
+          "fullName": "T092 isolated restoration: changed-evidence",
+          "status": "passed",
+          "duration": 0.9359999999999786
+        },
+        {
+          "fullName": "T092 isolated restoration: expired",
+          "status": "passed",
+          "duration": 0.6844000000000108
+        },
+        {
+          "fullName": "T092 isolated restoration: corrupt-dump",
+          "status": "passed",
+          "duration": 0.6106000000000051
+        },
+        {
+          "fullName": "T092 isolated restoration: not-isolated",
+          "status": "passed",
+          "duration": 0.7889999999999873
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/backup-operations.spec.ts",
+      "status": "passed",
+      "startTime": 1794928078936,
+      "endTime": 1794928079311.1106,
+      "assertionResults": [
+        {
+          "fullName": "T091 waits for daily capture before one fresh shutdown backup, isolating observer failures",
+          "status": "passed",
+          "duration": 68.41490000000002
+        },
+        {
+          "fullName": "T091 a drain timeout cancels capture admission without interrupting existing work",
+          "status": "passed",
+          "duration": 2.6059000000000196
+        },
+        {
+          "fullName": "T091 drains admitted nested work, rejects new roots and stale asynchronous contexts, then resumes",
+          "status": "passed",
+          "duration": 1.0190000000000055
+        },
+        {
+          "fullName": "T091 physically removes only expired known backup files and resumes a failed cleanup after reopening",
+          "status": "passed",
+          "duration": 73.4733
+        },
+        {
+          "fullName": "T091 partial unverified backups are tracked, and restore copies keep their original deadline",
+          "status": "passed",
+          "duration": 82.6676
+        },
+        {
+          "fullName": "T091 refuses unexpected files and corrupted inventory without declaring cleanup complete",
+          "status": "passed",
+          "duration": 45.0908
+        },
+        {
+          "fullName": "T091 schedules once when due, persists success through reopening, and cancels failed pre-shutdown",
+          "status": "passed",
+          "duration": 102.11069999999995
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/backup-policy.spec.ts",
+      "status": "passed",
+      "startTime": 1794928104061,
+      "endTime": 1794928104065.033,
+      "assertionResults": [
+        {
+          "fullName": "T087 retains evidence while any preceding backup, restored copy or temporary remains recoverable",
+          "status": "passed",
+          "duration": 1.9527999999999963
+        },
+        {
+          "fullName": "T091 expires inclusively after seven days without extending the lifetime of restore copies",
+          "status": "passed",
+          "duration": 0.8384000000000071
+        },
+        {
+          "fullName": "T087 expiration and a failed deletion never authorize removal of suppression evidence",
+          "status": "passed",
+          "duration": 0.26849999999998886
+        },
+        {
+          "fullName": "T091 rejects damaged or ambiguous inventory instead of inferring that no backup remains",
+          "status": "passed",
+          "duration": 1.0330000000000155
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/closed-history.spec.ts",
+      "status": "passed",
+      "startTime": 1794928089688,
+      "endTime": 1794928089846.245,
+      "assertionResults": [
+        {
+          "fullName": "persists closure and resolved tombstones through the existing journal and survives reopening",
+          "status": "passed",
+          "duration": 150.58900000000003
+        },
+        {
+          "fullName": "hides pending deletion without clearing pauses or pending work and requires normal login after recovery",
+          "status": "passed",
+          "duration": 0.6202000000000112
+        },
+        {
+          "fullName": "uses a persisted service time interval after restart without resetting retention",
+          "status": "passed",
+          "duration": 1.526900000000012
+        },
+        {
+          "fullName": "closes only on explicit matching deletion and removes resolved history without inventing outcomes",
+          "status": "passed",
+          "duration": 1.7866000000000213
+        },
+        {
+          "fullName": "preserves the initial 30-day deadline, expires inclusively and never reactivates",
+          "status": "passed",
+          "duration": 0.43840000000000146
+        },
+        {
+          "fullName": "discards late results during uncertain time and never replays them after certainty returns",
+          "status": "passed",
+          "duration": 0.874499999999955
+        },
+        {
+          "fullName": "ignores wrong-account replies without creating visible or retryable history",
+          "status": "passed",
+          "duration": 0.36880000000002156
+        },
+        {
+          "fullName": "ignores wrong-hash replies without creating visible or retryable history",
+          "status": "passed",
+          "duration": 0.26389999999997826
+        },
+        {
+          "fullName": "ignores wrong-operation replies without creating visible or retryable history",
+          "status": "passed",
+          "duration": 0.3066000000000031
+        },
+        {
+          "fullName": "ignores wrong-type replies without creating visible or retryable history",
+          "status": "passed",
+          "duration": 0.33260000000001355
+        },
+        {
+          "fullName": "ignores malformed replies without creating visible or retryable history",
+          "status": "passed",
+          "duration": 0.2452000000000112
+        },
+        {
+          "fullName": "ignores expired replies without creating visible or retryable history",
+          "status": "passed",
+          "duration": 0.23380000000003065
+        },
+        {
+          "fullName": "does not reconstruct a removed resolved entry from a late result",
+          "status": "passed",
+          "duration": 0.22589999999996735
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/deletion-check.spec.ts",
+      "status": "passed",
+      "startTime": 1794928099630,
+      "endTime": 1794928099640.2676,
+      "assertionResults": [
+        {
+          "fullName": "SC-280/283 two devices recover independently without turning a lost response into deletion",
+          "status": "passed",
+          "duration": 6.2228000000000065
+        },
+        {
+          "fullName": "SC-283 caps growing waits and resets only after a successful query; stopped devices never retry",
+          "status": "passed",
+          "duration": 1.9008000000000038
+        },
+        {
+          "fullName": "SC-278 rejects the exact 90-day boundary, not just a later day, without extending the capability",
+          "status": "passed",
+          "duration": 1.0109999999999673
+        },
+        {
+          "fullName": "SC-277/278 does not produce cleanup evidence from expired",
+          "status": "passed",
+          "duration": 0.26770000000004757
+        },
+        {
+          "fullName": "SC-277/278 does not produce cleanup evidence from invalid",
+          "status": "passed",
+          "duration": 0.17500000000001137
+        },
+        {
+          "fullName": "SC-277/278 does not produce cleanup evidence from response lost",
+          "status": "passed",
+          "duration": 0.13579999999996062
+        },
+        {
+          "fullName": "SC-279 relays cancelled as cancelled, without converting it into deletion or creating a normal session",
+          "status": "passed",
+          "duration": 0.2558999999999969
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/document-handlers.spec.ts",
+      "status": "passed",
+      "startTime": 1794928091019,
+      "endTime": 1794928091121.1184,
+      "assertionResults": [
+        {
+          "fullName": "connects native dialog selections to verified save/open and blocks direct SaveAs over external changes",
+          "status": "passed",
+          "duration": 102.11840000000001
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/document-save.spec.ts",
+      "status": "passed",
+      "startTime": 1794928081727,
+      "endTime": 1794928082014.8743,
+      "assertionResults": [
+        {
+          "fullName": "writes a verified revision, opens it and keeps an independent previous copy",
+          "status": "passed",
+          "duration": 74.61429999999999
+        },
+        {
+          "fullName": "blocks changed files including SaveAs to the same conflicted original",
+          "status": "passed",
+          "duration": 38.797499999999985
+        },
+        {
+          "fullName": "reconciles a replacement failure before changing names",
+          "status": "passed",
+          "duration": 47.56990000000002
+        },
+        {
+          "fullName": "reconciles a replacement failure after changing names",
+          "status": "passed",
+          "duration": 64.8417
+        },
+        {
+          "fullName": "does not acknowledge a failed flush and retains recovery candidates",
+          "status": "passed",
+          "duration": 17.704999999999984
+        },
+        {
+          "fullName": "rejects malformed or future documents without changing caller memory or bytes",
+          "status": "passed",
+          "duration": 16.4307
+        },
+        {
+          "fullName": "serializes writers and rejects the second stale identity",
+          "status": "passed",
+          "duration": 27.874199999999973
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/document-storage-faults.spec.ts",
+      "status": "passed",
+      "startTime": 1794928068380,
+      "endTime": 1794928068942.393,
+      "assertionResults": [
+        {
+          "fullName": "preserves recoverable data when .tmp writeFile fails with ENOSPC",
+          "status": "passed",
+          "duration": 52.76079999999999
+        },
+        {
+          "fullName": "preserves recoverable data when .next.patron writeFile fails with ENOSPC",
+          "status": "passed",
+          "duration": 42.5771
+        },
+        {
+          "fullName": "preserves recoverable data when .previous.patron writeFile fails with ENOSPC",
+          "status": "passed",
+          "duration": 67.33589999999998
+        },
+        {
+          "fullName": "preserves recoverable data when .intent.json writeFile fails with ENOSPC",
+          "status": "passed",
+          "duration": 51.358799999999974
+        },
+        {
+          "fullName": "preserves recoverable data when .confirmed.json writeFile fails with ENOSPC",
+          "status": "passed",
+          "duration": 65.61929999999995
+        },
+        {
+          "fullName": "preserves recoverable data when .tmp sync fails with EIO",
+          "status": "passed",
+          "duration": 37.85219999999998
+        },
+        {
+          "fullName": "preserves recoverable data when .next.patron sync fails with EIO",
+          "status": "passed",
+          "duration": 40.406000000000006
+        },
+        {
+          "fullName": "preserves recoverable data when .previous.patron sync fails with EIO",
+          "status": "passed",
+          "duration": 45.02099999999996
+        },
+        {
+          "fullName": "preserves recoverable data when .intent.json sync fails with EIO",
+          "status": "passed",
+          "duration": 53.99090000000001
+        },
+        {
+          "fullName": "preserves recoverable data when .confirmed.json sync fails with EIO",
+          "status": "passed",
+          "duration": 68.7453999999999
+        },
+        {
+          "fullName": "preserves recoverable data when .tmp open fails with EACCES",
+          "status": "passed",
+          "duration": 36.39300000000003
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/history-maintenance.spec.ts",
+      "status": "passed",
+      "startTime": 1794928078280,
+      "endTime": 1794928078703.7913,
+      "assertionResults": [
+        {
+          "fullName": "FR-264 reopens after partial cleanup and retires remaining records without reconstructing completed deletions",
+          "status": "passed",
+          "duration": 223.16939999999997
+        },
+        {
+          "fullName": "blocks cleanup on failed persistence, retries offline, and removes only durably expired records",
+          "status": "passed",
+          "duration": 140.55649999999997
+        },
+        {
+          "fullName": "retains unknown-age records and shares one in-flight cleanup without requiring connectivity",
+          "status": "passed",
+          "duration": 56.00649999999996
+        },
+        {
+          "fullName": "T061 retries related cleanup only after durable expiry, offline and without restarting retention",
+          "status": "passed",
+          "duration": 3.7912000000000035
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/history-storage.spec.ts",
+      "status": "passed",
+      "startTime": 1794928079490,
+      "endTime": 1794928079841.7373,
+      "assertionResults": [
+        {
+          "fullName": "recovers the exact committed backup, isolates unrecoverable damage and preserves other accounts",
+          "status": "passed",
+          "duration": 74.46719999999999
+        },
+        {
+          "fullName": "retries a partial write only from the exact retained in-memory snapshot",
+          "status": "passed",
+          "duration": 35.19720000000001
+        },
+        {
+          "fullName": "reopens durable deletion state and completes physical cleanup without time evidence or a session",
+          "status": "passed",
+          "duration": 184.5543
+        },
+        {
+          "fullName": "retains confirmed expiry across reopen, removes earlier snapshots and rejects resurrection",
+          "status": "passed",
+          "duration": 56.73720000000003
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/journal-compaction.spec.ts",
+      "status": "passed",
+      "startTime": 1794928091299,
+      "endTime": 1794928091448.583,
+      "assertionResults": [
+        {
+          "fullName": "physically removes old generations and keeps later deletion evidence above restored old copies",
+          "status": "passed",
+          "duration": 149.58300000000003
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/leave-editor.spec.ts",
+      "status": "passed",
+      "startTime": 1794928106853,
+      "endTime": 1794928106856.1958,
+      "assertionResults": [
+        {
+          "fullName": "honours save without conflating discard with save",
+          "status": "passed",
+          "duration": 1.594699999999989
+        },
+        {
+          "fullName": "honours discard without conflating discard with save",
+          "status": "passed",
+          "duration": 0.19710000000000605
+        },
+        {
+          "fullName": "honours cancel without conflating discard with save",
+          "status": "passed",
+          "duration": 0.15100000000001046
+        },
+        {
+          "fullName": "failed or cancelled save preserves the active document",
+          "status": "passed",
+          "duration": 0.29939999999999145
+        },
+        {
+          "fullName": "does not discard new edits made while an earlier snapshot saves",
+          "status": "passed",
+          "duration": 0.19580000000001974
+        },
+        {
+          "fullName": "serializes leave prompts and rejects the second request",
+          "status": "passed",
+          "duration": 0.18649999999999523
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/local-backup-store.spec.ts",
+      "status": "passed",
+      "startTime": 1794928096420,
+      "endTime": 1794928096444.8108,
+      "assertionResults": [
+        {
+          "fullName": "writes and verifies immutable local dump, roles and manifest without overwriting a prior backup",
+          "status": "passed",
+          "duration": 24.8108
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/local-document-size.spec.ts",
+      "status": "passed",
+      "startTime": 1794928059182,
+      "endTime": 1794928061527.7683,
+      "assertionResults": [
+        {
+          "fullName": "saves and opens a structurally valid local document larger than the publication quota",
+          "status": "passed",
+          "duration": 2345.7683
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/local-trash.spec.ts",
+      "status": "passed",
+      "startTime": 1794928092810,
+      "endTime": 1794928092860.496,
+      "assertionResults": [
+        {
+          "fullName": "cancels without changing the file or unsaved work",
+          "status": "passed",
+          "duration": 11.485299999999995
+        },
+        {
+          "fullName": "sends the explicitly selected save version and clears memory only on confirmation",
+          "status": "passed",
+          "duration": 11.0531
+        },
+        {
+          "fullName": "sends the explicitly selected discard version and clears memory only on confirmation",
+          "status": "passed",
+          "duration": 4.619299999999981
+        },
+        {
+          "fullName": "aborts after failed save and after edits made during saving",
+          "status": "passed",
+          "duration": 4.687099999999987
+        },
+        {
+          "fullName": "preserves unsaved memory on unavailable OS trash without permanent deletion",
+          "status": "passed",
+          "duration": 5.637199999999979
+        },
+        {
+          "fullName": "refuses changed files and false confirmations from the OS adapter",
+          "status": "passed",
+          "duration": 5.9798999999999864
+        },
+        {
+          "fullName": "requires clean-document confirmation and excludes concurrent deletion",
+          "status": "passed",
+          "duration": 3.9923
+        },
+        {
+          "fullName": "asks again if a previously clean document changes during confirmation",
+          "status": "passed",
+          "duration": 3.4961999999999875
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/native-process-failures.spec.ts",
+      "status": "passed",
+      "startTime": 1794928067416,
+      "endTime": 1794928068211.6006,
+      "assertionResults": [
+        {
+          "fullName": "recovers after actual child process exit at before replacement",
+          "status": "passed",
+          "duration": 170.65129999999996
+        },
+        {
+          "fullName": "recovers after actual child process exit at after replacement",
+          "status": "passed",
+          "duration": 144.7754
+        },
+        {
+          "fullName": "recovers after actual child process exit at flush replacement",
+          "status": "passed",
+          "duration": 147.09930000000003
+        },
+        {
+          "fullName": "preserves the old target when another process denies Windows replacement",
+          "status": "passed",
+          "duration": 333.60069999999996
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/operation-history.spec.ts",
+      "status": "passed",
+      "startTime": 1794928096017,
+      "endTime": 1794928096042.2065,
+      "assertionResults": [
+        {
+          "fullName": "FR-130 blocks project dependencies but permits independent patterns in the same project",
+          "status": "passed",
+          "duration": 8.74769999999998
+        },
+        {
+          "fullName": "FR-126/134 rejects evidence with mismatched operationId and retains its blocks",
+          "status": "passed",
+          "duration": 3.0678000000000054
+        },
+        {
+          "fullName": "FR-126/134 rejects evidence with mismatched operationType and retains its blocks",
+          "status": "passed",
+          "duration": 1.3452000000000055
+        },
+        {
+          "fullName": "FR-129/131 shares in-flight checks and preserves a pause made while the result is arriving",
+          "status": "passed",
+          "duration": 2.3031000000000006
+        },
+        {
+          "fullName": "FR-140/231 a query completing after account closure cannot revive or rewrite the closed record",
+          "status": "passed",
+          "duration": 1.8943000000000154
+        },
+        {
+          "fullName": "FR-130 project dependency conflicts are symmetric and do not confuse resource kinds",
+          "status": "passed",
+          "duration": 0.1880000000000166
+        },
+        {
+          "fullName": "FR-127/131/223 reopening preserves pause and rejects queries from another account or invalid session",
+          "status": "passed",
+          "duration": 1.926400000000001
+        },
+        {
+          "fullName": "FR-132/133/135 failed result lookup retains dependency blocks and manual checking",
+          "status": "passed",
+          "duration": 5.206600000000009
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/operation-journal.spec.ts",
+      "status": "passed",
+      "startTime": 1794928082746,
+      "endTime": 1794928083010.3816,
+      "assertionResults": [
+        {
+          "fullName": "persists transitions before exposing them, hides other accounts and preserves tombstones",
+          "status": "passed",
+          "duration": 134.9067
+        },
+        {
+          "fullName": "isolates a corrupt later generation instead of resurrecting an older pending state",
+          "status": "passed",
+          "duration": 71.15980000000002
+        },
+        {
+          "fullName": "rejects stale compare-and-append writers and does not acknowledge failed storage",
+          "status": "passed",
+          "duration": 58.38160000000005
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/operations-history-panel.spec.ts",
+      "status": "passed",
+      "startTime": 1794928094747,
+      "endTime": 1794928094804.281,
+      "assertionResults": [
+        {
+          "fullName": "hides entries and quantities after logout and keeps pending operations when cleaning resolved ones offline",
+          "status": "passed",
+          "duration": 15.942599999999999
+        },
+        {
+          "fullName": "migrates legacy identities once and never recreates a removed operation",
+          "status": "passed",
+          "duration": 5.435699999999997
+        },
+        {
+          "fullName": "cleaning uses the confirmed scope, excluding results that arrived while the dialog was open",
+          "status": "passed",
+          "duration": 4.140199999999993
+        },
+        {
+          "fullName": "records a confirmed in-flight result after logout, hides it and does not replay or extend it on login",
+          "status": "passed",
+          "duration": 15.888499999999993
+        },
+        {
+          "fullName": "expires at thirty days without extending first receipt and never removes unknown results",
+          "status": "passed",
+          "duration": 3.636400000000009
+        },
+        {
+          "fullName": "shares background polling, respects pauses and stops new queries when the application closes",
+          "status": "passed",
+          "duration": 12.28109999999998
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/operations-lifecycle.spec.ts",
+      "status": "passed",
+      "startTime": 1794928095626,
+      "endTime": 1794928095656.2185,
+      "assertionResults": [
+        {
+          "fullName": "authorizes independent publication only from confirmed account deletion, never from missing history",
+          "status": "passed",
+          "duration": 3.6008999999999958
+        },
+        {
+          "fullName": "shares publication query backoff and respects pauses and unavailable results",
+          "status": "passed",
+          "duration": 13.811199999999985
+        },
+        {
+          "fullName": "ignores late deletion replies after close and never treats pending or a different request as deletion",
+          "status": "passed",
+          "duration": 0.9989000000000203
+        },
+        {
+          "fullName": "counts an interrupted time query once, preserves waits on voluntary close and discards its response",
+          "status": "passed",
+          "duration": 2.174500000000023
+        },
+        {
+          "fullName": "isolates damaged history without exposing account identifiers or blocking healthy history",
+          "status": "passed",
+          "duration": 0.7511000000000081
+        },
+        {
+          "fullName": "journals authenticated mutations before transport without storing secrets and resolves the matching identity",
+          "status": "passed",
+          "duration": 2.754400000000004
+        },
+        {
+          "fullName": "removes cleared resolved entries from the hidden account snapshot without reconstructing the journal",
+          "status": "passed",
+          "duration": 3.4576999999999884
+        },
+        {
+          "fullName": "T061 admits independent scopes but refuses conflicting mutations before creating a journal entry",
+          "status": "passed",
+          "duration": 2.2184999999999775
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/pdf-artifact-store.spec.ts",
+      "status": "passed",
+      "startTime": 1794928093474,
+      "endTime": 1794928093541.0762,
+      "assertionResults": [
+        {
+          "fullName": "persists immutable origins across restart and selects only the same saved revision",
+          "status": "passed",
+          "duration": 32.09710000000001
+        },
+        {
+          "fullName": "rejects corrupted bytes and metadata instead of repairing or relinking them",
+          "status": "passed",
+          "duration": 17.4589
+        },
+        {
+          "fullName": "denies missing/failed verification and ignores uncommitted binaries",
+          "status": "passed",
+          "duration": 2.941500000000019
+        },
+        {
+          "fullName": "revalidates selection and rejects duplicates, path injection and changed measurements",
+          "status": "passed",
+          "duration": 15.0762
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/pdf-save.spec.ts",
+      "status": "passed",
+      "startTime": 1794928095423,
+      "endTime": 1794928095452.482,
+      "assertionResults": [
+        {
+          "fullName": "preserves the destination on cancellation and replacement failure, removing temporary bytes",
+          "status": "passed",
+          "duration": 29.481899999999996
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/publication-conflicts.spec.ts",
+      "status": "passed",
+      "startTime": 1794928093938,
+      "endTime": 1794928093984.1062,
+      "assertionResults": [
+        {
+          "fullName": "creates an independent unsaved identity without altering geometry, preparation or original binding",
+          "status": "passed",
+          "duration": 3.4196000000000026
+        },
+        {
+          "fullName": "never interprets missing authorization or network failure as deletion",
+          "status": "passed",
+          "duration": 0.28940000000000055
+        },
+        {
+          "fullName": "loads only after a verified independent backup and replaces binding from authorized metadata",
+          "status": "passed",
+          "duration": 13.648399999999981
+        },
+        {
+          "fullName": "cancel or failed backup never replaces current work",
+          "status": "passed",
+          "duration": 3.989699999999999
+        },
+        {
+          "fullName": "rejects wrong owner, corrupt download and stale local work",
+          "status": "passed",
+          "duration": 1.6944000000000017
+        },
+        {
+          "fullName": "retains a valid backup if the final atomic replacement detects newer edits",
+          "status": "passed",
+          "duration": 10.433900000000023
+        },
+        {
+          "fullName": "does not overlap conflict resolutions or download before confirmation",
+          "status": "passed",
+          "duration": 12.106099999999998
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/publication-prepare.spec.ts",
+      "status": "passed",
+      "startTime": 1794928090392,
+      "endTime": 1794928090521.4404,
+      "assertionResults": [
+        {
+          "fullName": "prepares only a saved capability and rejects cross-window, stale revision and external file changes",
+          "status": "passed",
+          "duration": 129.4404
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/publication-state.spec.ts",
+      "status": "passed",
+      "startTime": 1794928090028,
+      "endTime": 1794928090174.4268,
+      "assertionResults": [
+        {
+          "fullName": "recovers persisted correlation across instances and never falls back through damaged generations",
+          "status": "passed",
+          "duration": 47.836600000000004
+        },
+        {
+          "fullName": "T061 retires publication correlation and recovery copies without touching another account",
+          "status": "passed",
+          "duration": 98.42680000000001
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/recovery-ipc.spec.ts",
+      "status": "passed",
+      "startTime": 1794928093265,
+      "endTime": 1794928093310.7583,
+      "assertionResults": [
+        {
+          "fullName": "exposes opaque recovery capabilities, gates access and restores only as unsaved",
+          "status": "passed",
+          "duration": 45.75829999999999
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/recovery-scheduler.spec.ts",
+      "status": "passed",
+      "startTime": 1794928100850,
+      "endTime": 1794928100855.42,
+      "assertionResults": [
+        {
+          "fullName": "captures new documents immediately and at the 60 second target without overlapping writes",
+          "status": "passed",
+          "duration": 4.762500000000017
+        },
+        {
+          "fullName": "reports snapshot and storage failures and retries without saving or publishing",
+          "status": "passed",
+          "duration": 1.4198999999999842
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/recovery-store.spec.ts",
+      "status": "passed",
+      "startTime": 1794928090687,
+      "endTime": 1794928090820.3035,
+      "assertionResults": [
+        {
+          "fullName": "recovers new unsaved documents explicitly without writing an original",
+          "status": "passed",
+          "duration": 28.564099999999996
+        },
+        {
+          "fullName": "does not resurrect an earlier snapshot when later discard evidence is corrupt",
+          "status": "passed",
+          "duration": 18.754400000000004
+        },
+        {
+          "fullName": "does not discard a newer recovery through a stale confirmation",
+          "status": "passed",
+          "duration": 34.79109999999997
+        },
+        {
+          "fullName": "isolates a missing generation and refuses subsequent capture",
+          "status": "passed",
+          "duration": 21.280900000000003
+        },
+        {
+          "fullName": "isolates a duplicate generation and refuses subsequent capture",
+          "status": "passed",
+          "duration": 29.303399999999982
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/save-reconciliation.spec.ts",
+      "status": "passed",
+      "startTime": 1794928080623,
+      "endTime": 1794928080897.3318,
+      "assertionResults": [
+        {
+          "fullName": "reconciles before replacement after restart without writing the target",
+          "status": "passed",
+          "duration": 95.0925
+        },
+        {
+          "fullName": "reconciles after replacement after restart without writing the target",
+          "status": "passed",
+          "duration": 89.47159999999997
+        },
+        {
+          "fullName": "blocks replacement when a volume changes during save and retains an independent recovery through IPC",
+          "status": "passed",
+          "duration": 28.171100000000024
+        },
+        {
+          "fullName": "uses another verified candidate when the independent copy is damaged, and rejects a damaged confirmation",
+          "status": "passed",
+          "duration": 35.58539999999999
+        },
+        {
+          "fullName": "keeps independent candidates when the destination volume changes and never trusts old paths",
+          "status": "passed",
+          "duration": 25.331799999999987
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/suppression-compaction.spec.ts",
+      "status": "passed",
+      "startTime": 1794928089367,
+      "endTime": 1794928089514.2324,
+      "assertionResults": [
+        {
+          "fullName": "T087 removes only settled unneeded scopes, preserves anchors and unresolved evidence across reopening",
+          "status": "passed",
+          "duration": 70.79149999999998
+        },
+        {
+          "fullName": "T087 a positively cancelled admission never suppresses data and is compactable without a job",
+          "status": "passed",
+          "duration": 38.33450000000002
+        },
+        {
+          "fullName": "T087 a committed compaction resumes old-file cleanup without restoring removed identities",
+          "status": "passed",
+          "duration": 38.23230000000001
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/suppression-log.spec.ts",
+      "status": "passed",
+      "startTime": 1794928091613,
+      "endTime": 1794928091711.697,
+      "assertionResults": [
+        {
+          "fullName": "persists immutable intentions, confirms idempotently and includes confirmations after backup watermark",
+          "status": "passed",
+          "duration": 36.194199999999995
+        },
+        {
+          "fullName": "rejects metadata beyond opaque scope, orphan confirmation, changed identity and damaged evidence",
+          "status": "passed",
+          "duration": 17.3022
+        },
+        {
+          "fullName": "rejects modified and truncated evidence before authorizing an isolated restore",
+          "status": "passed",
+          "duration": 24.05619999999999
+        },
+        {
+          "fullName": "serializes concurrent appends and never exposes caller mutations as stored evidence",
+          "status": "passed",
+          "duration": 21.697000000000003
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/time-check.spec.ts",
+      "status": "passed",
+      "startTime": 1794928101490,
+      "endTime": 1794928101495.3274,
+      "assertionResults": [
+        {
+          "fullName": "admits a single query, never queues triggers, and requires open and online",
+          "status": "passed",
+          "duration": 1.7678999999999974
+        },
+        {
+          "fullName": "uses the exact failure sequence from the end of each attempt and saturates",
+          "status": "passed",
+          "duration": 0.9119999999999777
+        },
+        {
+          "fullName": "times out at 30 seconds and rejects expired or interrupted responses",
+          "status": "passed",
+          "duration": 0.30049999999999955
+        },
+        {
+          "fullName": "counts suspension/disconnection once, including suspended time in the wait",
+          "status": "passed",
+          "duration": 0.23339999999998895
+        },
+        {
+          "fullName": "preserves waits across reopening and replaces only uncertain elapsed time",
+          "status": "passed",
+          "duration": 0.2331000000000074
+        },
+        {
+          "fullName": "distinguishes voluntary close from a crash and counts a persisted interruption once",
+          "status": "passed",
+          "duration": 0.21199999999998909
+        },
+        {
+          "fullName": "stops query timeout before storage and resets retries only in the committed value",
+          "status": "passed",
+          "duration": 1.2160000000000082
+        },
+        {
+          "fullName": "uses saved evidence after reopen without declaring historical validity current",
+          "status": "passed",
+          "duration": 0.32739999999998304
+        },
+        {
+          "fullName": "rejects malformed evidence and invalid clocks without interpreting either as expiration",
+          "status": "passed",
+          "duration": 0.3199999999999932
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/time-cycle.spec.ts",
+      "status": "passed",
+      "startTime": 1794928097732,
+      "endTime": 1794928097766.6387,
+      "assertionResults": [
+        {
+          "fullName": "persists the query marker before transport and commits valid evidence before completion",
+          "status": "passed",
+          "duration": 4.025299999999987
+        },
+        {
+          "fullName": "persists a fresh full wait after uncertain suspension time without another failure",
+          "status": "passed",
+          "duration": 1.2630000000000052
+        },
+        {
+          "fullName": "keeps received evidence in memory and retries storage offline without another query",
+          "status": "passed",
+          "duration": 12.429699999999997
+        },
+        {
+          "fullName": "discards disconnected responses, persists one failure and respects the remaining wait",
+          "status": "passed",
+          "duration": 15.260199999999998
+        },
+        {
+          "fullName": "never queries when persisting the start marker fails",
+          "status": "passed",
+          "duration": 1.6385999999999967
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/time-maintenance.spec.ts",
+      "status": "passed",
+      "startTime": 1794928105184,
+      "endTime": 1794928105187.2961,
+      "assertionResults": [
+        {
+          "fullName": "retains evidence and query backoff after failed writes; retries storage alone and clears notice on success",
+          "status": "passed",
+          "duration": 2.9259999999999877
+        },
+        {
+          "fullName": "shares a single slow write and cannot expose completion before persistence confirms",
+          "status": "passed",
+          "duration": 0.2960999999999956
+        },
+        {
+          "fullName": "restarts only the current storage wait on uncertain clock continuity",
+          "status": "passed",
+          "duration": 0.28540000000000987
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/time-storage.spec.ts",
+      "status": "passed",
+      "startTime": 1794928093030,
+      "endTime": 1794928093095.0974,
+      "assertionResults": [
+        {
+          "fullName": "persists interrupted queries once and retains the recovered wait across reopenings",
+          "status": "passed",
+          "duration": 30.213599999999985
+        },
+        {
+          "fullName": "isolates corruption instead of falling back to an older querying state",
+          "status": "passed",
+          "duration": 22.689099999999996
+        },
+        {
+          "fullName": "rejects missing generations and never persists an unconfirmed in-memory result",
+          "status": "passed",
+          "duration": 12.097499999999997
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/trash-ipc.spec.ts",
+      "status": "passed",
+      "startTime": 1794928092585,
+      "endTime": 1794928092644.7102,
+      "assertionResults": [
+        {
+          "fullName": "requires a fresh main confirmation, preserves failed trash and consumes the approval",
+          "status": "passed",
+          "duration": 59.71030000000002
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/web-history-storage.spec.ts",
+      "status": "passed",
+      "startTime": 1794928072378,
+      "endTime": 1794928074906.1401,
+      "assertionResults": [
+        {
+          "fullName": "recovers exact IndexedDB backup across reopen and isolates damage without overwriting it",
+          "status": "passed",
+          "duration": 2528.1402000000003
+        }
+      ]
+    },
+    {
+      "name": "tests/recovery/web-journal-compaction.spec.ts",
+      "status": "passed",
+      "startTime": 1794928075354,
+      "endTime": 1794928076162.584,
+      "assertionResults": [
+        {
+          "fullName": "compacts IndexedDB atomically and rejects restoration or new writes above deletion evidence",
+          "status": "passed",
+          "duration": 808.5838999999999
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/account-ipc.spec.ts",
+      "status": "passed",
+      "startTime": 1794928107000,
+      "endTime": 1794928107002.9802,
+      "assertionResults": [
+        {
+          "fullName": "cuenta IPC exige confirmación y no admite rutas, credenciales ni operaciones de eliminación arbitrarias",
+          "status": "passed",
+          "duration": 2.9801999999999964
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/account-remote.spec.ts",
+      "status": "passed",
+      "startTime": 1794928098651,
+      "endTime": 1794928098671.892,
+      "assertionResults": [
+        {
+          "fullName": "solo acepta origen HTTPS configurado, rutas fijas y no sigue redirecciones ni cookies",
+          "status": "passed",
+          "duration": 20.8921
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/account-session.spec.ts",
+      "status": "passed",
+      "startTime": 1794928100670,
+      "endTime": 1794928100684.3247,
+      "assertionResults": [
+        {
+          "fullName": "una credencial inválida no impide comprobar otra solicitud ni revela las credenciales",
+          "status": "passed",
+          "duration": 5.4976999999999805
+        },
+        {
+          "fullName": "enlaza logout diferido y cerrar todas al journal antes del transporte, sin entregar credenciales",
+          "status": "passed",
+          "duration": 3.0089000000000112
+        },
+        {
+          "fullName": "solo login normal verificado habilita CAD y el estado público nunca contiene credenciales",
+          "status": "passed",
+          "duration": 0.5052000000000021
+        },
+        {
+          "fullName": "logout offline persiste solo capacidad de revocación, sobrevive reapertura y no revoca nuevo login",
+          "status": "passed",
+          "duration": 1.0655999999999892
+        },
+        {
+          "fullName": "invalidación o vencimiento bloquean remoto sin deshabilitar CAD ni tocar documentos",
+          "status": "passed",
+          "duration": 0.3517999999999972
+        },
+        {
+          "fullName": "cerrar todas exige conexión y confirmación, sin alterar sesión al rechazarse localmente",
+          "status": "passed",
+          "duration": 1.4784999999999968
+        },
+        {
+          "fullName": "SC-281: credencial de eliminación se conserva tras logout y se usa solo en su consulta",
+          "status": "passed",
+          "duration": 0.5201000000000136
+        },
+        {
+          "fullName": "fallo de persistencia no afirma login habilitado ni logout completado",
+          "status": "passed",
+          "duration": 0.5694000000000017
+        },
+        {
+          "fullName": "resultado desconocido de cerrar todas persiste y no se reenvía al reconectar",
+          "status": "passed",
+          "duration": 0.5555000000000234
+        },
+        {
+          "fullName": "sesión vencida no borra la habilitación guardada ni permite cerrar todas",
+          "status": "passed",
+          "duration": 0.4732999999999947
+        },
+        {
+          "fullName": "rechazo confirmado de cerrar todas no se anuncia como éxito ni resultado desconocido",
+          "status": "passed",
+          "duration": 0.3247000000000071
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/account-store.spec.ts",
+      "status": "passed",
+      "startTime": 1794928098123,
+      "endTime": 1794928098149.932,
+      "assertionResults": [
+        {
+          "fullName": "solo persiste bytes cifrados, conserva el último archivo si falla y no repara corrupción",
+          "status": "passed",
+          "duration": 24.87100000000001
+        },
+        {
+          "fullName": "no escribe una alternativa si safeStorage o los permisos fallan",
+          "status": "passed",
+          "duration": 1.9318999999999846
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/account-ui.spec.ts",
+      "status": "passed",
+      "startTime": 1794928101970,
+      "endTime": 1794928101978.7588,
+      "assertionResults": [
+        {
+          "fullName": "persiste el pendiente antes de enviar y no repite una mutación incierta",
+          "status": "passed",
+          "duration": 6.670400000000001
+        },
+        {
+          "fullName": "fallo de persistencia impide enviar y un rechazo confirmado libera el pendiente",
+          "status": "passed",
+          "duration": 1.2281999999999869
+        },
+        {
+          "fullName": "T061 uses the host journal for authenticated uncertainty without retaining a second legacy copy",
+          "status": "passed",
+          "duration": 0.7587000000000046
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/aws-backups.spec.ts",
+      "status": "passed",
+      "startTime": 1794928094502,
+      "endTime": 1794928094567.5984,
+      "assertionResults": [
+        {
+          "fullName": "S3 recovery evidence roundtrips and retires a verified remote backup",
+          "status": "passed",
+          "duration": 4.2494000000000085
+        },
+        {
+          "fullName": "S3 recovery evidence rejects a missing journal instead of assuming no prior deletions",
+          "status": "passed",
+          "duration": 3.2484000000000037
+        },
+        {
+          "fullName": "S3 recovery evidence persists suppression intent and confirmation across client restarts",
+          "status": "passed",
+          "duration": 40.94829999999999
+        },
+        {
+          "fullName": "S3 recovery evidence never acknowledges an append if remote CAS fails",
+          "status": "passed",
+          "duration": 17.5985
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/aws-transports.spec.ts",
+      "status": "passed",
+      "startTime": 1794928097088,
+      "endTime": 1794928097132.967,
+      "assertionResults": [
+        {
+          "fullName": "AWS transports writes privately and conditionally, then verifies actual readback",
+          "status": "passed",
+          "duration": 22.931100000000015
+        },
+        {
+          "fullName": "AWS transports accepts an identical retry but rejects immutable key reuse",
+          "status": "passed",
+          "duration": 17.231600000000014
+        },
+        {
+          "fullName": "AWS transports rejects corrupt streams before touching S3",
+          "status": "passed",
+          "duration": 3.085399999999993
+        },
+        {
+          "fullName": "AWS transports rejects untrusted paths before touching S3",
+          "status": "passed",
+          "duration": 0.8330000000000268
+        },
+        {
+          "fullName": "AWS transports sends SES from the configured identity and propagates delivery failure",
+          "status": "passed",
+          "duration": 0.9669999999999845
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/background-drain.spec.ts",
+      "status": "passed",
+      "startTime": 1794928107509,
+      "endTime": 1794928107512.3296,
+      "assertionResults": [
+        {
+          "fullName": "T091 drains publication and never admits a late run after destruction",
+          "status": "passed",
+          "duration": 2.3420999999999594
+        },
+        {
+          "fullName": "T091 drains resource-purge and never admits a late run after destruction",
+          "status": "passed",
+          "duration": 0.4689000000000192
+        },
+        {
+          "fullName": "T091 drains account-purge and never admits a late run after destruction",
+          "status": "passed",
+          "duration": 0.3296999999999457
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/blob-stream.spec.ts",
+      "status": "passed",
+      "startTime": 1794928077342,
+      "endTime": 1794928078092.6038,
+      "assertionResults": [
+        {
+          "fullName": "streams, verifies and retries the same immutable object without leaving temporary files",
+          "status": "passed",
+          "duration": 317.9836
+        },
+        {
+          "fullName": "does not publish or leak temporaries after short failure",
+          "status": "passed",
+          "duration": 2.3402999999999565
+        },
+        {
+          "fullName": "does not publish or leak temporaries after long failure",
+          "status": "passed",
+          "duration": 1.9044999999999845
+        },
+        {
+          "fullName": "does not publish or leak temporaries after hash failure",
+          "status": "passed",
+          "duration": 2.0615000000000236
+        },
+        {
+          "fullName": "does not publish or leak temporaries after source failure",
+          "status": "passed",
+          "duration": 2.0113999999999805
+        },
+        {
+          "fullName": "accepts a real stream of exactly 100000000 bytes using reusable small chunks",
+          "status": "passed",
+          "duration": 423.60380000000004
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/boundaries.spec.ts",
+      "status": "passed",
+      "startTime": 1794928096787,
+      "endTime": 1794928096822.3796,
+      "assertionResults": [
+        {
+          "fullName": "rollback y liberación usan la misma conexión, incluso con fallo de rollback",
+          "status": "passed",
+          "duration": 3.308099999999996
+        },
+        {
+          "fullName": "bloquea cuenta antes que sesión con parámetros",
+          "status": "passed",
+          "duration": 0.41740000000001487
+        },
+        {
+          "fullName": "reserva idempotente reutilizada no ejecuta efectos; contenido distinto se rechaza",
+          "status": "passed",
+          "duration": 2.660599999999988
+        },
+        {
+          "fullName": "capacidades IPC no se transfieren entre ventanas ni subframes",
+          "status": "passed",
+          "duration": 1.6156999999999755
+        },
+        {
+          "fullName": "blobs locales no permiten traversal ni sustitución de bytes existentes",
+          "status": "passed",
+          "duration": 25.316000000000003
+        },
+        {
+          "fullName": "el correo de ensayo se captura sin transferencia",
+          "status": "passed",
+          "duration": 0.6939000000000135
+        },
+        {
+          "fullName": "T087 records rollback only with positive pre-commit evidence: action",
+          "status": "passed",
+          "duration": 0.643999999999977
+        },
+        {
+          "fullName": "T087 records rollback only with positive pre-commit evidence: commit",
+          "status": "passed",
+          "duration": 0.34310000000002105
+        },
+        {
+          "fullName": "T087 records rollback only with positive pre-commit evidence: rollback",
+          "status": "passed",
+          "duration": 0.3796000000000106
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/browser-session.spec.ts",
+      "status": "passed",
+      "startTime": 1794928098292,
+      "endTime": 1794928098321.6582,
+      "assertionResults": [
+        {
+          "fullName": "prepara CSRF, usa solo mismo origen/no-store y conserva la rotación en memoria",
+          "status": "passed",
+          "duration": 26.739999999999995
+        },
+        {
+          "fullName": "no reenvía mutaciones rechazadas ni tras fallo de conexión",
+          "status": "passed",
+          "duration": 1.7173999999999978
+        },
+        {
+          "fullName": "rechaza URLs externas y no envía nada si falla la preparación CSRF",
+          "status": "passed",
+          "duration": 0.658299999999997
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/cad-drawing.spec.ts",
+      "status": "passed",
+      "startTime": 1794928101317,
+      "endTime": 1794928101329.5256,
+      "assertionResults": [
+        {
+          "fullName": "adds each point and its segment as one reversible command, including curves",
+          "status": "passed",
+          "duration": 8.810299999999998
+        },
+        {
+          "fullName": "curves a segment reversibly and snaps clicked points without modifying the view",
+          "status": "passed",
+          "duration": 1.6916999999999973
+        },
+        {
+          "fullName": "closes with the requested curved segment and restores the open contour on undo",
+          "status": "passed",
+          "duration": 1.5255999999999972
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/cad-tools.spec.ts",
+      "status": "passed",
+      "startTime": 1794928101161,
+      "endTime": 1794928101173.053,
+      "assertionResults": [
+        {
+          "fullName": "keeps presentation independent from millimetres and snaps only pointer input",
+          "status": "passed",
+          "duration": 8.026399999999981
+        },
+        {
+          "fullName": "supports actual editing commands and revision notifications",
+          "status": "passed",
+          "duration": 4.052899999999994
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/contour-validation.spec.ts",
+      "status": "passed",
+      "startTime": 1794928102443,
+      "endTime": 1794928102452.4407,
+      "assertionResults": [
+        {
+          "fullName": "recta constante: constancia considera la trayectoria completa",
+          "status": "passed",
+          "duration": 1.5797000000000025
+        },
+        {
+          "fullName": "cúbica constante: constancia considera la trayectoria completa",
+          "status": "passed",
+          "duration": 0.158299999999997
+        },
+        {
+          "fullName": "lazo cúbico no constante con extremos c…: constancia considera la trayectoria completa",
+          "status": "passed",
+          "duration": 0.13890000000000668
+        },
+        {
+          "fullName": "cúbica colineal que recorre y vuelve: constancia considera la trayectoria completa",
+          "status": "passed",
+          "duration": 0.13360000000000127
+        },
+        {
+          "fullName": "recta positiva menor que 0,1 mm: constancia considera la trayectoria completa",
+          "status": "passed",
+          "duration": 0.14740000000000464
+        },
+        {
+          "fullName": "recta positiva cuyo cuadrado subdesbord…: constancia considera la trayectoria completa",
+          "status": "passed",
+          "duration": 0.11109999999999332
+        },
+        {
+          "fullName": "triángulo colineal, área nula: integral exacta igual a resultado analítico independiente",
+          "status": "passed",
+          "duration": 0.9564000000000021
+        },
+        {
+          "fullName": "cuadrado positivo: integral exacta igual a resultado analítico independiente",
+          "status": "passed",
+          "duration": 0.28190000000000737
+        },
+        {
+          "fullName": "área positiva de cúbica cerrada: integral exacta igual a resultado analítico independiente",
+          "status": "passed",
+          "duration": 0.24629999999999086
+        },
+        {
+          "fullName": "área positiva pequeña: integral exacta igual a resultado analítico independiente",
+          "status": "passed",
+          "duration": 0.26130000000000564
+        },
+        {
+          "fullName": "área positiva inferior a Number.MIN_VAL…: integral exacta igual a resultado analítico independiente",
+          "status": "passed",
+          "duration": 0.1821999999999946
+        },
+        {
+          "fullName": "autocruce con área algebraica no nula: integral exacta igual a resultado analítico independiente",
+          "status": "passed",
+          "duration": 0.1752999999999929
+        },
+        {
+          "fullName": "contorno abierto conserva integral como indefinida para área y no repara IDs",
+          "status": "passed",
+          "duration": 1.2594999999999743
+        },
+        {
+          "fullName": "hueco interior y cierre se diagnostican por separado",
+          "status": "passed",
+          "duration": 0.2383999999999844
+        },
+        {
+          "fullName": "área cero y segmentos constantes se identifican sin eliminar el borrador",
+          "status": "passed",
+          "duration": 0.38930000000001996
+        },
+        {
+          "fullName": "vacío no es un contorno cerrado ni tiene una caja inventada",
+          "status": "passed",
+          "duration": 0.14449999999999363
+        },
+        {
+          "fullName": "caja cúbica incluye tiradores y se declara conservadora, no medida exacta",
+          "status": "passed",
+          "duration": 0.1501999999999839
+        },
+        {
+          "fullName": "cajas de trayectorias no incluyen puntos sueltos y no restan extremos hasta overflow",
+          "status": "passed",
+          "duration": 0.8385999999999854
+        },
+        {
+          "fullName": "resolver tiradores devuelve coordenadas independientes sin exponer puntos mutables",
+          "status": "passed",
+          "duration": 0.6390999999999849
+        },
+        {
+          "fullName": "entradas inválidas producen error, nunca área cero o caja válida",
+          "status": "passed",
+          "duration": 0.38980000000000814
+        },
+        {
+          "fullName": "traslación grande no cancela el área pequeña y la orientación conserva su signo",
+          "status": "passed",
+          "duration": 0.209699999999998
+        },
+        {
+          "fullName": "lazo cúbico de un segmento está cerrado pero no tiene longitud cero",
+          "status": "passed",
+          "duration": 0.44060000000001764
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/contracts.spec.ts",
+      "status": "passed",
+      "startTime": 1794928106104,
+      "endTime": 1794928106107.2058,
+      "assertionResults": [
+        {
+          "fullName": "el IPC no acepta rutas arbitrarias ni operaciones desconocidas",
+          "status": "passed",
+          "duration": 2.591700000000003
+        },
+        {
+          "fullName": "un error HTTP no expone mensajes de excepción internos",
+          "status": "passed",
+          "duration": 0.20580000000001064
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/deletion-check-batch.spec.ts",
+      "status": "passed",
+      "startTime": 1794928105649,
+      "endTime": 1794928105651.8638,
+      "assertionResults": [
+        {
+          "fullName": "rejects mismatched and malformed proofs without blocking the remaining requests",
+          "status": "passed",
+          "duration": 2.376400000000004
+        },
+        {
+          "fullName": "all failed checks remain unknown and full success keeps the existing array contract",
+          "status": "passed",
+          "duration": 0.8637999999999977
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/deletion-check-controller.spec.ts",
+      "status": "passed",
+      "startTime": 1794928102798,
+      "endTime": 1794928102814.0845,
+      "assertionResults": [
+        {
+          "fullName": "keeps independently confirmed rows while retrying a partially failed batch",
+          "status": "passed",
+          "duration": 9.701600000000013
+        },
+        {
+          "fullName": "discards a disconnected attempt and queries afresh after reconnecting",
+          "status": "passed",
+          "duration": 0.6495000000000175
+        },
+        {
+          "fullName": "shares automatic/manual checks without queuing duplicate requests",
+          "status": "passed",
+          "duration": 0.6522999999999968
+        },
+        {
+          "fullName": "retries failed queries with increasing waits and keeps manual checks available",
+          "status": "passed",
+          "duration": 1.564300000000003
+        },
+        {
+          "fullName": "does not query offline or deliver late results after stopping",
+          "status": "passed",
+          "duration": 0.5952000000000055
+        },
+        {
+          "fullName": "rejects malformed replies and cannot infer deleted status from errors",
+          "status": "passed",
+          "duration": 0.3599000000000103
+        },
+        {
+          "fullName": "shares the transport across account-screen remounts and releases it after failure",
+          "status": "passed",
+          "duration": 2.0844000000000165
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/deletion-watch.spec.ts",
+      "status": "passed",
+      "startTime": 1794928099972,
+      "endTime": 1794928099981.4834,
+      "assertionResults": [
+        {
+          "fullName": "keeps one root watch across account screen changes and reconnects outside the account screen",
+          "status": "passed",
+          "duration": 2.4468999999999994
+        },
+        {
+          "fullName": "discards page-hidden replies and checks again after restoring the application",
+          "status": "passed",
+          "duration": 7.483399999999989
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/desktop-operation-events.spec.ts",
+      "status": "passed",
+      "startTime": 1794928102635,
+      "endTime": 1794928102643.947,
+      "assertionResults": [
+        {
+          "fullName": "T061 wires desktop suspend/resume, network and renderer interruption and detaches after close",
+          "status": "passed",
+          "duration": 8.947000000000003
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/document-actions.spec.ts",
+      "status": "passed",
+      "startTime": 1794928088242,
+      "endTime": 1794928088517.695,
+      "assertionResults": [
+        {
+          "fullName": "never generates a PDF after cancel-confirmation and retains edits",
+          "status": "passed",
+          "duration": 7.627700000000004
+        },
+        {
+          "fullName": "never generates a PDF after cancel-save and retains edits",
+          "status": "passed",
+          "duration": 0.7857999999999947
+        },
+        {
+          "fullName": "never generates a PDF after fail-save and retains edits",
+          "status": "passed",
+          "duration": 0.597500000000025
+        },
+        {
+          "fullName": "locks editing and undo until a PDF job finishes, then restores editing",
+          "status": "passed",
+          "duration": 3.563999999999993
+        },
+        {
+          "fullName": "keeps editing locked after a failed status read and retries only the status",
+          "status": "passed",
+          "duration": 252.16840000000002
+        },
+        {
+          "fullName": "serializes background publication status with conflict inspection",
+          "status": "passed",
+          "duration": 0.7307999999999879
+        },
+        {
+          "fullName": "applies conflict candidates as unsaved working copies and never overwrites newer edits",
+          "status": "passed",
+          "duration": 3.366199999999992
+        },
+        {
+          "fullName": "requires saving and rejects a publication preparation overtaken by edits",
+          "status": "passed",
+          "duration": 0.8478999999999814
+        },
+        {
+          "fullName": "does not trash on cancelled/failed save and preserves late edits after trash",
+          "status": "passed",
+          "duration": 3.119899999999973
+        },
+        {
+          "fullName": "saves before creating a new document and never leaves on a cancelled or failed save",
+          "status": "passed",
+          "duration": 1.3326999999999884
+        },
+        {
+          "fullName": "preserves edits made during saving and cancels the pending close",
+          "status": "passed",
+          "duration": 0.5808000000000106
+        },
+        {
+          "fullName": "invalidates close approval if another edit arrives before unloading",
+          "status": "passed",
+          "duration": 0.3842999999999961
+        },
+        {
+          "fullName": "keeps the current document when opening is cancelled or invalid",
+          "status": "passed",
+          "duration": 0.6950999999999681
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/document-commands.spec.ts",
+      "status": "passed",
+      "startTime": 1794928099000,
+      "endTime": 1794928099022.7996,
+      "assertionResults": [
+        {
+          "fullName": "T035 reversible document commands restores exact snapshots, dirty state and abandons redo only on a new edit",
+          "status": "passed",
+          "duration": 5.388000000000005
+        },
+        {
+          "fullName": "T035 reversible document commands rolls back failures without damaging redo or exposing mutable snapshots",
+          "status": "passed",
+          "duration": 1.3874999999999886
+        },
+        {
+          "fullName": "T035 reversible document commands moves handles and grainline with the piece and undoes without inverse arithmetic",
+          "status": "passed",
+          "duration": 1.2081000000000017
+        },
+        {
+          "fullName": "T035 reversible document commands rotates and reflects about the chosen origin and axis",
+          "status": "passed",
+          "duration": 1.3208999999999946
+        },
+        {
+          "fullName": "T035 reversible document commands duplicates every identity independently and reuses them on redo",
+          "status": "passed",
+          "duration": 4.256299999999982
+        },
+        {
+          "fullName": "T035 reversible document commands requires destructive confirmation and preserves missing preparation references",
+          "status": "passed",
+          "duration": 1.0196000000000254
+        },
+        {
+          "fullName": "T035 reversible document commands closes explicitly and preserves invalid draft geometry",
+          "status": "passed",
+          "duration": 1.1400000000000148
+        },
+        {
+          "fullName": "T035 reversible document commands edits points, handles, margin, corners and marks reversibly without moving unrelated data",
+          "status": "passed",
+          "duration": 1.1991999999999905
+        },
+        {
+          "fullName": "T035 reversible document commands inserts points by subdivision and removes only incident segments after confirmation",
+          "status": "passed",
+          "duration": 0.961100000000016
+        },
+        {
+          "fullName": "T035 reversible document commands rejects nonfinite and overflowing transforms atomically",
+          "status": "passed",
+          "duration": 0.7864000000000146
+        },
+        {
+          "fullName": "T035 reversible document commands preserves curve shape when splitting a cubic, and replays the same IDs",
+          "status": "passed",
+          "duration": 0.6297999999999888
+        },
+        {
+          "fullName": "T035 reversible document commands creates geometry, edits handles and coordinates without implicit snapping",
+          "status": "passed",
+          "duration": 0.8025000000000091
+        },
+        {
+          "fullName": "T035 reversible document commands rejects ID collisions and stale entities without recording an action",
+          "status": "passed",
+          "duration": 0.5862999999999943
+        },
+        {
+          "fullName": "T035 reversible document commands merges coincident endpoints only on explicit close and can restore their identities",
+          "status": "passed",
+          "duration": 0.5524999999999807
+        },
+        {
+          "fullName": "T035 reversible document commands keeps edits made during save dirty and does not undo the saved revision header",
+          "status": "passed",
+          "duration": 0.33320000000000505
+        },
+        {
+          "fullName": "T035 reversible document commands preserves pairwise distances at arbitrary rotation and oblique reflection",
+          "status": "passed",
+          "duration": 0.7995999999999981
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/document.spec.ts",
+      "status": "passed",
+      "startTime": 1794928102289,
+      "endTime": 1794928102299.4563,
+      "assertionResults": [
+        {
+          "fullName": "estructura y revisión del documento admite un documento nuevo sin proyecto ni piezas",
+          "status": "passed",
+          "duration": 3.2279000000000053
+        },
+        {
+          "fullName": "estructura y revisión del documento rechaza duplicados incluso escritos como escapes JSON",
+          "status": "passed",
+          "duration": 1.0135999999999967
+        },
+        {
+          "fullName": "estructura y revisión del documento rechaza {\"x\":1e999}",
+          "status": "passed",
+          "duration": 0.3059000000000083
+        },
+        {
+          "fullName": "estructura y revisión del documento rechaza {\"x\":\"\\ud800\"}",
+          "status": "passed",
+          "duration": 0.17549999999999955
+        },
+        {
+          "fullName": "estructura y revisión del documento rechaza {\"x\":1,}",
+          "status": "passed",
+          "duration": 0.18180000000000973
+        },
+        {
+          "fullName": "estructura y revisión del documento rechaza {\"__proto__\":1,\"__proto__\":2}",
+          "status": "passed",
+          "duration": 0.16779999999999973
+        },
+        {
+          "fullName": "estructura y revisión del documento rechaza formatos futuros, campos arbitrarios y coordenadas no finitas",
+          "status": "passed",
+          "duration": 0.46110000000001605
+        },
+        {
+          "fullName": "estructura y revisión del documento JCS ordena claves, conserva arrays, no redondea ni normaliza texto",
+          "status": "passed",
+          "duration": 0.35840000000001737
+        },
+        {
+          "fullName": "estructura y revisión del documento la revisión excluye su hash y vinculación remota, pero incluye la identidad editable",
+          "status": "passed",
+          "duration": 1.285599999999988
+        },
+        {
+          "fullName": "estructura y revisión del documento no modifica la entrada al validarla",
+          "status": "passed",
+          "duration": 0.22639999999998395
+        },
+        {
+          "fullName": "conserva una pieza incompleta y de área nula como borrador",
+          "status": "passed",
+          "duration": 0.6893999999999778
+        },
+        {
+          "fullName": "rechaza IDs duplicados entre entidades del documento",
+          "status": "passed",
+          "duration": 0.2927999999999997
+        },
+        {
+          "fullName": "conserva referencias faltantes de preparación y las incluye en la revisión",
+          "status": "passed",
+          "duration": 0.4562999999999988
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/file-fingerprint.spec.ts",
+      "status": "passed",
+      "startTime": 1794928106549,
+      "endTime": 1794928106551.8645,
+      "assertionResults": [
+        {
+          "fullName": "distingue cambios de bytes aunque el JSON editable sea equivalente",
+          "status": "passed",
+          "duration": 2.864599999999996
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/geometry-bounds.spec.ts",
+      "status": "passed",
+      "startTime": 1794928076338,
+      "endTime": 1794928077193.9612,
+      "assertionResults": [
+        {
+          "fullName": "T034 certified dimensions and approximation reuses certification only for its captured snapshot",
+          "status": "passed",
+          "duration": 22.857400000000013
+        },
+        {
+          "fullName": "T034 certified dimensions and approximation checks actual cubic extrema, not the control box",
+          "status": "passed",
+          "duration": 1.5988000000000113
+        },
+        {
+          "fullName": "T034 certified dimensions and approximation keeps the inclusive limit and identifies each exceeded dimension",
+          "status": "passed",
+          "duration": 0.6025999999999954
+        },
+        {
+          "fullName": "T034 certified dimensions and approximation certifies mixed miter/round margins over their entire trajectories",
+          "status": "passed",
+          "duration": 63.77629999999999
+        },
+        {
+          "fullName": "T034 certified dimensions and approximation does not merge a positive subnormal-scale margin with its base",
+          "status": "passed",
+          "duration": 6.071699999999993
+        },
+        {
+          "fullName": "T034 certified dimensions and approximation bounds a positive cubic offset and allows a stricter requested tolerance",
+          "status": "passed",
+          "duration": 628.2536
+        },
+        {
+          "fullName": "T034 certified dimensions and approximation reports actual exceeded values including the margin",
+          "status": "passed",
+          "duration": 3.6905000000000427
+        },
+        {
+          "fullName": "T034 certified dimensions and approximation preserves clockwise traversal, exact shared vertices and deterministic output",
+          "status": "passed",
+          "duration": 99.30380000000002
+        },
+        {
+          "fullName": "T034 certified dimensions and approximation does not replace exact dimensions by rounded approximation dimensions at 5000 mm",
+          "status": "passed",
+          "duration": 2.9069999999999254
+        },
+        {
+          "fullName": "T034 certified dimensions and approximation keeps a tiny closed cubic at zero margin without a minimum feature size",
+          "status": "passed",
+          "duration": 7.071300000000065
+        },
+        {
+          "fullName": "T034 certified dimensions and approximation approximates coincident cubic margins and rejects invalid margins without mutation",
+          "status": "passed",
+          "duration": 18.96130000000005
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/geometry-derived-path.spec.ts",
+      "status": "passed",
+      "startTime": 1794928099169,
+      "endTime": 1794928099189.4587,
+      "assertionResults": [
+        {
+          "fullName": "exact derived line/arc topology detects a line tangent to an arc",
+          "status": "passed",
+          "duration": 3.488100000000003
+        },
+        {
+          "fullName": "exact derived line/arc topology distinguishes coincident arcs, ordinary endpoints and circle tangency",
+          "status": "passed",
+          "duration": 1.1059999999999945
+        },
+        {
+          "fullName": "exact derived line/arc topology blocks a nonadjacent crossing rather than accepting its algebraic area",
+          "status": "passed",
+          "duration": 1.5346999999999866
+        },
+        {
+          "fullName": "exact derived line/arc topology includes interior circular extrema in bounds",
+          "status": "passed",
+          "duration": 6.379899999999992
+        },
+        {
+          "fullName": "exact derived line/arc topology preserves older values across new algebraic extensions",
+          "status": "passed",
+          "duration": 3.3987999999999943
+        },
+        {
+          "fullName": "exact derived line/arc topology imports algebraic values without copying unrelated extensions",
+          "status": "passed",
+          "duration": 4.4587999999999965
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/geometry-intersections.spec.ts",
+      "status": "passed",
+      "startTime": 1794928093693,
+      "endTime": 1794928093772.9458,
+      "assertionResults": [
+        {
+          "fullName": "T032 exact intersections cruce interior recta/recta also with argument order reversed",
+          "status": "passed",
+          "duration": 5.453499999999991
+        },
+        {
+          "fullName": "T032 exact intersections contacto extremo/interior also with argument order reversed",
+          "status": "passed",
+          "duration": 1.2510000000000048
+        },
+        {
+          "fullName": "T032 exact intersections solape parcial also with argument order reversed",
+          "status": "passed",
+          "duration": 1.3011999999999944
+        },
+        {
+          "fullName": "T032 exact intersections solape invertido also with argument order reversed",
+          "status": "passed",
+          "duration": 1.4346000000000174
+        },
+        {
+          "fullName": "T032 exact intersections tangencia interior doble sin cambio de … also with argument order reversed",
+          "status": "passed",
+          "duration": 1.9107999999999947
+        },
+        {
+          "fullName": "T032 exact intersections dos cruces con la misma cúbica also with argument order reversed",
+          "status": "passed",
+          "duration": 5.9328000000000145
+        },
+        {
+          "fullName": "T032 exact intersections casi tangencia separada por 2^-40 also with argument order reversed",
+          "status": "passed",
+          "duration": 0.3754000000000133
+        },
+        {
+          "fullName": "T032 exact intersections tangencia cúbica/cúbica also with argument order reversed",
+          "status": "passed",
+          "duration": 1.6547000000000196
+        },
+        {
+          "fullName": "T032 exact intersections coincidencia curva completa also with argument order reversed",
+          "status": "passed",
+          "duration": 0.5955000000000155
+        },
+        {
+          "fullName": "T032 exact intersections coincidencia curva invertida also with argument order reversed",
+          "status": "passed",
+          "duration": 0.3954999999999984
+        },
+        {
+          "fullName": "T032 exact intersections isolates irrational crossing parameters",
+          "status": "passed",
+          "duration": 4.4813000000000045
+        },
+        {
+          "fullName": "T032 exact intersections eliminates a degree-nine cubic/cubic system and rejects complex roots",
+          "status": "passed",
+          "duration": 3.8959000000000117
+        },
+        {
+          "fullName": "T032 exact intersections solves a fibre with two distinct parameters at the same point",
+          "status": "passed",
+          "duration": 3.9452
+        },
+        {
+          "fullName": "T032 exact intersections handles irrational parameters on both curves without float matching",
+          "status": "passed",
+          "duration": 3.2538000000000125
+        },
+        {
+          "fullName": "T032 exact intersections preserves classifications under exact scale, translation and parameter reversal",
+          "status": "passed",
+          "duration": 24.3176
+        },
+        {
+          "fullName": "T032 exact intersections detects odd order tangential crossings",
+          "status": "passed",
+          "duration": 1.440400000000011
+        },
+        {
+          "fullName": "T032 exact intersections handles partial coincidence and adjacent portions without false overlap",
+          "status": "passed",
+          "duration": 0.9100999999999999
+        },
+        {
+          "fullName": "T032 exact intersections handles partial coincidence on a genuine cubic",
+          "status": "passed",
+          "duration": 0.8994000000000142
+        },
+        {
+          "fullName": "T032 exact intersections detects the off-diagonal contact of adjacent self-crossing portions",
+          "status": "passed",
+          "duration": 6.747800000000012
+        },
+        {
+          "fullName": "T032 exact intersections finds collinear retracing but not a stationary monotonic path",
+          "status": "passed",
+          "duration": 4.843500000000006
+        },
+        {
+          "fullName": "T032 exact intersections a constant trajectory is a point contact, never a positive overlap",
+          "status": "passed",
+          "duration": 0.4913999999999987
+        },
+        {
+          "fullName": "T032 exact intersections accepts the ordinary closure of a one-segment cubic loop",
+          "status": "passed",
+          "duration": 2.0942000000000007
+        },
+        {
+          "fullName": "T032 exact intersections does not mutate inputs or silently accept invalid controls",
+          "status": "passed",
+          "duration": 1.945699999999988
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/geometry-margin-validation.spec.ts",
+      "status": "passed",
+      "startTime": 1794928042848,
+      "endTime": 1794928050938.301,
+      "assertionResults": [
+        {
+          "fullName": "T033 concave trimming and global margin validation trims only the adjacent ends of an L shape",
+          "status": "passed",
+          "duration": 15.888900000000007
+        },
+        {
+          "fullName": "T033 concave trimming and global margin validation rejects a notch consumed by the margin without global repair",
+          "status": "passed",
+          "duration": 8.106600000000014
+        },
+        {
+          "fullName": "T033 concave trimming and global margin validation validates mixed exact circular arcs and straight pieces",
+          "status": "passed",
+          "duration": 4.1584
+        },
+        {
+          "fullName": "T033 concave trimming and global margin validation checks the 5000 mm inclusive bound including the seam",
+          "status": "passed",
+          "duration": 6.875400000000013
+        },
+        {
+          "fullName": "T033 concave trimming and global margin validation does not introduce a minimum for positive tiny pieces",
+          "status": "passed",
+          "duration": 3.781499999999994
+        },
+        {
+          "fullName": "T033 concave trimming and global margin validation preserves classification under traversal reversal",
+          "status": "passed",
+          "duration": 4.962600000000009
+        },
+        {
+          "fullName": "T033 concave trimming and global margin validation resolves a concave line/Bézier corner on the actual offset",
+          "status": "passed",
+          "duration": 506.9688
+        },
+        {
+          "fullName": "T033 concave trimming and global margin validation validates zero width on a cubic using its true extrema",
+          "status": "passed",
+          "duration": 2.0072000000000116
+        },
+        {
+          "fullName": "T033 concave trimming and global margin validation handles irrational normals and all rounded corners",
+          "status": "passed",
+          "duration": 11.230599999999981
+        },
+        {
+          "fullName": "T033 concave trimming and global margin validation trims a Bézier–Bézier concavity and certifies the complete positive margin",
+          "status": "passed",
+          "duration": 6916.2081
+        },
+        {
+          "fullName": "T033 concave trimming and global margin validation rejects the self-crossing positive offset of a simple parabola",
+          "status": "passed",
+          "duration": 604.9583000000002
+        },
+        {
+          "fullName": "T033 concave trimming and global margin validation reports a retained cusp offset discontinuity without inventing a connector",
+          "status": "passed",
+          "duration": 4.301099999998769
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/geometry-offset-intersections.spec.ts",
+      "status": "passed",
+      "startTime": 1794928099794,
+      "endTime": 1794928099811.6123,
+      "assertionResults": [
+        {
+          "fullName": "actual curved offset intersections finds a known exact contact without substituting the tangent support",
+          "status": "passed",
+          "duration": 13.494299999999981
+        },
+        {
+          "fullName": "actual curved offset intersections rejects roots introduced by squaring the signed normal equation",
+          "status": "passed",
+          "duration": 2.14670000000001
+        },
+        {
+          "fullName": "actual curved offset intersections extends the normal continuously through an even stationary zero",
+          "status": "passed",
+          "duration": 0.455600000000004
+        },
+        {
+          "fullName": "actual curved offset intersections splits a cusp and retains its different one-sided limits",
+          "status": "passed",
+          "duration": 0.7927999999999997
+        },
+        {
+          "fullName": "actual curved offset intersections retains a continuous stationary point without adding a minimum length",
+          "status": "passed",
+          "duration": 0.6123000000000047
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/geometry-offset-pairs.spec.ts",
+      "status": "passed",
+      "startTime": 1794928010607,
+      "endTime": 1794928029606.0818,
+      "assertionResults": [
+        {
+          "fullName": "offset pair polynomial elimination supports elimination beyond cubic Sylvester matrices",
+          "status": "passed",
+          "duration": 3.615000000000009
+        },
+        {
+          "fullName": "offset pair polynomial elimination finds an analytical intersection of two positive parabolic offsets",
+          "status": "passed",
+          "duration": 18769.7369
+        },
+        {
+          "fullName": "offset pair polynomial elimination retains the ordinary contact between adjacent parts of the same curve",
+          "status": "passed",
+          "duration": 109.38860000000204
+        },
+        {
+          "fullName": "offset pair polynomial elimination reports coincident positive offsets as geometry, not an empty hit set",
+          "status": "passed",
+          "duration": 116.08190000000104
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/geometry-offset.spec.ts",
+      "status": "passed",
+      "startTime": 1794928097926,
+      "endTime": 1794928097956.5696,
+      "assertionResults": [
+        {
+          "fullName": "T033 derived seam construction distinguishes absent and zero margins without changing the document",
+          "status": "passed",
+          "duration": 10.224399999999974
+        },
+        {
+          "fullName": "T033 derived seam construction constructs mixed corner joins and preserves requested settings",
+          "status": "passed",
+          "duration": 4.283500000000004
+        },
+        {
+          "fullName": "T033 derived seam construction offsets a straight support to the exterior in either traversal",
+          "status": "passed",
+          "duration": 1.6248999999999967
+        },
+        {
+          "fullName": "T033 derived seam construction keeps invalid base and requested width instead of repairing them",
+          "status": "passed",
+          "duration": 4.2745000000000175
+        },
+        {
+          "fullName": "T033 derived seam construction rejects negative and nonfinite widths",
+          "status": "passed",
+          "duration": 1.0837999999999965
+        },
+        {
+          "fullName": "T033 derived seam construction preserves an arbitrarily long miter without truncating it",
+          "status": "passed",
+          "duration": 3.418599999999998
+        },
+        {
+          "fullName": "T033 derived seam construction constructs round endpoints at exactly the requested radius",
+          "status": "passed",
+          "duration": 2.835899999999981
+        },
+        {
+          "fullName": "T033 derived seam construction classifies concavity independently of the requested convex join",
+          "status": "passed",
+          "duration": 0.28999999999999204
+        },
+        {
+          "fullName": "T033 derived seam construction uses one-sided tangents when endpoint speed is zero",
+          "status": "passed",
+          "duration": 0.740099999999984
+        },
+        {
+          "fullName": "T033 derived seam construction does not divide by speed zero at an interior stationary parameter",
+          "status": "passed",
+          "duration": 1.1356000000000108
+        },
+        {
+          "fullName": "T033 derived seam construction evaluates a curved offset with exact distance from its base point",
+          "status": "passed",
+          "duration": 0.569500000000005
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/geometry-polynomials.spec.ts",
+      "status": "passed",
+      "startTime": 1794928100316,
+      "endTime": 1794928100335.6936,
+      "assertionResults": [
+        {
+          "fullName": "exact polynomial roots isolates repeated roots and both endpoints",
+          "status": "passed",
+          "duration": 3.1425000000000125
+        },
+        {
+          "fullName": "exact polynomial roots orders irrational roots and computes in their field",
+          "status": "passed",
+          "duration": 1.6610999999999763
+        },
+        {
+          "fullName": "exact polynomial roots splits reducible defining polynomials for inversion",
+          "status": "passed",
+          "duration": 0.8848000000000127
+        },
+        {
+          "fullName": "exact polynomial roots keeps exact signs around close rational bounds and zero with interval acceleration",
+          "status": "passed",
+          "duration": 10.451599999999985
+        },
+        {
+          "fullName": "exact polynomial roots does not merge positive dyadic separations",
+          "status": "passed",
+          "duration": 1.0483000000000118
+        },
+        {
+          "fullName": "exact polynomial roots computes elimination without floating point",
+          "status": "passed",
+          "duration": 0.9547000000000025
+        },
+        {
+          "fullName": "exact polynomial roots rejects the zero polynomial instead of returning no roots",
+          "status": "passed",
+          "duration": 0.6770999999999958
+        },
+        {
+          "fullName": "exact polynomial roots counts open intervals correctly at repeated endpoint roots",
+          "status": "passed",
+          "duration": 0.6935000000000002
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/geometry-support.spec.ts",
+      "status": "passed",
+      "startTime": 1794928095176,
+      "endTime": 1794928095236.74,
+      "assertionResults": [
+        {
+          "fullName": "certifies a supporting tangent and finite endpoint contact for winding 1",
+          "status": "passed",
+          "duration": 13.166299999999978
+        },
+        {
+          "fullName": "certifies a supporting tangent and finite endpoint contact for winding -1",
+          "status": "passed",
+          "duration": 3.930800000000005
+        },
+        {
+          "fullName": "keeps actual interior intersections when the line is not a supporting tangent",
+          "status": "passed",
+          "duration": 10.258199999999988
+        },
+        {
+          "fullName": "does not lose quadratic endpoint roots or introduce out-of-range roots into a tower",
+          "status": "passed",
+          "duration": 30.928499999999985
+        },
+        {
+          "fullName": "retains an inward-offset cusp while certifying the outward curvature branch",
+          "status": "passed",
+          "duration": 1.730099999999993
+        },
+        {
+          "fullName": "orders rational values exactly without accepting values from another context",
+          "status": "passed",
+          "duration": 0.740099999999984
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/history-retry.spec.ts",
+      "status": "passed",
+      "startTime": 1794928103744,
+      "endTime": 1794928103751.2542,
+      "assertionResults": [
+        {
+          "fullName": "prepares a manual retry without sending it, then revalidates and creates a new operation linked to the failure",
+          "status": "passed",
+          "duration": 7.254199999999983
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/http-foundation.spec.ts",
+      "status": "passed",
+      "startTime": 1794928104710,
+      "endTime": 1794928104715.679,
+      "assertionResults": [
+        {
+          "fullName": "conserva estado HTTP 400 sin filtrar el mensaje interno",
+          "status": "passed",
+          "duration": 4.0154999999999745
+        },
+        {
+          "fullName": "conserva estado HTTP 404 sin filtrar el mensaje interno",
+          "status": "passed",
+          "duration": 0.47690000000000055
+        },
+        {
+          "fullName": "conserva estado HTTP 413 sin filtrar el mensaje interno",
+          "status": "passed",
+          "duration": 0.3835000000000264
+        },
+        {
+          "fullName": "sin resolver del servidor no hay autorización implícita",
+          "status": "passed",
+          "duration": 0.6789999999999736
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/installer-events.spec.ts",
+      "status": "passed",
+      "startTime": 1794928106398,
+      "endTime": 1794928106400.2324,
+      "assertionResults": [
+        {
+          "fullName": "only installer lifecycle events create or remove shortcuts, without opening user files",
+          "status": "passed",
+          "duration": 2.2323999999999984
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/ipc-router.spec.ts",
+      "status": "passed",
+      "startTime": 1794928105022,
+      "endTime": 1794928105025.8855,
+      "assertionResults": [
+        {
+          "fullName": "rechaza un requestId repetido sin repetir el efecto local",
+          "status": "passed",
+          "duration": 2.858399999999989
+        },
+        {
+          "fullName": "no llama handlers desde un subframe u origen ajeno ni revela errores internos",
+          "status": "passed",
+          "duration": 0.6435999999999922
+        },
+        {
+          "fullName": "bloquea handlers CAD antes de habilitación local y conserva acceso tras logout remoto",
+          "status": "passed",
+          "duration": 0.8856000000000108
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/manual-publication.spec.ts",
+      "status": "passed",
+      "startTime": 1794928100139,
+      "endTime": 1794928100154.6885,
+      "assertionResults": [
+        {
+          "fullName": "records identities before transport and binds only after the complete commit",
+          "status": "passed",
+          "duration": 5.98060000000001
+        },
+        {
+          "fullName": "never sends when pending scopes or local persistence prevent it",
+          "status": "passed",
+          "duration": 2.1055000000000064
+        },
+        {
+          "fullName": "does not commit a partial set or omit a failed upload",
+          "status": "passed",
+          "duration": 1.241899999999987
+        },
+        {
+          "fullName": "keeps a lost commit response uncertain without replay or binding",
+          "status": "passed",
+          "duration": 0.9706999999999937
+        },
+        {
+          "fullName": "does not bind pending or failed commits",
+          "status": "passed",
+          "duration": 1.1177000000000135
+        },
+        {
+          "fullName": "stops subsequent transfers after the session changes",
+          "status": "passed",
+          "duration": 0.7331000000000074
+        },
+        {
+          "fullName": "rejects mismatched confirmation identity without binding",
+          "status": "passed",
+          "duration": 0.7821999999999889
+        },
+        {
+          "fullName": "does not transmit a bundle mutated after preparation",
+          "status": "passed",
+          "duration": 0.7593999999999994
+        },
+        {
+          "fullName": "rejects binding metadata injected separately from the saved editable",
+          "status": "passed",
+          "duration": 0.6311000000000035
+        },
+        {
+          "fullName": "records a begin attempt before a lost response and performs no uploads or commit",
+          "status": "passed",
+          "duration": 0.7340999999999838
+        },
+        {
+          "fullName": "permits only one in-flight manual attempt",
+          "status": "passed",
+          "duration": 0.6884000000000015
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/mutation-admission.spec.ts",
+      "status": "passed",
+      "startTime": 1794928105496,
+      "endTime": 1794928105500.353,
+      "assertionResults": [
+        {
+          "fullName": "T061 uses the exact reviewed project children and rejects a changed scope",
+          "status": "passed",
+          "duration": 3.981500000000011
+        },
+        {
+          "fullName": "T061 does not classify storage failures or transport uncertainty as a safe preflight rejection",
+          "status": "passed",
+          "duration": 0.35300000000000864
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/numeric.spec.ts",
+      "status": "passed",
+      "startTime": 1794928096584,
+      "endTime": 1794928096628.3013,
+      "assertionResults": [
+        {
+          "fullName": "normaliza signo, reduce racionales y conserva subnormales exactos",
+          "status": "passed",
+          "duration": 2.199299999999994
+        },
+        {
+          "fullName": "operaciones racionales exactas sin convertir a double",
+          "status": "passed",
+          "duration": 0.5135999999999967
+        },
+        {
+          "fullName": "errores numéricos son explícitos, nunca cero o validez geométrica",
+          "status": "passed",
+          "duration": 0.508499999999998
+        },
+        {
+          "fullName": "vecinos IEEE incluyen cero, subnormales, máximos e infinitos",
+          "status": "passed",
+          "duration": 0.3725000000000023
+        },
+        {
+          "fullName": "intervalos encierran operaciones exactas aun con redondeo, overflow y underflow",
+          "status": "passed",
+          "duration": 1.4451999999999998
+        },
+        {
+          "fullName": "orientación exacta ante cancelación, subdesbordamiento y sobreflujo",
+          "status": "passed",
+          "duration": 0.49200000000000443
+        },
+        {
+          "fullName": "distancias comparan exactamente el umbral de 2 mm y nunca eliminan positivos",
+          "status": "passed",
+          "duration": 0.448599999999999
+        },
+        {
+          "fullName": "el filtro evita cálculo exacto solo con signo demostrado",
+          "status": "passed",
+          "duration": 0.6984999999999957
+        },
+        {
+          "fullName": "orientación coincide con determinantes enteros independientes y permutaciones",
+          "status": "passed",
+          "duration": 34.54760000000002
+        },
+        {
+          "fullName": "restas que desbordan no pierden la orientación y no mutan entradas",
+          "status": "passed",
+          "duration": 0.35120000000000573
+        },
+        {
+          "fullName": "intervalos no puntuales contienen todas las combinaciones de extremos",
+          "status": "passed",
+          "duration": 2.3012999999999977
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/password-concurrency.spec.ts",
+      "status": "passed",
+      "startTime": 1794928096198,
+      "endTime": 1794928096253.534,
+      "assertionResults": [
+        {
+          "fullName": "limita Argon2 en todo el proceso y libera la cola tras un fallo",
+          "status": "passed",
+          "duration": 55.53400000000002
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/password-index.spec.ts",
+      "status": "passed",
+      "startTime": 1794928079996,
+      "endTime": 1794928080419.79,
+      "assertionResults": [
+        {
+          "fullName": "busca entradas completas, conserva espacios/case/Unicode y ordena por hash",
+          "status": "passed",
+          "duration": 74.68619999999999
+        },
+        {
+          "fullName": "construcción reproducible y actualización fallida conserva la generación anterior",
+          "status": "passed",
+          "duration": 100.24510000000001
+        },
+        {
+          "fullName": "rechaza checksum/contador incorrecto, índice alterado y mantiene lectores de la generación antigua",
+          "status": "passed",
+          "duration": 92.50729999999999
+        },
+        {
+          "fullName": "detecta alteración después de abrir y nunca la trata como contraseña ausente",
+          "status": "passed",
+          "duration": 45.136799999999994
+        },
+        {
+          "fullName": "rechaza orden inválido aunque contador y checksum coincidan, y punteros fuera del índice",
+          "status": "passed",
+          "duration": 61.65560000000005
+        },
+        {
+          "fullName": "el proveedor inicia indisponible y conserva el último índice válido si falla la recarga",
+          "status": "passed",
+          "duration": 48.790099999999995
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/password-policy.spec.ts",
+      "status": "passed",
+      "startTime": 1794928091872,
+      "endTime": 1794928092056.7556,
+      "assertionResults": [
+        {
+          "fullName": "cuenta puntos de código: extremos 12/128 incluidos, sin truncar 129",
+          "status": "passed",
+          "duration": 3.912300000000016
+        },
+        {
+          "fullName": "usa categorías Unicode y no cuenta espacios como símbolos",
+          "status": "passed",
+          "duration": 0.2837000000000103
+        },
+        {
+          "fullName": "informa requisitos sin incluir la contraseña en el error",
+          "status": "passed",
+          "duration": 1.646599999999978
+        },
+        {
+          "fullName": "bloquea contraseñas del corpus y falla cerrado si el índice no está disponible",
+          "status": "passed",
+          "duration": 0.38700000000000045
+        },
+        {
+          "fullName": "Argon2id conserva espacios y Unicode, usa sales distintas y parámetros aprobados",
+          "status": "passed",
+          "duration": 112.81579999999997
+        },
+        {
+          "fullName": "iniciar sesión no consulta el corpus ni aplica de nuevo su política",
+          "status": "passed",
+          "duration": 65.75569999999999
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/pdf-artifact.spec.ts",
+      "status": "passed",
+      "startTime": 1794928103904,
+      "endTime": 1794928103908.8564,
+      "assertionResults": [
+        {
+          "fullName": "binds immutable metadata to the saved revision and preparation, without changing either",
+          "status": "passed",
+          "duration": 4.613599999999991
+        },
+        {
+          "fullName": "rejects unsaved content, unknown preparation, wrong scale and invalid dimensions",
+          "status": "passed",
+          "duration": 0.8564000000000078
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/pending-operations.spec.ts",
+      "status": "passed",
+      "startTime": 1794928097544,
+      "endTime": 1794928097574.2944,
+      "assertionResults": [
+        {
+          "fullName": "preserves pauses and dependency blocks after a permission error, and resolves only an identified result",
+          "status": "passed",
+          "duration": 11.5899
+        },
+        {
+          "fullName": "does not query offline, for another account, or while the same query is running",
+          "status": "passed",
+          "duration": 8.424999999999983
+        },
+        {
+          "fullName": "preserves an automatic pause across new coordinators while allowing a manual check",
+          "status": "passed",
+          "duration": 4.006799999999998
+        },
+        {
+          "fullName": "uses growing query waits, preserves the level on reopen and resets an uncertain wait conservatively",
+          "status": "passed",
+          "duration": 3.9726
+        },
+        {
+          "fullName": "rejects a result for another operation and never turns it into a retryable failure",
+          "status": "passed",
+          "duration": 1.231800000000021
+        },
+        {
+          "fullName": "records a confirmed failure without replaying the mutation or polling the resolved operation",
+          "status": "passed",
+          "duration": 1.294399999999996
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/piece-model.spec.ts",
+      "status": "passed",
+      "startTime": 1794928102132,
+      "endTime": 1794928102142.572,
+      "assertionResults": [
+        {
+          "fullName": "no confunde coordenadas coincidentes con cierre por identidad",
+          "status": "passed",
+          "duration": 2.196300000000008
+        },
+        {
+          "fullName": "valida referencias y finitud sin rechazar geometría de borrador",
+          "status": "passed",
+          "duration": 0.9365999999999985
+        },
+        {
+          "fullName": "rechaza coordenadas y tiradores no finitos NaN",
+          "status": "passed",
+          "duration": 0.3948000000000036
+        },
+        {
+          "fullName": "rechaza coordenadas y tiradores no finitos Infinity",
+          "status": "passed",
+          "duration": 0.259900000000016
+        },
+        {
+          "fullName": "rechaza coordenadas y tiradores no finitos -Infinity",
+          "status": "passed",
+          "duration": 0.5070999999999799
+        },
+        {
+          "fullName": "rechaza IDs repetidos entre puntos y segmentos y propiedades ajenas",
+          "status": "passed",
+          "duration": 0.681900000000013
+        },
+        {
+          "fullName": "crea borrador con datos incompletos y esquinadas, sin modificar ni compartir la entrada",
+          "status": "passed",
+          "duration": 1.5612999999999886
+        },
+        {
+          "fullName": "completa nuevas elecciones sin sustituir las existentes ni reparar al leer",
+          "status": "passed",
+          "duration": 0.48730000000000473
+        },
+        {
+          "fullName": "marca solo metadatos de producción incompletos; no bloquea el borrador",
+          "status": "passed",
+          "duration": 0.46760000000000446
+        },
+        {
+          "fullName": "rechaza margen negativo, uniones desconocidas y referencias ajenas sin modificar",
+          "status": "passed",
+          "duration": 0.617699999999985
+        },
+        {
+          "fullName": "ida y vuelta y revisión conservan geometría, datos y esquinas mixtas",
+          "status": "passed",
+          "duration": 2.5720000000000027
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/preparations.spec.ts",
+      "status": "passed",
+      "startTime": 1794928101810,
+      "endTime": 1794928101820.7507,
+      "assertionResults": [
+        {
+          "fullName": "requires a unique trimmed name and a nonempty selection, with the approved defaults",
+          "status": "passed",
+          "duration": 6.038600000000002
+        },
+        {
+          "fullName": "moves/rotates only print placement, duplicates all settings, and cancelling creates nothing",
+          "status": "passed",
+          "duration": 1.1836999999999875
+        },
+        {
+          "fullName": "preserves missing references and placement after editing or deleting a source piece",
+          "status": "passed",
+          "duration": 0.8629999999999995
+        },
+        {
+          "fullName": "confirms deletion and keeps undo only in the current document session",
+          "status": "passed",
+          "duration": 0.7356000000000051
+        },
+        {
+          "fullName": "persists all named preparations and does not silently add newly created pieces",
+          "status": "passed",
+          "duration": 1.7507999999999981
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/preview.spec.ts",
+      "status": "passed",
+      "startTime": 1794928083180,
+      "endTime": 1794928083593.5854,
+      "assertionResults": [
+        {
+          "fullName": "renders deterministic PNG bytes with pinned WASM/fonts and ignores transport revision",
+          "status": "passed",
+          "duration": 126.52210000000002
+        },
+        {
+          "fullName": "preserves the published profile bytes across the extended corpus",
+          "status": "passed",
+          "duration": 285.2483
+        },
+        {
+          "fullName": "escapes labels instead of loading active or external SVG content",
+          "status": "passed",
+          "duration": 0.5854000000000497
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/print-layout.spec.ts",
+      "status": "passed",
+      "startTime": 1794928098823,
+      "endTime": 1794928098849.1055,
+      "assertionResults": [
+        {
+          "fullName": "uses algebraic extents at page boundaries even when doubles cannot distinguish them",
+          "status": "passed",
+          "duration": 3.3478999999999814
+        },
+        {
+          "fullName": "tiles A4 at 1:1 with exactly 10 mm overlap and counts both auxiliary pages",
+          "status": "passed",
+          "duration": 1.261199999999974
+        },
+        {
+          "fullName": "accepts exactly 250 pages including auxiliary material and rejects the next tile",
+          "status": "passed",
+          "duration": 0.37180000000000746
+        },
+        {
+          "fullName": "uses Letter dimensions and rejects margins that cannot fit the calibration square",
+          "status": "passed",
+          "duration": 0.4718000000000018
+        },
+        {
+          "fullName": "extends large-format paper with a separate lower auxiliary strip without rescaling pieces",
+          "status": "passed",
+          "duration": 0.42029999999999745
+        },
+        {
+          "fullName": "covers the entire composition in row order with viable A4 margins",
+          "status": "passed",
+          "duration": 11.762
+        },
+        {
+          "fullName": "covers the entire composition in row order with viable Letter margins",
+          "status": "passed",
+          "duration": 6.803699999999992
+        },
+        {
+          "fullName": "accepts the calibration boundary and keeps auxiliary content outside even tiny pieces",
+          "status": "passed",
+          "duration": 0.31759999999999877
+        },
+        {
+          "fullName": "rejects invalid dimensions NaN before allocating pages",
+          "status": "passed",
+          "duration": 0.2697000000000003
+        },
+        {
+          "fullName": "rejects invalid dimensions Infinity before allocating pages",
+          "status": "passed",
+          "duration": 0.20539999999999736
+        },
+        {
+          "fullName": "rejects invalid dimensions -Infinity before allocating pages",
+          "status": "passed",
+          "duration": 0.12049999999999272
+        },
+        {
+          "fullName": "rejects invalid dimensions -1 before allocating pages",
+          "status": "passed",
+          "duration": 0.1103999999999985
+        },
+        {
+          "fullName": "rejects invalid dimensions 0 before allocating pages",
+          "status": "passed",
+          "duration": 0.10539999999997463
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/print-messages.spec.ts",
+      "status": "passed",
+      "startTime": 1794928106693,
+      "endTime": 1794928106695.1133,
+      "assertionResults": [
+        {
+          "fullName": "explains distinct missing fields instead of repeating metadata codes",
+          "status": "passed",
+          "duration": 2.1132999999999953
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/publication-boundary.spec.ts",
+      "status": "passed",
+      "startTime": 1794928103592,
+      "endTime": 1794928103598.9539,
+      "assertionResults": [
+        {
+          "fullName": "allows only typed publication actions and requires explicit abandonment confirmation",
+          "status": "passed",
+          "duration": 3.5226000000000113
+        },
+        {
+          "fullName": "updates transport binding without changing editable revision, dirty state or undo geometry",
+          "status": "passed",
+          "duration": 2.8592999999999904
+        },
+        {
+          "fullName": "accepts PDF artifact identities but never renderer paths, duplicate selections or fabricated metadata",
+          "status": "passed",
+          "duration": 0.9538000000000011
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/publication-bundle.spec.ts",
+      "status": "passed",
+      "startTime": 1794928088993,
+      "endTime": 1794928089203.038,
+      "assertionResults": [
+        {
+          "fullName": "adds only selected, reverified artifacts from the saved revision to a new manifest",
+          "status": "passed",
+          "duration": 161.77320000000003
+        },
+        {
+          "fullName": "uses exact saved editable bytes, generates preview and matches the server manifest digest",
+          "status": "passed",
+          "duration": 22.81479999999999
+        },
+        {
+          "fullName": "rejects a false saved revision and malformed UTF-8 without repairing them",
+          "status": "passed",
+          "duration": 2.8402999999999565
+        },
+        {
+          "fullName": "keeps the original binding as metadata without changing the editable revision",
+          "status": "passed",
+          "duration": 22.03819999999996
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/recovery-active.spec.ts",
+      "status": "passed",
+      "startTime": 1794928101007,
+      "endTime": 1794928101018.0256,
+      "assertionResults": [
+        {
+          "fullName": "captures the current document across edits and stops on disposal",
+          "status": "passed",
+          "duration": 10.783899999999988
+        },
+        {
+          "fullName": "recovers as unsaved and rejects a late replacement or dirty document",
+          "status": "passed",
+          "duration": 1.0255999999999972
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/resource-actions.spec.ts",
+      "status": "passed",
+      "startTime": 1794928104866,
+      "endTime": 1794928104871.8167,
+      "assertionResults": [
+        {
+          "fullName": "binds resource routes to UUIDs and strips route parameters from the HTTP body",
+          "status": "passed",
+          "duration": 3.389700000000005
+        },
+        {
+          "fullName": "rejects caller paths, account purges, missing acknowledgement and arbitrary query fields",
+          "status": "passed",
+          "duration": 1.6596000000000117
+        },
+        {
+          "fullName": "encodes pagination and exposes restoration scope only through the fixed query route",
+          "status": "passed",
+          "duration": 0.8166999999999973
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/runtime-config.spec.ts",
+      "status": "passed",
+      "startTime": 1794928105798,
+      "endTime": 1794928105802.04,
+      "assertionResults": [
+        {
+          "fullName": "pilot runtime configuration accepts persistent operator supplied keys and Ohio",
+          "status": "passed",
+          "duration": 2.277399999999986
+        },
+        {
+          "fullName": "pilot runtime configuration refuses placeholder secrets, HTTP, other regions and invalid ports",
+          "status": "passed",
+          "duration": 1.0400999999999954
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/shortcut-migration.spec.ts",
+      "status": "passed",
+      "startTime": 1794928106251,
+      "endTime": 1794928106254.3306,
+      "assertionResults": [
+        {
+          "fullName": "migrates matching legacy links only after replacement exists: --squirrel-install",
+          "status": "passed",
+          "duration": 2.082099999999997
+        },
+        {
+          "fullName": "migrates matching legacy links only after replacement exists: --squirrel-updated",
+          "status": "passed",
+          "duration": 0.24719999999999231
+        },
+        {
+          "fullName": "preserves unrelated Electron shortcuts and directories",
+          "status": "passed",
+          "duration": 0.2412999999999954
+        },
+        {
+          "fullName": "does not remove anything without a valid replacement or outside install/update",
+          "status": "passed",
+          "duration": 0.3305000000000007
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/time-evidence.spec.ts",
+      "status": "passed",
+      "startTime": 1794928105949,
+      "endTime": 1794928105951.0159,
+      "assertionResults": [
+        {
+          "fullName": "uses the entire uncertainty interval and monotonic continuity instead of the civil clock",
+          "status": "passed",
+          "duration": 1.8525999999999954
+        },
+        {
+          "fullName": "rejects stale, timed out, reversed or inconsistent evidence",
+          "status": "passed",
+          "duration": 1.015800000000013
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/verified-download.spec.ts",
+      "status": "passed",
+      "startTime": 1794928094963,
+      "endTime": 1794928095019.0215,
+      "assertionResults": [
+        {
+          "fullName": "verifies a bounded stream and serves only the immutable snapshot, including ranges",
+          "status": "passed",
+          "duration": 23.446500000000015
+        },
+        {
+          "fullName": "rejects short content and cleans its private temporary",
+          "status": "passed",
+          "duration": 4.211399999999998
+        },
+        {
+          "fullName": "rejects long content and cleans its private temporary",
+          "status": "passed",
+          "duration": 2.992199999999997
+        },
+        {
+          "fullName": "rejects hash content and cleans its private temporary",
+          "status": "passed",
+          "duration": 2.561099999999982
+        },
+        {
+          "fullName": "rejects source content and cleans its private temporary",
+          "status": "passed",
+          "duration": 2.9472000000000094
+        },
+        {
+          "fullName": "rejects abort content and cleans its private temporary",
+          "status": "passed",
+          "duration": 3.146500000000003
+        },
+        {
+          "fullName": "releases the snapshot after a consumer interrupts a started transfer",
+          "status": "passed",
+          "duration": 17.0214
+        }
+      ]
+    },
+    {
+      "name": "tests/unit/windows-paths.spec.ts",
+      "status": "passed",
+      "startTime": 1794928105341,
+      "endTime": 1794928105345.4895,
+      "assertionResults": [
+        {
+          "fullName": "rejects ambiguous or unsupported path relative.patron",
+          "status": "passed",
+          "duration": 2.5401999999999987
+        },
+        {
+          "fullName": "rejects ambiguous or unsupported path C:relative.patron",
+          "status": "passed",
+          "duration": 0.20889999999999986
+        },
+        {
+          "fullName": "rejects ambiguous or unsupported path \\\\server\\share\\a.patron",
+          "status": "passed",
+          "duration": 0.2080999999999733
+        },
+        {
+          "fullName": "rejects ambiguous or unsupported path \\\\?\\C:\\a.patron",
+          "status": "passed",
+          "duration": 0.16160000000002128
+        },
+        {
+          "fullName": "rejects ambiguous or unsupported path C:\\a.patron:stream",
+          "status": "passed",
+          "duration": 0.20179999999999154
+        },
+        {
+          "fullName": "rejects ambiguous or unsupported path C:\\NUL.patron",
+          "status": "passed",
+          "duration": 0.24040000000002237
+        },
+        {
+          "fullName": "rejects ambiguous or unsupported path C:\\folder.\\a.patron",
+          "status": "passed",
+          "duration": 0.18780000000000996
+        },
+        {
+          "fullName": "rejects ambiguous or unsupported path C:\\..\\a.patron",
+          "status": "passed",
+          "duration": 0.14820000000000277
+        },
+        {
+          "fullName": "rejects ambiguous or unsupported path C:\\a\u0000.patron",
+          "status": "passed",
+          "duration": 0.19419999999999504
+        },
+        {
+          "fullName": "rejects sync descendants but not a folder with a similar name",
+          "status": "passed",
+          "duration": 0.4894000000000176
+        }
+      ]
+    }
+  ]
+}
