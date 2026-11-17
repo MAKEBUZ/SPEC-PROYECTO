@@ -60,14 +60,77 @@ export function evaluateDerivedOffset(f:AlgebraicContext,curve:OffsetCurve,t:Exa
   return {x:f.add(evaluate(lift(f,p.x),t,f),f.div(f.mul(d,vy),speed)),y:f.sub(evaluate(lift(f,p.y),t,f),f.div(f.mul(d,vx),speed))};
 }
 export interface CurveHit {point:ExactPoint;curveParameter:Exact;otherParameter:Exact|null}
-function signedSpeed(f:AlgebraicContext,h:Exact,k:Exact,speed2:Exact):Exact|null {
+const hitBounds=new WeakMap<CurveHit,Bound>();
+type Bound={lo:Rational;hi:Rational};
+const bound=(v:Rational):Bound=>({lo:v,hi:v});
+const badd=(a:Bound,b:Bound):Bound=>({lo:Q.add(a.lo,b.lo),hi:Q.add(a.hi,b.hi)});
+const bsub=(a:Bound,b:Bound):Bound=>({lo:Q.sub(a.lo,b.hi),hi:Q.sub(a.hi,b.lo)});
+const bmul=(a:Bound,b:Bound):Bound=>{const v=[Q.mul(a.lo,b.lo),Q.mul(a.lo,b.hi),Q.mul(a.hi,b.lo),Q.mul(a.hi,b.hi)];return {lo:v.reduce((a,b)=>Q.sign(Q.sub(a,b))<0?a:b),hi:v.reduce((a,b)=>Q.sign(Q.sub(a,b))>0?a:b)};};
+const bdiv=(a:Bound,b:Bound):Bound|null=>Q.sign(b.lo)>0||Q.sign(b.hi)<0?bmul(a,{lo:Q.div(Q.one,b.hi),hi:Q.div(Q.one,b.lo)}):null;
+function sqrtBound(v:Rational):Bound{
+  if(Q.sign(v)<0)throw new OffsetCalculationError('NEGATIVE_RADICAND');if(!Q.sign(v))return bound(Q.zero);
+  const bits=128+Math.max(0,Math.ceil((v.d.toString(2).length-v.n.toString(2).length)/2)),scale=1n<<BigInt(bits),n=v.n*scale*scale/v.d;
+  let a=1n<<BigInt(Math.ceil(n.toString(2).length/2));for(;;){const b=(a+n/a)/2n;if(b>=a)break;a=b;}
+  return {lo:q(a,scale),hi:q(a+1n,scale)};
+}
+/** Exclude only a provably out-of-segment point before expensive inversion
+ * in its algebraic field. Uncertain endpoints retain the exact fallback. */
+function linePointBounds(g:AlgebraicContext,t:Exact,curve:OffsetCurve,sign:number,f:AlgebraicContext,line:DerivedLine,v:ExactPoint,v2:Exact):{x:Bound;y:Bound;u:Bound}|null{
+  const {p,x,y}=tangentPolynomials(curve),value=(a:Rational[])=>g.enclosingInterval(evaluate(lift(g,a),t,g));
+  const dx=value(x),dy=value(y),s=value(polynomialAdd(polynomialMultiply(x,x,Q),polynomialMultiply(y,y,Q),Q));
+  if(Q.sign(s.lo)<=0)return null;
+  const speed={lo:sqrtBound(s.lo).lo,hi:sqrtBound(s.hi).hi},nx=bdiv(dy,speed),ny=bdiv(dx,speed);if(!nx||!ny)return null;
+  const d=bound(fromNumber(curve.width*curve.winding*sign));
+  const px=badd(value(p.x),bmul(d,nx)),py=bsub(value(p.y),bmul(d,ny));
+  const dot=badd(bmul(bsub(px,f.enclosingInterval(line.start.x)),f.enclosingInterval(v.x)),bmul(bsub(py,f.enclosingInterval(line.start.y)),f.enclosingInterval(v.y)));
+  const u=bdiv(dot,f.enclosingInterval(v2));return u?{x:px,y:py,u}:null;
+}
+/** Numerical seeds only locate possible crossings. Acceptance requires exact
+ * rational interval bounds and the two-dimensional intermediate value theorem
+ * on disjoint parameter intervals entirely inside the retained trajectory. */
+export function certifyOffsetSelfCrossing(curve:OffsetCurve,lower:Rational=Q.zero,upper:Rational=Q.one):boolean{
+  const p=curvePolynomials(curve.controls),dx=derivative(p.x,Q),dy=derivative(p.y,Q),ddx=derivative(dx,Q),ddy=derivative(dy,Q),width=bound(fromNumber(curve.width*curve.winding));
+  const poly=(a:readonly Rational[],t:Bound)=>a.reduceRight((v,c)=>badd(bmul(v,t),bound(c)),bound(Q.zero));
+  const data=(t:Bound)=>{const x=poly(dx,t),y=poly(dy,t),s=badd(bmul(x,x),bmul(y,y));if(Q.sign(s.lo)<=0)return null;const speed={lo:sqrtBound(s.lo).lo,hi:sqrtBound(s.hi).hi};return {x,y,s,speed};};
+  const point=(t:Rational)=>{const cell=bound(t),d=data(cell);if(!d)return null;return {x:badd(poly(p.x,cell),bmul(width,bdiv(d.y,d.speed)!)),y:bsub(poly(p.y,cell),bmul(width,bdiv(d.x,d.speed)!))};};
+  const projectedDerivative=(cell:Bound,a:Rational,b:Rational)=>{const d=data(cell);if(!d)return null;const k=bsub(bmul(d.x,poly(ddy,cell)),bmul(d.y,poly(ddx,cell))),fraction=bdiv(bmul(width,k),bmul(d.s,d.speed));if(!fraction)return null;return bmul(badd(bmul(bound(a),d.x),bmul(bound(b),d.y)),badd(bound(Q.one),fraction));};
+  const number=(v:Rational)=>Number(v.n)/Number(v.d),lo=number(lower),hi=number(upper);if(!Number.isFinite(lo)||!Number.isFinite(hi)||lo>=hi)return false;
+  const at=(t:number)=>{const evaln=(a:readonly Rational[])=>a.reduceRight((v,c)=>v*t+number(c),0),x=evaln(dx),y=evaln(dy),s=x*x+y*y,speed=Math.sqrt(s),w=curve.width*curve.winding,factor=1+w*(x*evaln(ddy)-y*evaln(ddx))/(s*speed);return {x:evaln(p.x)+w*y/speed,y:evaln(p.y)-w*x/speed,dx:x*factor,dy:y*factor};};
+  const samples=Array.from({length:129},(_,i)=>at(lo+(hi-lo)*i/128)),cross=(a:{x:number;y:number},b:{x:number;y:number})=>a.x*b.y-a.y*b.x;
+  const minus=(a:{x:number;y:number},b:{x:number;y:number})=>({x:a.x-b.x,y:a.y-b.y});
+  for(let i=0;i<128;i++)for(let j=i+2;j<128;j++){
+    const first=samples[i]!,second=samples[j]!,v=minus(samples[i+1]!,first),w=minus(samples[j+1]!,second),delta=minus(second,first),den=cross(v,w),r=cross(delta,w)/den,s=cross(delta,v)/den;
+    if(!(r>0&&r<1&&s>0&&s<1))continue;
+    let t=lo+(hi-lo)*(i+r)/128,u=lo+(hi-lo)*(j+s)/128;
+    for(let k=0;k<12;k++){const a=at(t),b=at(u),fx=a.x-b.x,fy=a.y-b.y,det=-a.dx*b.dy+a.dy*b.dx;if(!Number.isFinite(det)||!det)break;t+=(b.dy*fx-b.dx*fy)/det;u+=(a.dy*fx-a.dx*fy)/det;}
+    if(!(t>lo&&u<hi&&t<u))continue;
+    const a=at(t),b=at(u),det=-a.dx*b.dy+a.dy*b.dx,m=[-b.dy/det,b.dx/det,-a.dy/det,a.dx/det];if(!m.every(Number.isFinite))continue;
+    const matrix=m.map(fromNumber);
+    if(!Q.sign(Q.sub(Q.mul(matrix[0]!,matrix[3]!),Q.mul(matrix[1]!,matrix[2]!))))continue;
+    const tc=fromNumber(t),uc=fromNumber(u),pa=point(tc),pb=point(uc);if(!pa||!pb)continue;
+    const fx=bsub(pa.x,pb.x),fy=bsub(pa.y,pb.y),center=[badd(bmul(bound(matrix[0]!),fx),bmul(bound(matrix[1]!),fy)),badd(bmul(bound(matrix[2]!),fx),bmul(bound(matrix[3]!),fy))];
+    for(const radius of [1e-3,1e-4,1e-5,1e-6,1e-7]){
+      const h=fromNumber(radius),T={lo:Q.sub(tc,h),hi:Q.add(tc,h)},U={lo:Q.sub(uc,h),hi:Q.add(uc,h)};
+      if(Q.sign(Q.sub(T.lo,lower))<=0||Q.sign(Q.sub(upper,U.hi))<=0||Q.sign(Q.sub(U.lo,T.hi))<=0)continue;
+      const interval={lo:Q.sub(Q.zero,h),hi:h};let proven=true;
+      for(let axis=0;axis<2;axis++){
+        const dt=projectedDerivative(T,matrix[axis*2]!,matrix[axis*2+1]!),du=projectedDerivative(U,matrix[axis*2]!,matrix[axis*2+1]!);if(!dt||!du){proven=false;break;}
+        const faces=[-1,1].map(sign=>bsub(badd(center[axis]!,bmul(dt,axis===0?bound(Q.mul(q(BigInt(sign)),h)):interval)),bmul(du,axis===1?bound(Q.mul(q(BigInt(sign)),h)):interval)));
+        if(!((Q.sign(faces[0]!.hi)<0&&Q.sign(faces[1]!.lo)>0)||(Q.sign(faces[1]!.hi)<0&&Q.sign(faces[0]!.lo)>0))){proven=false;break;}
+      }
+      if(proven)return true;
+    }
+  }
+  return false;
+}
+function signedSpeed(f:AlgebraicContext,h:Exact,k:Exact,speed2:Exact,reciprocal=false):Exact|null {
   const hs=f.sign(h),ks=f.sign(k);
   // h*sqrt(S)+k=0, with S>0. The squared equation is already certified by
   // root isolation; opposite signs select its positive-radical branch.
   if(f.sign(speed2)<=0)throw new OffsetCalculationError('UNRESOLVED_STATIONARY_NORMAL');
-  if(!hs)return ks?null:f.sqrt(speed2);
+  if(!hs)return ks?null:reciprocal?f.div(f.one,f.sqrt(speed2)):f.sqrt(speed2);
   if(!ks||hs===ks)return null;
-  return f.div(f.sub(f.zero,k),h);
+  return reciprocal?f.div(f.sub(f.zero,h),k):f.div(f.sub(f.zero,k),h);
 }
 function atKnownSpeed(f:AlgebraicContext,curve:OffsetCurve,t:Exact,speed:Exact):ExactPoint {
   const {p,x,y}=tangentPolynomials(curve),d=f.number(curve.width*curve.winding);
@@ -135,11 +198,29 @@ export function intersectOffsetLine(f:AlgebraicContext,curve:OffsetCurve,line:De
   const equation=polynomialSubtract(polynomialMultiply(polynomialMultiply(h,h,f),speed2,f),polynomialMultiply(k,k,f),f);
   if(!equation.length)throw new OffsetCalculationError('OFFSET_COMMON_COMPONENT_REQUIRES_CLASSIFICATION');
   const hits:CurveHit[]=[];
-  for(const t of f.roots(equation)){
-    for(const sign of normalSigns(f,common,initialSign,t)){
-      const speed=signedSpeed(f,evaluate(h,t,f),f.mul(f.number(sign),evaluate(k,t,f)),evaluate(speed2,t,f));if(!speed)continue;
-      const point=atKnownSpeed(f,{...curve,winding:curve.winding*sign as Winding},t,speed),u=f.div(dot(f,vector(f,point,line.start),v),v2);
-      if(f.sign(u)>=0&&f.compare(u,f.one)<=0)hits.push({point,curveParameter:t,otherParameter:u});
+  for(const {field:g,root:t,import:convert} of f.rootBranches(equation)){
+    const gh=h.map(convert),gk=k.map(convert),gs=speed2.map(convert);
+    for(const sign of normalSigns(g,common,initialSign,t)){
+      const enclosure=linePointBounds(g,t,curve,sign,f,line,v,v2);
+      if(enclosure&&(Q.sign(enclosure.u.hi)<0||Q.sign(Q.sub(enclosure.u.lo,Q.one))>0))continue;
+      const H=evaluate(gh,t,g),K=g.mul(g.number(sign),evaluate(gk,t,g)),S=evaluate(gs,t,g),hs=g.sign(H),ks=g.sign(K);
+      if(g.sign(S)<=0)throw new OffsetCalculationError('UNRESOLVED_STATIONARY_NORMAL');
+      if((!hs&&ks)||(hs&&(!ks||hs===ks)))continue;
+      let calculated:{point:ExactPoint;u:Exact}|undefined;
+      const calculate=()=>{
+        if(calculated)return calculated;
+        const inverse=signedSpeed(g,H,K,S,true)!,d=g.number(curve.width*curve.winding*sign);
+        const point={x:g.add(evaluate(lift(g,p.x),t,g),g.mul(g.mul(d,evaluate(lift(g,y),t,g)),inverse)),y:g.sub(evaluate(lift(g,p.y),t,g),g.mul(g.mul(d,evaluate(lift(g,x),t,g)),inverse))};
+        const start={x:convert(line.start.x),y:convert(line.start.y)},direction={x:convert(v.x),y:convert(v.y)};
+        const u=g.div(dot(g,vector(g,point,start),direction),convert(v2));
+        if(enclosure){g.encloseDerived(u,enclosure.u);g.encloseDerived(point.x,enclosure.x);g.encloseDerived(point.y,enclosure.y);}
+        return calculated={point,u};
+      };
+      const inside=enclosure&&Q.sign(enclosure.u.lo)>=0&&Q.sign(Q.sub(enclosure.u.hi,Q.one))<=0;
+      if(!inside){const {u}=calculate();if(g.sign(u)<0||g.compare(u,g.one)>0)continue;}
+      let point:ExactPoint|undefined,u:Exact|undefined,parameter:Exact|undefined;
+      const hit:CurveHit={get point(){const v=calculate().point;return point??={x:f.import(v.x),y:f.import(v.y)};},get curveParameter(){return parameter??=f.import(t);},get otherParameter(){return u??=f.import(calculate().u);}};
+      if(enclosure)hitBounds.set(hit,enclosure.u);hits.push(hit);
     }
   }
   return hits;
@@ -167,19 +248,21 @@ export function trimOffsetLineCorner(f:AlgebraicContext,curve:OffsetCurve,line:D
   return selectOffsetLineTrim(f,curve,intersectOffsetLine(f,curve,line),curveIsIncoming);
 }
 export function selectOffsetLineTrim(f:AlgebraicContext,curve:OffsetCurve,candidates:readonly CurveHit[],curveIsIncoming:boolean):CurveHit|null {
-  const hits=candidates.filter(h=>retainedTrimSide(f,curve,h.curveParameter,h.point,curveIsIncoming?'left':'right'));
+  const hits=candidates.filter(h=>retainedTrimSide(f,curve,h.curveParameter,()=>h.point,curveIsIncoming?'left':'right'));
   if(!hits.length)return null;
+  const compareOther=(a:CurveHit,b:CurveHit)=>{if(a===b)return 0;const x=hitBounds.get(a),y=hitBounds.get(b);if(x&&y){if(Q.sign(Q.sub(x.hi,y.lo))<0)return -1;if(Q.sign(Q.sub(x.lo,y.hi))>0)return 1;}return f.compare(a.otherParameter!,b.otherParameter!);};
   const preferred=(a:CurveHit,b:CurveHit)=>curveIsIncoming?
-    f.compare(a.curveParameter,b.curveParameter)>=0&&f.compare(a.otherParameter!,b.otherParameter!)<=0:
-    f.compare(a.curveParameter,b.curveParameter)<=0&&f.compare(a.otherParameter!,b.otherParameter!)>=0;
+    f.compare(a.curveParameter,b.curveParameter)>=0&&compareOther(a,b)<=0:
+    f.compare(a.curveParameter,b.curveParameter)<=0&&compareOther(a,b)>=0;
   const first=hits.find(a=>hits.every(b=>preferred(a,b)));
   if(!first)throw new OffsetCalculationError('AMBIGUOUS_LOCAL_TRIM');
   return first;
 }
-function retainedTrimSide(f:AlgebraicContext,curve:OffsetCurve,t:Exact,point:ExactPoint,side:'left'|'right'):boolean {
+function retainedTrimSide(f:AlgebraicContext,curve:OffsetCurve,t:Exact,point:ExactPoint|(()=>ExactPoint),side:'left'|'right'):boolean {
   const {common}=tangentPolynomials(curve);if(f.sign(evaluate(lift(f,common),t,f))!==0)return true;
   const at=splitStationaryOffset(f,curve).breaks.find(b=>f.compare(b.parameter,t)===0),limit=at?.[side];
-  return !!limit&&f.compare(limit.x,point.x)===0&&f.compare(limit.y,point.y)===0;
+  const actual=typeof point==='function'?point():point;
+  return !!limit&&f.compare(limit.x,actual.x)===0&&f.compare(limit.y,actual.y)===0;
 }
 
 /** Separate the exact stationary parameters and retain BOTH one-sided offset

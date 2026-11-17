@@ -24,6 +24,7 @@ export class AlgebraicContext implements OrderedField<Exact> {
   private readonly imported=new WeakMap<AlgebraicContext,Map<number,Exact>>();
   private readonly radicals:{radicand:Exact;root:Exact}[]=[];
   private readonly rationalRoots=new Map<string,Exact[]>();
+  private readonly expressionBounds=new WeakMap<Exact,{lo:Rational;hi:Rational}>();
   /** Rational interval evaluation of the complete tower, without constructing
    * new algebraic expressions. Only a strict sign is certified here. */
   private enclosure(level:number,raw:Raw):{lo:Rational;hi:Rational}{
@@ -42,7 +43,14 @@ export class AlgebraicContext implements OrderedField<Exact> {
   readonly zero=this.fromRational(rational(0n));readonly one=this.fromRational(rational(1n));
   fromRational(q:Rational):Exact{return {level:0,raw:q,owner:this};}
   number(n:number):Exact{return this.fromRational(fromNumber(n));}
-  enclosingInterval(v:Exact):{lo:Rational;hi:Rational}{this.raw(v,v.level);return this.enclosure(v.level,v.raw);}
+  enclosingInterval(v:Exact):{lo:Rational;hi:Rational}{this.raw(v,v.level);return {...(this.expressionBounds.get(v)??this.enclosure(v.level,v.raw))};}
+  /** Internal geometry certificates may supply an enclosure obtained from an
+   * equivalent expression with less interval dependency. Never approximate
+   * the Exact value or use unverified floating estimates here. */
+  encloseDerived(v:Exact,bounds:{lo:Rational;hi:Rational}):void{
+    this.raw(v,v.level);if(compareRational(bounds.lo,bounds.hi)>0)throw new OffsetCalculationError('INVALID_DERIVED_ENCLOSURE');
+    this.expressionBounds.set(v,{...bounds});
+  }
   private value(level:number,raw:Raw):Exact {
     while(level>0&&Array.isArray(raw)&&raw.length<=1){
       if(!raw.length)return this.zero;
@@ -63,13 +71,25 @@ export class AlgebraicContext implements OrderedField<Exact> {
     if(op==='mul'){if(az||bz)return this.zero;if(ao)return b;if(bo)return a;}
     if(op==='div'&&bo)return a;
     const level=Math.max(a.level,b.level),f=this.fields[level]!;
-    return this.value(level,f[op](this.raw(a,level),this.raw(b,level)));
+    const result=this.value(level,f[op](this.raw(a,level),this.raw(b,level)));
+    if(result.level&&(op==='div'||this.expressionBounds.has(a)||this.expressionBounds.has(b))){
+      const x=this.enclosingInterval(a),y=this.enclosingInterval(b),Q=rationals;
+      let range:{lo:Rational;hi:Rational}|undefined;
+      if(op==='add')range={lo:Q.add(x.lo,y.lo),hi:Q.add(x.hi,y.hi)};
+      else if(op==='sub')range={lo:Q.sub(x.lo,y.hi),hi:Q.sub(x.hi,y.lo)};
+      else if(op==='mul'||Q.sign(y.lo)>0||Q.sign(y.hi)<0){
+        const z=op==='mul'?y:{lo:Q.div(Q.one,y.hi),hi:Q.div(Q.one,y.lo)},v=[Q.mul(x.lo,z.lo),Q.mul(x.lo,z.hi),Q.mul(x.hi,z.lo),Q.mul(x.hi,z.hi)];
+        range={lo:v.reduce((a,b)=>compareRational(a,b)<0?a:b),hi:v.reduce((a,b)=>compareRational(a,b)>0?a:b)};
+      }
+      if(range)this.expressionBounds.set(result,range);
+    }
+    return result;
   }
   add(a:Exact,b:Exact):Exact{return this.binary(a,b,'add');}
   sub(a:Exact,b:Exact):Exact{return this.binary(a,b,'sub');}
   mul(a:Exact,b:Exact):Exact{return this.binary(a,b,'mul');}
   div(a:Exact,b:Exact):Exact{return this.binary(a,b,'div');}
-  sign(a:Exact):Sign {this.raw(a,a.level);return this.fields[a.level]!.sign(a.raw);}
+  sign(a:Exact):Sign {this.raw(a,a.level);const bound=this.expressionBounds.get(a);if(bound){if(rationals.sign(bound.lo)>0)return 1;if(rationals.sign(bound.hi)<0)return -1;}return this.fields[a.level]!.sign(a.raw);}
   square(a:Exact):Exact{return this.mul(a,a);}
   compare(a:Exact,b:Exact):Sign{
     if(a===b){this.raw(a,a.level);return 0;}
@@ -77,7 +97,7 @@ export class AlgebraicContext implements OrderedField<Exact> {
     // and its GCD. Preserve context checks on this fast exact path.
     if(a.level===0&&b.level===0)return compareRational(rat(this.raw(a,0)),rat(this.raw(b,0)));
     this.raw(a,a.level);this.raw(b,b.level);
-    const x=this.enclosure(a.level,a.raw),y=this.enclosure(b.level,b.raw);
+    const x=this.enclosingInterval(a),y=this.enclosingInterval(b);
     if(compareRational(x.lo,y.hi)>0)return 1;if(compareRational(x.hi,y.lo)<0)return -1;
     if((a.level===0)!==(b.level===0)){
       const value=a.level?a:b,levels=new Set<number>();
@@ -153,17 +173,39 @@ export class AlgebraicContext implements OrderedField<Exact> {
         if(!definition)throw new OffsetCalculationError('ALGEBRAIC_DEFINITION_MISSING');
         if(rationals.sign(rationals.sub(definition.lower,definition.upper))===0)variable=this.fromRational(definition.lower);
         else {
-          const roots=this.roots(definition.polynomial.map(v=>convert(level-1,v)),definition.lower,definition.upper);
-          const selected=roots.filter(r=>this.compare(r,this.fromRational(definition.lower))>0&&this.compare(r,this.fromRational(definition.upper))<0);
-          if(selected.length!==1)throw new OffsetCalculationError('ALGEBRAIC_IMPORT_NOT_ISOLATED');variable=selected[0]!;
+          const polynomial=definition.polynomial.map(v=>convert(level-1,v));
+          // The source already certifies this unique real root. Exact ordered
+          // coefficient import preserves that certificate and its interval.
+          const targetLevel=this.fields.length-1;
+          variable=this.adjoin({...definition,polynomial:polynomial.map(v=>this.raw(v,targetLevel))});
         }
         variables!.set(level,variable);
       }
       let result=this.zero;for(let i=c.length-1;i>=0;i--)result=this.add(this.mul(result,variable),convert(level-1,c[i]!));return result;
     };
-    return convert(value.level,value.raw);
+    const result=convert(value.level,value.raw);
+    if(result.level)this.expressionBounds.set(result,source.enclosingInterval(value));
+    return result;
   }
   roots(p:readonly Exact[],lo=rational(0n),hi=rational(1n)):Exact[] {
+    return this.isolatedRoots(p,lo,hi,true);
+  }
+  rootBranches(p:readonly Exact[],lo=rational(0n),hi=rational(1n)):{field:AlgebraicContext;root:Exact;import:(value:Exact)=>Exact}[]{
+    const source=new AlgebraicContext(),coefficients=p.map(c=>source.import(c)),level=source.fields.length-1;
+    const certificates=isolateRoots(coefficients.map(c=>source.raw(c,level)),lo,hi,source.fields[level]!);
+    return certificates.map(certificate=>{
+      const field=new AlgebraicContext(),convert=(value:Exact)=>field.import(source.import(value));
+      if(compareRational(certificate.lower,certificate.upper)===0)return {field,root:field.fromRational(certificate.lower),import:convert};
+      const polynomial=certificate.polynomial.map(c=>field.import(source.value(level,c))),target=field.fields.length-1;
+      const isolated={...certificate,polynomial:polynomial.map(c=>field.raw(c,target))};
+      // Refine this independent branch once, before evaluating near-tangent
+      // contacts. Importing it later preserves the same certificate.
+      for(let i=0;i<128&&compareRational(rationals.sub(isolated.upper,isolated.lower),rational(1n,1n<<128n))>0;i++)refineRoot(isolated,field.fields[target]!);
+      const root=field.adjoin(isolated);
+      return {field,root,import:convert};
+    });
+  }
+  private isolatedRoots(p:readonly Exact[],lo:Rational,hi:Rational,compact:boolean):Exact[] {
     if(rationals.sign(rationals.sub(lo,hi))>0)throw new PolynomialError('INVALID_ROOT_INTERVAL');
     let degree=p.length-1;while(degree>=0&&this.sign(p[degree]!)===0)degree--;
     if(degree<0)throw new PolynomialError('ZERO_POLYNOMIAL');
@@ -196,7 +238,13 @@ export class AlgebraicContext implements OrderedField<Exact> {
         this.rationalRoots.set(key,values);return [...values];
       }
     }
-    const level=this.fields.length-1,f=this.fields[level]!,roots=isolateRoots(p.map(c=>this.raw(c,level)),lo,hi,f);
+    if(compact){
+      // Isolate in the field generated only by the actual coefficients, not
+      // every unrelated normal previously constructed for the whole contour.
+      const local=new AlgebraicContext(),coefficients=p.map(c=>local.import(c));
+      return local.isolatedRoots(coefficients,lo,hi,false).map(root=>this.import(root));
+    }
+    const level=Math.max(...p.map(c=>c.level)),f=this.fields[level]!,roots=isolateRoots(p.map(c=>this.raw(c,level)),lo,hi,f);
     const values=roots.map(root=>{
       if(rationals.sign(rationals.sub(root.lower,root.upper))===0)return this.fromRational(root.lower);
       const current=this.fields.length-1;

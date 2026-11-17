@@ -61,7 +61,10 @@ export interface Root<E=Rational> { polynomial:E[]; lower:Rational; upper:Ration
 export function refineRoot<E>(root:Root<E>,f:OrderedField<E>):void {
   if(compare(root.lower,root.upper)===0)return;
   const mid=divide(add(root.lower,root.upper),rational(2n));
-  if(f.sign(evaluate(root.polynomial,f.fromRational(mid),f))===0) {root.lower=mid;root.upper=mid;return;}
+  const middle=f.sign(evaluate(root.polynomial,f.fromRational(mid),f));
+  if(middle===0) {root.lower=mid;root.upper=mid;return;}
+  const left=f.sign(evaluate(root.polynomial,f.fromRational(root.lower),f)),right=f.sign(evaluate(root.polynomial,f.fromRational(root.upper),f));
+  if(left&&right&&left!==right){if(middle===left)root.lower=mid;else root.upper=mid;return;}
   if(countRoots(root.polynomial,root.lower,mid,f))root.upper=mid;else root.lower=mid;
 }
 function vanishes<E>(root:Root<E>,p:Polynomial<E>,f:OrderedField<E>):boolean {
@@ -70,6 +73,7 @@ function vanishes<E>(root:Root<E>,p:Polynomial<E>,f:OrderedField<E>):boolean {
 }
 export function isolateRoots<E>(input:Polynomial<E>,lower:Rational,upper:Rational,f:OrderedField<E>):Root<E>[] {
   if(compare(lower,upper)>0)throw new PolynomialError('INVALID_ROOT_INTERVAL');
+  const simple=isolateSimpleBernstein(input,lower,upper,f);if(simple!==null)return simple;
   const original=trim(input,f),p=squareFree(original,f),roots:Root<E>[]=[];
   const sequence=sturm(p,f);
   const count=(lo:Rational,hi:Rational)=>compare(lo,hi)>=0?0:variations(sequence,lo,f)-variations(sequence,hi,f)-(f.sign(evaluate(p,f.fromRational(hi),f))===0?1:0);
@@ -91,6 +95,38 @@ export function isolateRoots<E>(input:Polynomial<E>,lower:Rational,upper:Rationa
     while(compare(a.lower,b.upper)<0&&compare(b.lower,a.upper)<0) {refineRoot(a,f);refineRoot(b,f);}
   }
   return roots.sort((a,b)=>compare(a.lower,b.lower)||compare(a.upper,b.upper));
+}
+
+/** Descartes' rule in Bernstein form: zero variations excludes roots and one
+ * certifies exactly one simple root. All signs/subdivisions are exact. Repeated
+ * roots, dyadic endpoint roots or exhausted work fall back to Sturm below. */
+function isolateSimpleBernstein<E>(input:Polynomial<E>,lo:Rational,hi:Rational,f:OrderedField<E>):Root<E>[]|null {
+  if(compare(lo,hi)>=0)return null;
+  const p=trim(input,f),n=p.length-1;if(n<1)return n===0?[]:null;
+  if(n>16)return null;
+  if(!f.sign(evaluate(p,f.fromRational(lo),f))||!f.sign(evaluate(p,f.fromRational(hi),f)))return null;
+  const choose=(a:number,b:number)=>{let v=1n;for(let i=1;i<=b;i++)v=v*BigInt(a-i+1)/BigInt(i);return v;};
+  // Power coefficients of p(lo + (hi-lo)u), followed by power -> Bernstein.
+  const a=Array<E>(n+1).fill(f.zero),l=f.fromRational(lo),span=f.fromRational(subtract(hi,lo));
+  let powers:E[]=[f.one];for(let i=1;i<=n;i++)powers.push(f.mul(powers[i-1]!,l));
+  let s=f.one;
+  for(let k=0;k<=n;k++){for(let i=k;i<=n;i++)a[k]=f.add(a[k]!,f.mul(p[i]!,f.mul(f.fromRational(rational(choose(i,k))),powers[i-k]!)));a[k]=f.mul(a[k]!,s);s=f.mul(s,span);}
+  const b=Array.from({length:n+1},(_,k)=>{let v=f.zero;for(let i=0;i<=k;i++)v=f.add(v,f.mul(a[i]!,f.fromRational(rational(choose(k,i),choose(n,i)))));return v;});
+  const stack=[{b,lo,hi,depth:0}],roots:Root<E>[]=[],half=f.fromRational(rational(1n,2n));let work=0;
+  while(stack.length){
+    if(++work>512)return null;
+    const cell=stack.pop()!;let previous=0,variations=0;
+    for(const c of cell.b){const sign=f.sign(c);if(sign){if(previous&&previous!==sign)variations++;previous=sign;}}
+    if(!variations)continue;
+    if(variations===1){roots.push({polynomial:[...p],lower:cell.lo,upper:cell.hi,multiplicity:1});continue;}
+    if(cell.depth>=128)return null;
+    const left=[cell.b[0]!],right=[cell.b[n]!];let row=cell.b;
+    while(row.length>1){row=row.slice(1).map((v,i)=>f.mul(f.add(row[i]!,v),half));left.push(row[0]!);right.unshift(row.at(-1)!);}
+    if(!f.sign(row[0]!))return null;
+    const mid=divide(add(cell.lo,cell.hi),rational(2n));
+    stack.push({b:right,lo:mid,hi:cell.hi,depth:cell.depth+1},{b:left,lo:cell.lo,hi:mid,depth:cell.depth+1});
+  }
+  return roots.sort((a,b)=>compare(a.lower,b.lower));
 }
 
 /** Exact ordered extension at one isolated real root. A reducible defining
@@ -148,8 +184,6 @@ export class RootField<E> implements OrderedField<E[]> {
     let divisor=this.reduce(b); if(this.sign(divisor)===0)throw new PolynomialError('ZERO_DIVISOR');
     divisor=this.reduce(b);
     if(divisor.length===1)return this.reduce(scale(a,this.base.div(this.base.one,divisor[0]!),this.base));
-    const common=gcd(this.modulus,divisor,this.base);
-    if(common.length>1) {this.modulus=exactDivide(this.modulus,common,this.base);divisor=this.reduce(divisor);}
     let r0=this.modulus,r1=divisor,s0:E[]=[],s1:E[]=[this.base.one];
     while(r1.length) {
       const {quotient,remainder}=divRem(r0,r1,this.base);
@@ -157,6 +191,7 @@ export class RootField<E> implements OrderedField<E[]> {
       if(remainder.length){const factor=this.base.div(this.base.one,remainder.at(-1)!);normalized=scale(remainder,factor,this.base);next=scale(next,factor,this.base);}
       [r0,r1]=[r1,normalized];[s0,s1]=[s1,next];
     }
+    if(r0.length>1){this.modulus=exactDivide(this.modulus,r0,this.base);this.root.polynomial=this.modulus;return this.div(a,b);}
     if(r0.length!==1)throw new PolynomialError('ZERO_DIVISOR');
     return this.mul(a,scale(s0,this.base.div(this.base.one,r0[0]!),this.base));
   }
