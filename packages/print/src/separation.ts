@@ -7,7 +7,9 @@ export function boxDistanceSquared(f:AlgebraicContext,a:ExactBox,b:ExactBox){
 }
 export function boxSeparated(f:AlgebraicContext,a:ExactBox,b:ExactBox){return f.compare(boxDistanceSquared(f,a,b),f.number(4))>=0;}
 function pointDistanceSquared(f:AlgebraicContext,p:ExactPoint,line:DerivedLine){
- const v=vector(f,line.end,line.start),w=vector(f,p,line.start),den=dot(f,v,v),t=f.div(dot(f,v,w),den);
+ const v=vector(f,line.end,line.start),w=vector(f,p,line.start),den=dot(f,v,v);
+ if(f.sign(den)===0)return dot(f,w,w);
+ const t=f.div(dot(f,v,w),den);
  if(f.sign(t)<=0)return dot(f,w,w);if(f.compare(t,f.one)>=0){const d=vector(f,p,line.end);return dot(f,d,d);}
  return f.div(f.square(determinant(f,v,w)),den);
 }
@@ -17,6 +19,9 @@ export function polygonContainsPoint(f:AlgebraicContext,p:ExactPoint,path:readon
  }return winding!==0;
 }
 export function lineDistanceSquared(f:AlgebraicContext,a:DerivedLine,b:DerivedLine){
+ const av=vector(f,a.end,a.start),bv=vector(f,b.end,b.start);
+ if(f.sign(dot(f,av,av))===0)return pointDistanceSquared(f,a.start,b);
+ if(f.sign(dot(f,bv,bv))===0)return pointDistanceSquared(f,b.start,a);
  const hit=primitiveIntersections(f,a,b);if(hit.overlap||hit.points.length)return f.zero;
  return [pointDistanceSquared(f,a.start,b),pointDistanceSquared(f,a.end,b),pointDistanceSquared(f,b.start,a),pointDistanceSquared(f,b.end,a)].reduce((x,y)=>f.compare(x,y)<0?x:y);
 }

@@ -82,6 +82,24 @@ function supportingEndpointHits(f:AlgebraicContext,curve:OffsetCurve,line:Derive
  if(curve.width===0)return null;
  const cross=(a:ExactPoint,b:ExactPoint)=>f.sub(f.mul(a.x,b.y),f.mul(a.y,b.x));
  const endpoints=[f.zero,f.one].map(t=>({t,point:evaluateDerivedOffset(f,curve,t)}));
+ // A control hull at least width away from the supporting line cannot send
+ // an interior normal-offset point across it. This also covers near-tangent
+ // joins whose endpoint normal is not exactly perpendicular to the line.
+ const distance=f.mul(f.number(curve.width),f.sqrt(dot(f,direction,direction)));
+ const projections=curve.controls.map(p=>cross(direction,vector(f,{x:f.number(p.x),y:f.number(p.y)},line.start)));
+ const separated=([1,-1] as const).some(sign=>{
+   const differences=projections.map(value=>f.compare(f.mul(f.number(sign),value),distance));
+   return differences.every(s=>s>=0)&&differences.some(s=>s>0);
+ });
+ if(separated){
+   const hits:CurveHit[]=[];
+   for(const {t,point} of endpoints){
+     if(f.sign(cross(direction,vector(f,point,line.start)))!==0)continue;
+     const u=f.div(dot(f,vector(f,point,line.start),v),v2);
+     if(f.sign(u)>=0&&f.compare(u,f.one)<=0)hits.push({point,curveParameter:t,otherParameter:u});
+   }
+   return hits;
+ }
  for(let index=0;index<2;index++){
   const endpoint=endpoints[index]!,baseControl=curve.controls[index===0?0:curve.controls.length-1]!;
   const base={x:f.number(baseControl.x),y:f.number(baseControl.y)},shift=vector(f,endpoint.point,base);

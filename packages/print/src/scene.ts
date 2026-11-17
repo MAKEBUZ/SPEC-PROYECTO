@@ -1,7 +1,7 @@
 import {productionMessage} from './issue-message.js';
 import {AlgebraicContext,type Exact} from '../../geometry/src/algebraic.js';
 import {approximateMargin,dimensionsOfPoints} from '../../geometry/src/bounds.js';
-import {rational} from '../../geometry/src/numeric.js';
+import {rational,add,subtract,divide,fromNumber,compare} from '../../geometry/src/numeric.js';
 import {segmentControls} from '../../geometry/src/contour-validation.js';
 import {validateDocument} from '../../document/src/schema.js';
 import {savedPdfOrigin} from '../../document/src/pdf-artifact.js';
@@ -14,6 +14,11 @@ export interface PrintCurve {kind:'line'|'cubic';points:PrintPoint[]}
 /** Conversion happens after subtracting the exact origin, so large local
  * translations do not erase small pattern coordinates. */
 function number(f:AlgebraicContext,v:Exact):number{
+ const bounds=f.enclosingInterval(v),middle=divide(add(bounds.lo,bounds.hi),rational(2n)),estimate=Number(middle.n)/Number(middle.d),limit=rational(1n,200000000n);
+ if(Number.isFinite(estimate)){
+  const candidate=fromNumber(estimate);
+  if(compare(subtract(bounds.hi,candidate),limit)<=0&&compare(subtract(candidate,bounds.lo),limit)<=0)return estimate;
+ }
  // A floating estimate is accepted only after checking its exact rational
  // error. Overflow/underflow or uncertainty falls back to interval bisection.
  if(v.level===0&&!Array.isArray(v.raw)){

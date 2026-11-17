@@ -21,6 +21,9 @@ function PlacementView({document,preparation}:{document:PatternDocument;preparat
 export function PreparationPanel({tools,documents}:{tools:CadTools;documents?:DocumentActions}){
   const [exportState,setExportState]=useState<{state:string;error?:string;name?:string}>({state:'idle'}),[jobId,setJobId]=useState('');
   const cancelling=useRef(false);
+  const busy=['starting','checking','generating','verifying','verified','saving','registering','cancelling'].includes(exportState.state);
+  const [elapsed,setElapsed]=useState(0);
+  useEffect(()=>{if(!busy)return;const started=performance.now();setElapsed(0);const timer=setInterval(()=>setElapsed(Math.floor((performance.now()-started)/1000)),1000);return()=>clearInterval(timer);},[busy]);
   const [selectionError,setSelectionError]=useState(''),[selectionReset,setSelectionReset]=useState(0);
   const selectionResult=(message:string)=>{
     setSelectionError(message==='PREPARATION_SELECTION_INVALID'||message==='Selecciona al menos una pieza. No se aplicó el cambio.'?'No se guardó la selección: debes seleccionar al menos una pieza. Se conserva la selección anterior y las casillas vuelven a mostrarla.':message?'No se pudo guardar la selección. Se conserva la selección anterior.':'');
@@ -38,7 +41,8 @@ export function PreparationPanel({tools,documents}:{tools:CadTools;documents?:Do
     {tools.locked&&jobId&&<button disabled={exportState.state==='cancelling'} onClick={()=>{cancelling.current=true;setExportState({state:'cancelling'});void documents?.cancelExport(jobId).catch(e=>{cancelling.current=false;setError(String(e));setExportState({state:'checking'});});}}>Cancelar exportación</button>}
     <fieldset disabled={tools.locked}>
     <div className="preparation-toolbar"><p>{tools.dirty?'Documento modificado':'Documento sin cambios'}</p><button disabled={!tools.canUndo} onClick={()=>tools.undo()}>Deshacer</button><button disabled={!tools.canRedo} onClick={()=>tools.redo()}>Rehacer</button></div>
-    {error&&<p role="alert">{error}</p>}{changed&&<p role="status">La geometría cambió. Se usa la geometría actual y se conservan las posiciones. Será necesario validar antes de exportar.</p>}
+    {error&&<p role="alert">{error}</p>}{changed&&<p role="status">La pieza cambió y se conservó su colocación. Al generar el PDF se validará la geometría actual. Este aviso no indica un error ni el progreso de la exportación.</p>}
+    {busy&&<p role="status">Tiempo de exportación: {elapsed} s.{elapsed>=60?' Está tardando más de lo previsto. Puedes cancelar sin perder la pieza ni la preparación.':''}</p>}
     <div className="preparation-picker"><ActionForm name="preparation-create" title="Crear preparación" onError={setError} run={f=>{tools.execute({type:'preparation.create',name:String(f.get('name')),selection:f.getAll('pieces').map(String)});setSelected(tools.document().preparations.at(-1)!.id as string);}}><label>Nombre<input name="name" required/></label>{document.pieces.map(piece=><label key={piece.id}><input type="checkbox" name="pieces" value={piece.id}/>{piece.name||'Pieza sin nombre'}</label>)}</ActionForm>
     <label>Preparación guardada<select value={p?.id??''} onChange={e=>{setSelected(e.target.value);setChanged(false);setSelectionError('');}}><option value="">Elige una preparación</option>{preparations.map(v=><option key={v.id} value={v.id}>{v.name}</option>)}</select></label></div>
     {p&&<section key={p.id}><h2>{p.name}</h2>

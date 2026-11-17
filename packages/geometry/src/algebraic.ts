@@ -1,6 +1,6 @@
 import { rational, fromNumber, compare as compareRational } from './numeric.js';
 import type { Rational, Sign } from './numeric.js';
-import { RootField, rationals, isolateRoots, PolynomialError } from './polynomials.js';
+import { RootField, rationals, isolateRoots, refineRoot, PolynomialError } from './polynomials.js';
 import type { OrderedField, Root } from './polynomials.js';
 import { OffsetCalculationError } from './joins.js';
 
@@ -24,9 +24,25 @@ export class AlgebraicContext implements OrderedField<Exact> {
   private readonly imported=new WeakMap<AlgebraicContext,Map<number,Exact>>();
   private readonly radicals:{radicand:Exact;root:Exact}[]=[];
   private readonly rationalRoots=new Map<string,Exact[]>();
+  /** Rational interval evaluation of the complete tower, without constructing
+   * new algebraic expressions. Only a strict sign is certified here. */
+  private enclosure(level:number,raw:Raw):{lo:Rational;hi:Rational}{
+    if(level===0){const q=rat(raw);return {lo:q,hi:q};}
+    const c=coefficients(raw);if(!c.length)return {lo:rationals.zero,hi:rationals.zero};
+    if(c.length===1)return this.enclosure(level-1,c[0]!);
+    const root=this.definitions[level]!,variable={lo:root.lower,hi:root.upper};
+    let result=this.enclosure(level-1,c.at(-1)!);
+    for(let i=c.length-2;i>=0;i--){
+      const products=[rationals.mul(result.lo,variable.lo),rationals.mul(result.lo,variable.hi),rationals.mul(result.hi,variable.lo),rationals.mul(result.hi,variable.hi)];
+      let lo=products[0]!,hi=lo;for(const p of products.slice(1)){if(compareRational(p,lo)<0)lo=p;if(compareRational(p,hi)>0)hi=p;}
+      const coefficient=this.enclosure(level-1,c[i]!);result={lo:rationals.add(lo,coefficient.lo),hi:rationals.add(hi,coefficient.hi)};
+    }
+    return result;
+  }
   readonly zero=this.fromRational(rational(0n));readonly one=this.fromRational(rational(1n));
   fromRational(q:Rational):Exact{return {level:0,raw:q,owner:this};}
   number(n:number):Exact{return this.fromRational(fromNumber(n));}
+  enclosingInterval(v:Exact):{lo:Rational;hi:Rational}{this.raw(v,v.level);return this.enclosure(v.level,v.raw);}
   private value(level:number,raw:Raw):Exact {
     while(level>0&&Array.isArray(raw)&&raw.length<=1){
       if(!raw.length)return this.zero;
@@ -39,6 +55,13 @@ export class AlgebraicContext implements OrderedField<Exact> {
     let result=v.raw;for(let i=v.level;i<level;i++)result=[result];return result;
   }
   private binary(a:Exact,b:Exact,op:'add'|'sub'|'mul'|'div'):Exact {
+    if(a.owner!==this||b.owner!==this)throw new OffsetCalculationError('ALGEBRAIC_CONTEXT_MISMATCH');
+    const az=a.level===0&&rat(a.raw).n===0n,bz=b.level===0&&rat(b.raw).n===0n;
+    const ao=a.level===0&&rat(a.raw).n===rat(a.raw).d,bo=b.level===0&&rat(b.raw).n===rat(b.raw).d;
+    if(op==='add'){if(az)return b;if(bz)return a;}
+    if(op==='sub'){if(a===b)return this.zero;if(bz)return a;}
+    if(op==='mul'){if(az||bz)return this.zero;if(ao)return b;if(bo)return a;}
+    if(op==='div'&&bo)return a;
     const level=Math.max(a.level,b.level),f=this.fields[level]!;
     return this.value(level,f[op](this.raw(a,level),this.raw(b,level)));
   }
@@ -49,16 +72,46 @@ export class AlgebraicContext implements OrderedField<Exact> {
   sign(a:Exact):Sign {this.raw(a,a.level);return this.fields[a.level]!.sign(a.raw);}
   square(a:Exact):Exact{return this.mul(a,a);}
   compare(a:Exact,b:Exact):Sign{
+    if(a===b){this.raw(a,a.level);return 0;}
     // Rational ordering needs cross multiplication, not a reduced difference
     // and its GCD. Preserve context checks on this fast exact path.
     if(a.level===0&&b.level===0)return compareRational(rat(this.raw(a,0)),rat(this.raw(b,0)));
+    this.raw(a,a.level);this.raw(b,b.level);
+    const x=this.enclosure(a.level,a.raw),y=this.enclosure(b.level,b.raw);
+    if(compareRational(x.lo,y.hi)>0)return 1;if(compareRational(x.hi,y.lo)<0)return -1;
+    if((a.level===0)!==(b.level===0)){
+      const value=a.level?a:b,levels=new Set<number>();
+      const visit=(level:number,raw:Raw)=>{
+        if(!level)return;const c=coefficients(raw);for(const v of c)visit(level-1,v);
+        if(c.length>1&&!levels.has(level)){levels.add(level);for(const v of this.definitions[level]!.polynomial)visit(level-1,v);}
+      };
+      visit(value.level,value.raw);
+      const ordered=[...levels].sort((a,b)=>a-b);
+      const rationalValue=(v:Raw):Rational|null=>Array.isArray(v)?v.length===0?rationals.zero:v.length===1?rationalValue(v[0]!):null:v;
+      for(let pass=0;pass<4;pass++){
+        for(const level of ordered){
+          const root=this.definitions[level]!,polynomial=root.polynomial.map(rationalValue);
+          for(let step=0;step<4;step++){
+            if(polynomial.every((p):p is Rational=>p!==null)){const simple={...root,polynomial};refineRoot(simple,rationals);root.lower=simple.lower;root.upper=simple.upper;}
+            else refineRoot(root,this.fields[level-1]!);
+          }
+        }
+        const left=this.enclosure(a.level,a.raw),right=this.enclosure(b.level,b.raw);
+        if(compareRational(left.lo,right.hi)>0)return 1;if(compareRational(left.hi,right.lo)<0)return -1;
+      }
+    }
     return this.sign(this.sub(a,b));
   }
   private adjoin(root:Root<Raw>):Exact {
     const extension=new RootField(this.fields.at(-1)!,root);
+    const level=this.fields.length;
     const f:OrderedField<Raw>={zero:extension.zero,one:extension.one,fromRational:q=>extension.fromRational(q),
       add:(a,b)=>extension.add(coefficients(a),coefficients(b)),sub:(a,b)=>extension.sub(coefficients(a),coefficients(b)),
-      mul:(a,b)=>extension.mul(coefficients(a),coefficients(b)),div:(a,b)=>extension.div(coefficients(a),coefficients(b)),sign:a=>extension.sign(coefficients(a))};
+      mul:(a,b)=>extension.mul(coefficients(a),coefficients(b)),div:(a,b)=>extension.div(coefficients(a),coefficients(b)),sign:a=>{
+        const bounds=this.enclosure(level,a);
+        if(rationals.sign(bounds.lo)>0)return 1;if(rationals.sign(bounds.hi)<0)return -1;
+        return extension.sign(coefficients(a));
+      }};
     this.fields.push(f);this.definitions.push(root);return this.value(this.fields.length-1,extension.generator);
   }
   sqrt(a:Exact):Exact {
@@ -70,6 +123,14 @@ export class AlgebraicContext implements OrderedField<Exact> {
         if(n*n===ratio.n&&d*d===ratio.d)return this.mul(cached.root,this.fromRational(rational(n,d)));
       }
       if(this.compare(a,cached.radicand)===0)return cached.root;
+    }
+    if(a.level===0){
+      // Exact dyadic enclosure of a rational square root. Avoid isolating an
+      // independent radical over every unrelated existing field extension.
+      const r=rat(a.raw),bits=Math.max(0,Math.ceil((r.d.toString(2).length-r.n.toString(2).length)/2)+128),scale=1n<<BigInt(bits);
+      const n=integerSqrt(r.n*scale*scale/r.d),lo=rational(n,scale),hi=rational(n+1n,scale),f=this.fields.at(-1)!;
+      const result=this.adjoin({polynomial:[f.fromRational(rationals.sub(rationals.zero,r)),f.zero,f.one],lower:lo,upper:hi,multiplicity:1});
+      this.radicals.push({radicand:a,root:result});return result;
     }
     let upper=rational(1n);
     while(this.compare(a,this.fromRational(rationals.mul(upper,upper)))>0)upper=rationals.mul(upper,rational(2n));
