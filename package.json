@@ -1,0 +1,45 @@
+{
+  "name": "patronaje",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=24.22.3 <25"
+  },
+  "scripts": {
+    "check": "tsc --noEmit",
+    "test": "vitest run",
+    "test:unit": "node tools/validation/run.mjs unit",
+    "test:geometry": "node tools/validation/run.mjs geometry",
+    "test:integration": "node tools/validation/run.mjs integration",
+    "test:e2e": "node tools/validation/run.mjs e2e",
+    "test:recovery": "node tools/validation/run.mjs recovery",
+    "test:print": "node tools/validation/run.mjs print",
+    "test:performance": "node tools/validation/run.mjs performance",
+    "test:integration:local": "node tools/validation/postgres.mjs",
+    "build:desktop": "node tools/validation/build-desktop.mjs",
+    "test:desktop:foundation": "node tools/validation/desktop-smoke.mjs",
+    "assets:prepare": "node tools/assets/verify.mjs --prepare",
+    "assets:verify": "node tools/assets/verify.mjs",
+    "test:contracts": "node tools/validation/run.mjs contracts",
+    "contracts:generate": "node tools/validation/openapi.mjs",
+    "contracts:check": "node tools/validation/openapi.mjs --check",
+    "password-index:build": "node tools/assets/build-password-index.mjs",
+    "test:passwords": "vitest run tests/unit/password-policy.spec.ts tests/unit/password-index.spec.ts tests/unit/password-concurrency.spec.ts",
+    "test:password-corpus": "node tools/validation/passwords-smoke.mjs --compile"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.1",
+    "@types/node": "24.19.2",
+    "@types/pg": "8.23.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "typescript": "7.0.2",
+    "vitest": "5.1.0"
+  },
+  "packageManager": "npm@12.2.2"
+}

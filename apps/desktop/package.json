@@ -1,0 +1,21 @@
+{
+  "name": "@patronaje/desktop",
+  "version": "0.1.7",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "@electron-forge/cli": "8.0.1",
+    "@electron-forge/maker-squirrel": "8.0.1",
+    "electron": "45.3.2",
+    "node-addon-api": "8.9.2",
+    "vite": "8.3.8"
+  },
+  "dependencies": {
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "three": "0.187.0"
+  }
+}
+
+
+

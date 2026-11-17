@@ -1,0 +1,21 @@
+import {useEffect,useRef,useState,useSyncExternalStore} from 'react';
+import type {CadTools} from '../cad/tools.js';
+import type {DocumentActions} from '../documents/document-actions.js';
+import type {AccountClient} from '../../../../../packages/account-ui/src/client.js';
+interface Conflict {resolutionId:string;kind:string;currentVersionId?:string}
+export function ConflictPanel({tools,documents,client}:{tools:CadTools;documents:DocumentActions;client:AccountClient}){
+ useSyncExternalStore(tools.subscribe,tools.getVersion,tools.getVersion);const epoch=tools.documentEpoch;
+ const [conflict,setConflict]=useState<Conflict>(),[confirmed,setConfirmed]=useState(false),[busy,setBusy]=useState(false),[message,setMessage]=useState(''),generation=useRef(0),running=useRef(false);
+ useEffect(()=>{generation.current++;setConflict(undefined);setConfirmed(false);},[epoch]);
+ useEffect(()=>{const off=client.subscribe(()=>{generation.current++;setConflict(undefined);setConfirmed(false);setMessage('');});return()=>{generation.current++;off();};},[client]);
+ const inspect=async()=>{if(running.current)return;running.current=true;setBusy(true);setConflict(undefined);setConfirmed(false);setMessage('');const g=generation.current;try{const r=await documents.inspectConflict() as Conflict;if(g===generation.current)setConflict(r);}catch(e){if(g===generation.current)setMessage(e instanceof Error?e.message:'No se pudo comprobar el estado remoto. El trabajo local se conserva.');}finally{running.current=false;setBusy(false);}};
+ const resolve=async(choice:'independent'|'load-remote'|'publish-new')=>{if(!conflict||!confirmed||running.current)return;running.current=true;setBusy(true);setMessage('');try{const result=await documents.resolveConflict(conflict.resolutionId,choice,true);setMessage(result.backupPath?`Versión remota cargada como copia de trabajo. Respaldo local: ${result.backupPath}. Guarda la nueva copia antes de publicar.`:'Copia independiente preparada. Guarda el nuevo archivo y elige un proyecto para publicarlo manualmente.');setConflict(undefined);setConfirmed(false);}catch(e){setConflict(undefined);setConfirmed(false);setMessage(e instanceof Error?e.message:'No se pudo resolver el conflicto. Se conserva el trabajo local.');}finally{running.current=false;setBusy(false);}};
+ return <section aria-label="Conflictos de publicación"><h2>Conflictos de publicación</h2><button disabled={busy} onClick={()=>void inspect()}>Revisar conflicto de publicación</button>
+  {busy&&<p role="status">Comprobando y conservando el trabajo local…</p>}{message&&<p role="status">{message}</p>}
+  {conflict?.kind==='current'&&<p>La versión vinculada coincide con la versión actual de la cuenta.</p>}
+  {conflict?.kind==='trashed'&&<p>El patrón o su proyecto está en la papelera. Restaura el recurso en la cuenta y vuelve a comprobarlo antes de publicar. Tu documento local se conserva.</p>}
+  {conflict?.kind==='version-conflict'&&<><p>La cuenta tiene otra versión: {conflict.currentVersionId}. Puedes conservar tu trabajo como patrón independiente o cargar esa versión remota después de guardar un respaldo verificado.</p><label><input type="checkbox" checked={confirmed} onChange={e=>setConfirmed(e.target.checked)}/>Confirmo la opción que voy a elegir. El archivo local original se conservará.</label><button disabled={busy||!confirmed} onClick={()=>void resolve('independent')}>Conservar como patrón independiente</button><button disabled={busy||!confirmed} onClick={()=>void resolve('load-remote')}>Cargar versión remota con respaldo</button></>}
+  {conflict&&['deleted-confirmed','account-deleted-confirmed'].includes(conflict.kind)&&<><p>La eliminación definitiva está confirmada. Puedes preparar un patrón nuevo sin trasladar el historial ni los accesos anteriores.</p><label><input type="checkbox" checked={confirmed} onChange={e=>setConfirmed(e.target.checked)}/>Confirmo crear una copia independiente; después elegiré un proyecto y publicaré manualmente.</label><button disabled={busy||!confirmed} onClick={()=>void resolve('publish-new')}>Publicar como patrón nuevo</button></>}
+  {conflict&&<button disabled={busy} onClick={()=>{setConflict(undefined);setConfirmed(false);}}>Conservar el trabajo local sin cambios</button>}
+ </section>;
+}

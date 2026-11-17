@@ -1,0 +1,27 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "PrivateFilesAndBackups",
+      "Effect": "Allow",
+      "Action": ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
+      "Resource": [
+        "arn:aws:s3:::patronaje-test-847205414980-files/objects/*",
+        "arn:aws:s3:::patronaje-test-847205414980-backups/backups/*"
+      ]
+    },
+    {
+      "Sid": "ExternalSuppressionEvidence",
+      "Effect": "Allow",
+      "Action": ["s3:GetObject", "s3:PutObject"],
+      "Resource": "arn:aws:s3:::patronaje-test-847205414980-backups/evidence/journal.json"
+    },
+    {
+      "Sid": "VerifiedPilotSender",
+      "Effect": "Allow",
+      "Action": "ses:SendEmail",
+      "Resource": "arn:aws:ses:us-east-2:847205414980:identity/patronaje277353@gmail.com",
+      "Condition": {"StringEquals": {"ses:FromAddress": "patronaje277353@gmail.com"}}
+    }
+  ]
+}

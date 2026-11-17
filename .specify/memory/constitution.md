@@ -1,7 +1,8 @@
+<!-- Sync Impact Report: 1.0.1 -> 1.0.2. Aclaración del principio Eliminación: separar validación local y autorización remota conforme a decisión del usuario. Sin secciones añadidas o eliminadas; sin nuevos placeholders pendientes. Sincronizar FR-017 y aceptación en spec.md. Retirar este comentario antes de commit. -->
 # Constitución del Proyecto: PATRONAJE
 
 **Estado:** adoptada.
-**Agente de IA encargado:** DeepSeek (DeepSeek Harness).
+**Agente de IA encargado:** Codex.
 
 > Esta constitución establece las reglas transversales que orientan todas las decisiones del proyecto y el trabajo del agente de IA. Las características concretas del producto se detallan en las especificaciones (`specs/*/spec.md`). Si una regla cambia, se actualiza primero esta constitución y luego se revisan las especificaciones afectadas.
 
@@ -50,7 +51,7 @@ Estas reglas son obligatorias:
 - **Exportación para producción:** indicar unidad y escala de salida. No presentar una exportación como apta para producción si existen errores geométricos que impiden obtener medidas correctas. Los formatos de intercambio e impresión se incorporan únicamente cuando estén especificados.
 - **Descargas e impresión:** distinguir el archivo editable del patrón, la vista previa y el archivo preparado para impresión. Cada archivo de impresión debe estar asociado a la versión del patrón que lo originó e indicar escala y dimensiones de salida. Descargarlo desde la web o la móvil debe conservar su contenido y medidas. Las instrucciones de impresión deben indicar cómo conservar la escala prevista; la vista previa no garantiza una impresión a tamaño real. La impresión directa desde cada aplicación solo se implementará si queda especificada.
 - **Conflictos de edición:** no sobrescribir cambios de otro usuario sin advertencia. Una actualización debe verificar la versión que se está modificando y rechazar conflictos para que el usuario pueda resolverlos. La edición colaborativa en tiempo real requiere una especificación propia.
-- **Eliminación:** las acciones destructivas requieren una confirmación clara en la interfaz y autorización en el backend. La eliminación de metadatos y archivos debe mantener la consistencia; el comportamiento de recuperación y retención se definirá antes de implementar esta función.
+- **Eliminación:** las acciones destructivas requieren una confirmación clara en la interfaz. Las exclusivamente locales requieren validación local, sin conexión, sesión remota ni autorización del backend. Las que afectan a recursos de la cuenta requieren sesión válida y autorización verificadas en el servidor, además de la confirmación. Una acción local no autoriza ni ejecuta por sí sola cambios destructivos remotos. La eliminación de metadatos y archivos debe mantener la consistencia; el comportamiento de recuperación y retención se definirá antes de implementar esta función.
 
 ## 4. Estructura y Estilo de Código
 
@@ -73,7 +74,7 @@ Estas reglas son obligatorias:
 
 ## 6. Comportamiento del Agente de IA (Reglas SDD)
 
-El agente de IA encargado del proyecto es **DeepSeek** y debe cumplir estas reglas:
+El agente de IA encargado del proyecto es **Codex** y debe cumplir estas reglas:
 
 - **Cero código sombra:** implementar únicamente lo definido en las especificaciones aprobadas (`spec.md`). No añadir funcionalidades, dependencias ni complejidad por anticipación.
 - **Fuente de la verdad:** si una solicitud contradice esta constitución o aparece una inconsistencia entre reglas y especificaciones, explicar el conflicto y resolver la actualización del documento correspondiente antes de implementar el cambio afectado.
@@ -91,4 +92,10 @@ El agente de IA encargado del proyecto es **DeepSeek** y debe cumplir estas regl
 
 ---
 
-**Versión**: 1.0.0 | **Ratificada**: 2026-10-23 | **Última enmienda**: 2026-10-23
+**Versión**: 1.0.2 | **Ratificada**: 2026-10-23 | **Última enmienda**: 2026-11-14
+
+## Registro de enmiendas
+
+- 2026-11-13 (1.0.1): se sustituye DeepSeek Harness por Codex como agente encargado. Se conservan todos los principios, reglas y decisiones pendientes. Se revisó specs/001-patronaje/spec.md: no requiere cambios funcionales por esta migración y conserva su estado Draft.
+
+- 2026-11-14 (1.0.2): aclaración aprobada del ámbito de las acciones destructivas: confirmación y validación local para acciones exclusivamente locales; confirmación, sesión válida y autorización del servidor para recursos de la cuenta. Se preserva el trabajo sin conexión y se sincroniza FR-017 de la especificación.

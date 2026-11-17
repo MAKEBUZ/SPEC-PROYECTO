@@ -1,0 +1,20 @@
+import {beforeAll,afterAll,it,expect} from 'vitest';
+import {randomUUID} from 'node:crypto';
+import {startAccountHost,type AccountHost} from '../support/account-host.js';
+import {publishedFixture} from '../support/publication-fixture.js';
+let host:AccountHost;
+beforeAll(async()=>{host=await startAccountHost();},30000);afterAll(async()=>{await host?.close();});
+it('distinguishes owned active, trashed and confirmed-deleted patterns without treating absence as deletion',async()=>{
+ const a=await host.verifiedAccount(),other=await host.verifiedAccount(),fixture=await publishedFixture(host,a.session);
+ const rows=(await host.pool.query('SELECT p.* FROM patterns p WHERE owner_id=$1',[a.accountId])).rows,p=rows[0],path=`/patterns/${p.id}/publication-status`;
+ expect((await host.request('GET',path,undefined,a.session)).body).toMatchObject({kind:'active',patternId:p.id,versionId:p.latest_version_id});
+ expect((await host.request('GET',path,undefined,other.session)).status).toBe(404);
+ await host.pool.query("UPDATE patterns SET state='trashed',trashed_at=clock_timestamp(),expires_at=clock_timestamp()+interval '30 days' WHERE id=$1",[p.id]);
+ expect((await host.request('GET',path,undefined,a.session)).body.kind).toBe('trashed');
+ const absent=randomUUID(),operation=randomUUID();expect((await host.request('GET',`/patterns/${absent}/publication-status`,undefined,a.session)).status).toBe(404);
+ await host.pool.query("INSERT INTO purge_jobs(id,owner_id,operation_id,root_kind,root_id,scope_revision,member_ids,object_keys,state,suppression_id) VALUES($1,$2,$3,'pattern',$4,'test',$5,'{}','metadata',$6)",[randomUUID(),a.accountId,operation,absent,[absent],randomUUID()]);
+ expect((await host.request('GET',`/patterns/${absent}/publication-status`,undefined,a.session)).status).toBe(404);
+ await host.pool.query("UPDATE purge_jobs SET state='complete',completed_at=clock_timestamp() WHERE operation_id=$1",[operation]);
+ expect((await host.request('GET',`/patterns/${absent}/publication-status`,undefined,a.session)).body).toMatchObject({kind:'deleted-confirmed',patternId:absent,operationId:operation});
+ expect((await host.request('GET',`/patterns/${absent}/publication-status`,undefined,other.session)).status).toBe(404);
+});

@@ -1,0 +1,10 @@
+import { resolve } from 'node:path';
+import { DocumentWriter,identity } from '../../apps/desktop/src/main/documents/save.js';
+import { windowsAdapter } from '../../apps/desktop/src/main/documents/windows-adapter.js';
+const [path,directory,stage]=process.argv.slice(2);
+if(!path||!directory||!['before','after','flush'].includes(stage??''))throw Error('Invalid fixture arguments');
+const adapter=windowsAdapter(resolve('apps/desktop/native/build/Release/file_replace.node')),replace=adapter.replace;
+adapter.replace=async(...args)=>{if(stage==='before')process.exit(73);await replace(...args);if(stage==='after')process.exit(73);};
+if(stage==='flush')adapter.flush=async()=>process.exit(73);
+await new DocumentWriter(directory,adapter).save({path,expected:await identity(path),snapshot:{formatVersion:1,documentId:'80000000-0000-4000-8000-000000000002',revisionId:'0'.repeat(64),units:'mm',pieces:[],preparations:[]}});
+throw Error('Expected child exit');

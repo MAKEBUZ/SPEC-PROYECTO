@@ -1,0 +1,15 @@
+{$PUBLIC_HOST} {
+ encode zstd gzip
+ redir / /account 302
+ header {
+  X-Content-Type-Options nosniff
+  Referrer-Policy no-referrer
+ }
+ @api path /v1/*
+ handle @api {
+  reverse_proxy api:3001
+ }
+ handle {
+  reverse_proxy web:3000
+ }
+}

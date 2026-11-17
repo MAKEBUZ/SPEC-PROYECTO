@@ -1,0 +1,15 @@
+:root { color-scheme: light; font-family: system-ui, sans-serif; color: #17332f; background: #f3f5f1; }
+body { margin: 0; } .account { max-width: 52rem; margin: auto; padding: 1.5rem; }
+header { border-bottom: 2px solid #237264; margin-bottom: 1.5rem; }
+form, section { background: white; padding: 1.25rem; margin: 1rem 0; border: 1px solid #d1ddd7; border-radius: .5rem; }
+fieldset { border: 0; padding: 0; min-width: 0; } label { display: block; margin: .75rem 0; }
+input { display: block; box-sizing: border-box; width: 100%; padding: .7rem; margin-top: .4rem; border: 1px solid #6e8780; border-radius: .25rem; font: inherit; }
+button { padding: .75rem 1rem; margin: .3rem .3rem .3rem 0; background: #176553; color: white; border: 0; border-radius: .3rem; font: inherit; cursor: pointer; }
+button:disabled { opacity: .55; cursor: default; } :focus-visible { outline: 3px solid #bc6e00; outline-offset: 3px; }
+p { line-height: 1.6; overflow-wrap: anywhere; } h2 { font-size: 1.15rem; } @media(max-width: 480px) { .account { padding: .75rem; } }
+.library { max-width: 64rem; margin: auto; padding: 1.5rem; }
+.library li, .library button { overflow-wrap: anywhere; }
+.library button { max-width: 100%; }
+.library ul { padding-inline-start: 1.25rem; }
+.library figure { margin: .5rem 0; }
+@media(max-width: 480px) { .library { padding: .75rem; } .library section { padding: .75rem; } }

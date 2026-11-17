@@ -1,0 +1,6 @@
+import type { ProductionIssue } from './validate.js';
+export function productionMessage(issues:ProductionIssue[]):string {
+ const metadata:Record<string,string>={name:'Falta el nombre de la pieza',sizeLabel:'Falta la talla',cutQuantity:'La cantidad a cortar debe ser un entero mayor que 0',grainline:'Define una línea de hilo con inicio y fin distintos'};
+ const codes:Record<string,string>={CONTOUR_INVALID:'Corrige el contorno de la pieza: debe estar cerrado y sin cruces ni tramos inválidos',METADATA_REQUIRED:'Completa los datos obligatorios de la pieza',PIECE_MISSING:'Hay una pieza que ya no existe en esta preparación',SELECTION_LIMIT_EXCEEDED:'Selecciona entre 1 y 100 piezas',PIECES_OVERLAP:'Separa las piezas superpuestas, incluidos sus márgenes',SEPARATION_BELOW_2MM:'Deja al menos 2 mm entre los bordes exteriores de las piezas',COMPOSITION_LIMIT_EXCEEDED:'La composición supera el límite de 10 × 10 metros',LAYOUT_INVALID:'Revisa el papel, el margen imprimible y el límite de páginas',PREPARATION_NOT_FOUND:'Selecciona una preparación existente'};
+ return [...new Set(issues.map(i=>i.code==='METADATA_REQUIRED'?(metadata[i.detail??'']??codes.METADATA_REQUIRED):codes[i.code]??'No se pudo validar la geometría o el margen. Revisa la validación de la pieza'))].join('. ')+'. Puedes conservar el borrador; corrige estos problemas antes de exportar.';
+}

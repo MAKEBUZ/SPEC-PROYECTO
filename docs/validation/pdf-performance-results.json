@@ -1,0 +1,1172 @@
+{
+  "recordedAt": "2026-11-16T16:10:57.311Z",
+  "buildHash": "921ee1af562ecac27e6d36409b5a521d412184ece9a6edb8d2f815d987f1b805",
+  "scope": "Local Windows measurements; not reference hardware or physical printing",
+  "generation": [
+    {
+      "name": "small",
+      "cancelMode": false,
+      "startedAt": "2026-11-16T15:59:35.986Z",
+      "buildHash": "921ee1af562ecac27e6d36409b5a521d412184ece9a6edb8d2f815d987f1b805",
+      "inputHash": "e6b0eca47ac793730ac0625c6705c250169f97d64148f4d5cd8c77aceee31e19",
+      "fontHash": "b85c38ecea8a7cfb39c24e395a4007474fa5a4fc864f6ee33309eb4948d232d5",
+      "pieces": 10,
+      "segmentsPerPiece": 20,
+      "node": "v24.22.3",
+      "os": "10.0.26200",
+      "cpu": "AMD Ryzen 7 5700G with Radeon Graphics         ",
+      "logicalCpus": 16,
+      "totalmem": 34137837568,
+      "runs": [
+        {
+          "run": 1,
+          "state": "saved",
+          "generatedMs": 28143.2114,
+          "totalMs": 28172.1557,
+          "withinTarget": true,
+          "bytes": 45488,
+          "pages": 1
+        },
+        {
+          "run": 2,
+          "state": "saved",
+          "generatedMs": 25695.8594,
+          "totalMs": 25712.2647,
+          "withinTarget": true,
+          "bytes": 45488,
+          "pages": 1
+        },
+        {
+          "run": 3,
+          "state": "saved",
+          "generatedMs": 25463.921200000004,
+          "totalMs": 25483.150499999996,
+          "withinTarget": true,
+          "bytes": 45488,
+          "pages": 1
+        },
+        {
+          "run": 4,
+          "state": "saved",
+          "generatedMs": 24563.614700000006,
+          "totalMs": 24582.1746,
+          "withinTarget": true,
+          "bytes": 45488,
+          "pages": 1
+        },
+        {
+          "run": 5,
+          "state": "saved",
+          "generatedMs": 24976.252999999997,
+          "totalMs": 24993.62079999999,
+          "withinTarget": true,
+          "bytes": 45488,
+          "pages": 1
+        },
+        {
+          "run": 6,
+          "state": "saved",
+          "generatedMs": 24805.60400000002,
+          "totalMs": 24823.582400000014,
+          "withinTarget": true,
+          "bytes": 45488,
+          "pages": 1
+        },
+        {
+          "run": 7,
+          "state": "saved",
+          "generatedMs": 24547.7494,
+          "totalMs": 24566.066900000005,
+          "withinTarget": true,
+          "bytes": 45488,
+          "pages": 1
+        },
+        {
+          "run": 8,
+          "state": "saved",
+          "generatedMs": 25712.16380000001,
+          "totalMs": 25732.23570000002,
+          "withinTarget": true,
+          "bytes": 45488,
+          "pages": 1
+        },
+        {
+          "run": 9,
+          "state": "saved",
+          "generatedMs": 24545.024000000005,
+          "totalMs": 24563.277100000007,
+          "withinTarget": true,
+          "bytes": 45488,
+          "pages": 1
+        },
+        {
+          "run": 10,
+          "state": "saved",
+          "generatedMs": 25378.920500000007,
+          "totalMs": 25396.561000000016,
+          "withinTarget": true,
+          "bytes": 45488,
+          "pages": 1
+        }
+      ]
+    },
+    {
+      "name": "medium",
+      "cancelMode": false,
+      "startedAt": "2026-11-16T16:03:50.376Z",
+      "buildHash": "921ee1af562ecac27e6d36409b5a521d412184ece9a6edb8d2f815d987f1b805",
+      "inputHash": "a8dc72e0a799b888cab6581f18a3055a8b88d18d815bcf8d3d12b22e5b6af553",
+      "fontHash": "b85c38ecea8a7cfb39c24e395a4007474fa5a4fc864f6ee33309eb4948d232d5",
+      "pieces": 50,
+      "segmentsPerPiece": 100,
+      "node": "v24.22.3",
+      "os": "10.0.26200",
+      "cpu": "AMD Ryzen 7 5700G with Radeon Graphics         ",
+      "logicalCpus": 16,
+      "totalmem": 34137837568,
+      "runs": [
+        {
+          "run": 1,
+          "state": "saved",
+          "generatedMs": 27260.6535,
+          "totalMs": 27285.7756,
+          "withinTarget": true,
+          "bytes": 372369,
+          "pages": 1
+        },
+        {
+          "run": 2,
+          "state": "saved",
+          "generatedMs": 25990.1704,
+          "totalMs": 26009.968599999997,
+          "withinTarget": true,
+          "bytes": 372369,
+          "pages": 1
+        },
+        {
+          "run": 3,
+          "state": "saved",
+          "generatedMs": 26532.6458,
+          "totalMs": 26551.910799999998,
+          "withinTarget": true,
+          "bytes": 372369,
+          "pages": 1
+        },
+        {
+          "run": 4,
+          "state": "saved",
+          "generatedMs": 26106.645099999994,
+          "totalMs": 26125.031199999998,
+          "withinTarget": true,
+          "bytes": 372369,
+          "pages": 1
+        },
+        {
+          "run": 5,
+          "state": "saved",
+          "generatedMs": 27359.830599999987,
+          "totalMs": 27381.372700000007,
+          "withinTarget": true,
+          "bytes": 372369,
+          "pages": 1
+        },
+        {
+          "run": 6,
+          "state": "saved",
+          "generatedMs": 30910.52530000001,
+          "totalMs": 30930.399000000005,
+          "withinTarget": true,
+          "bytes": 372369,
+          "pages": 1
+        },
+        {
+          "run": 7,
+          "state": "saved",
+          "generatedMs": 26081.493199999997,
+          "totalMs": 26102.915000000008,
+          "withinTarget": true,
+          "bytes": 372369,
+          "pages": 1
+        },
+        {
+          "run": 8,
+          "state": "saved",
+          "generatedMs": 27886.882899999997,
+          "totalMs": 27909.81719999999,
+          "withinTarget": true,
+          "bytes": 372369,
+          "pages": 1
+        },
+        {
+          "run": 9,
+          "state": "saved",
+          "generatedMs": 29518.391100000008,
+          "totalMs": 29537.401700000017,
+          "withinTarget": true,
+          "bytes": 372369,
+          "pages": 1
+        },
+        {
+          "run": 10,
+          "state": "saved",
+          "generatedMs": 28942.311199999967,
+          "totalMs": 28967.464699999982,
+          "withinTarget": true,
+          "bytes": 372369,
+          "pages": 1
+        }
+      ]
+    },
+    {
+      "name": "large",
+      "cancelMode": false,
+      "startedAt": "2026-11-16T15:50:16.613Z",
+      "buildHash": "921ee1af562ecac27e6d36409b5a521d412184ece9a6edb8d2f815d987f1b805",
+      "inputHash": "f6021465b936d71f393685e0a1b54a4925f25c867f5178a1e241bad981f205ae",
+      "fontHash": "b85c38ecea8a7cfb39c24e395a4007474fa5a4fc864f6ee33309eb4948d232d5",
+      "pieces": 100,
+      "segmentsPerPiece": 500,
+      "node": "v24.22.3",
+      "os": "10.0.26200",
+      "cpu": "AMD Ryzen 7 5700G with Radeon Graphics         ",
+      "logicalCpus": 16,
+      "totalmem": 34137837568,
+      "runs": [
+        {
+          "run": 1,
+          "state": "saved",
+          "generatedMs": 50069.2248,
+          "totalMs": 50103.9066,
+          "withinTarget": true,
+          "bytes": 3111361,
+          "pages": 1
+        },
+        {
+          "run": 2,
+          "state": "saved",
+          "generatedMs": 49297.3451,
+          "totalMs": 49325.51069999999,
+          "withinTarget": true,
+          "bytes": 3111361,
+          "pages": 1
+        },
+        {
+          "run": 3,
+          "state": "saved",
+          "generatedMs": 53281.9592,
+          "totalMs": 53309.7509,
+          "withinTarget": true,
+          "bytes": 3111361,
+          "pages": 1
+        },
+        {
+          "run": 4,
+          "state": "saved",
+          "generatedMs": 53788.54939999999,
+          "totalMs": 53817.14720000001,
+          "withinTarget": true,
+          "bytes": 3111361,
+          "pages": 1
+        },
+        {
+          "run": 5,
+          "state": "saved",
+          "generatedMs": 54443.08420000001,
+          "totalMs": 54478.42079999999,
+          "withinTarget": true,
+          "bytes": 3111361,
+          "pages": 1
+        },
+        {
+          "run": 6,
+          "state": "saved",
+          "generatedMs": 56260.173099999985,
+          "totalMs": 56290.91260000001,
+          "withinTarget": true,
+          "bytes": 3111361,
+          "pages": 1
+        },
+        {
+          "run": 7,
+          "state": "saved",
+          "generatedMs": 54085.26540000003,
+          "totalMs": 54117.18430000002,
+          "withinTarget": true,
+          "bytes": 3111361,
+          "pages": 1
+        },
+        {
+          "run": 8,
+          "state": "saved",
+          "generatedMs": 56412.3493,
+          "totalMs": 56441.90789999999,
+          "withinTarget": true,
+          "bytes": 3111361,
+          "pages": 1
+        },
+        {
+          "run": 9,
+          "state": "saved",
+          "generatedMs": 54551.78860000003,
+          "totalMs": 54582.37690000003,
+          "withinTarget": true,
+          "bytes": 3111361,
+          "pages": 1
+        },
+        {
+          "run": 10,
+          "state": "saved",
+          "generatedMs": 50336.85600000003,
+          "totalMs": 50365.67370000004,
+          "withinTarget": true,
+          "bytes": 3111361,
+          "pages": 1
+        }
+      ]
+    },
+    {
+      "name": "maximum-format",
+      "cancelMode": false,
+      "startedAt": "2026-11-16T16:08:27.455Z",
+      "buildHash": "921ee1af562ecac27e6d36409b5a521d412184ece9a6edb8d2f815d987f1b805",
+      "inputHash": "1ad7b86534b8d072c1daa15e9c2d2b7058e4929c723e343034337dd2eacfc5d6",
+      "fontHash": "b85c38ecea8a7cfb39c24e395a4007474fa5a4fc864f6ee33309eb4948d232d5",
+      "pieces": 4,
+      "segmentsPerPiece": 4,
+      "node": "v24.22.3",
+      "os": "10.0.26200",
+      "cpu": "AMD Ryzen 7 5700G with Radeon Graphics         ",
+      "logicalCpus": 16,
+      "totalmem": 34137837568,
+      "runs": [
+        {
+          "run": 1,
+          "state": "saved",
+          "generatedMs": 464.27649999999994,
+          "totalMs": 498.22399999999993,
+          "withinTarget": true,
+          "bytes": 21236,
+          "pages": 1
+        },
+        {
+          "run": 2,
+          "state": "saved",
+          "generatedMs": 389.98109999999997,
+          "totalMs": 415.6634,
+          "withinTarget": true,
+          "bytes": 21236,
+          "pages": 1
+        },
+        {
+          "run": 3,
+          "state": "saved",
+          "generatedMs": 411.5212,
+          "totalMs": 443.96889999999996,
+          "withinTarget": true,
+          "bytes": 21236,
+          "pages": 1
+        },
+        {
+          "run": 4,
+          "state": "saved",
+          "generatedMs": 422.9850999999999,
+          "totalMs": 443.9527999999998,
+          "withinTarget": true,
+          "bytes": 21236,
+          "pages": 1
+        },
+        {
+          "run": 5,
+          "state": "saved",
+          "generatedMs": 410.0551999999998,
+          "totalMs": 429.86699999999973,
+          "withinTarget": true,
+          "bytes": 21236,
+          "pages": 1
+        },
+        {
+          "run": 6,
+          "state": "saved",
+          "generatedMs": 403.0497999999998,
+          "totalMs": 421.0810999999999,
+          "withinTarget": true,
+          "bytes": 21236,
+          "pages": 1
+        },
+        {
+          "run": 7,
+          "state": "saved",
+          "generatedMs": 403.8440999999998,
+          "totalMs": 437.86529999999993,
+          "withinTarget": true,
+          "bytes": 21236,
+          "pages": 1
+        },
+        {
+          "run": 8,
+          "state": "saved",
+          "generatedMs": 451.3451,
+          "totalMs": 480.87210000000005,
+          "withinTarget": true,
+          "bytes": 21236,
+          "pages": 1
+        },
+        {
+          "run": 9,
+          "state": "saved",
+          "generatedMs": 493.02099999999973,
+          "totalMs": 523.2775000000001,
+          "withinTarget": true,
+          "bytes": 21236,
+          "pages": 1
+        },
+        {
+          "run": 10,
+          "state": "saved",
+          "generatedMs": 463.14310000000023,
+          "totalMs": 481.03639999999996,
+          "withinTarget": true,
+          "bytes": 21236,
+          "pages": 1
+        }
+      ]
+    },
+    {
+      "name": "250-pages",
+      "cancelMode": false,
+      "startedAt": "2026-11-16T16:08:32.310Z",
+      "buildHash": "921ee1af562ecac27e6d36409b5a521d412184ece9a6edb8d2f815d987f1b805",
+      "inputHash": "30b37267692db1c284f64821da0ef617fae5196d20931a307b576ebff5516316",
+      "fontHash": "b85c38ecea8a7cfb39c24e395a4007474fa5a4fc864f6ee33309eb4948d232d5",
+      "pieces": 2,
+      "segmentsPerPiece": 4,
+      "node": "v24.22.3",
+      "os": "10.0.26200",
+      "cpu": "AMD Ryzen 7 5700G with Radeon Graphics         ",
+      "logicalCpus": 16,
+      "totalmem": 34137837568,
+      "runs": [
+        {
+          "run": 1,
+          "state": "saved",
+          "generatedMs": 836.9031,
+          "totalMs": 861.6632,
+          "withinTarget": true,
+          "bytes": 819769,
+          "pages": 250
+        },
+        {
+          "run": 2,
+          "state": "saved",
+          "generatedMs": 760.2330000000001,
+          "totalMs": 783.9465000000001,
+          "withinTarget": true,
+          "bytes": 819769,
+          "pages": 250
+        },
+        {
+          "run": 3,
+          "state": "saved",
+          "generatedMs": 846.9904999999999,
+          "totalMs": 882.0990999999999,
+          "withinTarget": true,
+          "bytes": 819769,
+          "pages": 250
+        },
+        {
+          "run": 4,
+          "state": "saved",
+          "generatedMs": 816.0920000000001,
+          "totalMs": 836.1417999999999,
+          "withinTarget": true,
+          "bytes": 819769,
+          "pages": 250
+        },
+        {
+          "run": 5,
+          "state": "saved",
+          "generatedMs": 927.7732000000001,
+          "totalMs": 962.2278000000001,
+          "withinTarget": true,
+          "bytes": 819769,
+          "pages": 250
+        },
+        {
+          "run": 6,
+          "state": "saved",
+          "generatedMs": 967.1095999999998,
+          "totalMs": 1007.7311,
+          "withinTarget": true,
+          "bytes": 819769,
+          "pages": 250
+        },
+        {
+          "run": 7,
+          "state": "saved",
+          "generatedMs": 891.7933999999996,
+          "totalMs": 927.1749,
+          "withinTarget": true,
+          "bytes": 819769,
+          "pages": 250
+        },
+        {
+          "run": 8,
+          "state": "saved",
+          "generatedMs": 884.1603000000005,
+          "totalMs": 909.2645000000002,
+          "withinTarget": true,
+          "bytes": 819769,
+          "pages": 250
+        },
+        {
+          "run": 9,
+          "state": "saved",
+          "generatedMs": 866.7356,
+          "totalMs": 903.1023999999998,
+          "withinTarget": true,
+          "bytes": 819769,
+          "pages": 250
+        },
+        {
+          "run": 10,
+          "state": "saved",
+          "generatedMs": 923.2437000000009,
+          "totalMs": 958.2579000000005,
+          "withinTarget": true,
+          "bytes": 819769,
+          "pages": 250
+        }
+      ]
+    }
+  ],
+  "cancellation": [
+    {
+      "name": "small",
+      "cancelMode": true,
+      "startedAt": "2026-11-16T16:08:41.647Z",
+      "buildHash": "921ee1af562ecac27e6d36409b5a521d412184ece9a6edb8d2f815d987f1b805",
+      "inputHash": "34096833b81aa5a789d124d1ef0f898c1f79a68481e544f644639f952d9101e1",
+      "fontHash": "b85c38ecea8a7cfb39c24e395a4007474fa5a4fc864f6ee33309eb4948d232d5",
+      "pieces": 10,
+      "segmentsPerPiece": 20,
+      "node": "v24.22.3",
+      "os": "10.0.26200",
+      "cpu": "AMD Ryzen 7 5700G with Radeon Graphics         ",
+      "logicalCpus": 16,
+      "totalmem": 34137837568,
+      "runs": [
+        {
+          "run": 1,
+          "state": "cancelled",
+          "cancelMs": 7.043600000000197,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        },
+        {
+          "run": 2,
+          "state": "cancelled",
+          "cancelMs": 8.2199999999998,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        },
+        {
+          "run": 3,
+          "state": "cancelled",
+          "cancelMs": 9.050499999999829,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        },
+        {
+          "run": 4,
+          "state": "cancelled",
+          "cancelMs": 7.675799999999981,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        },
+        {
+          "run": 5,
+          "state": "cancelled",
+          "cancelMs": 6.846599999999853,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        },
+        {
+          "run": 6,
+          "state": "cancelled",
+          "cancelMs": 7.757799999999406,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        },
+        {
+          "run": 7,
+          "state": "cancelled",
+          "cancelMs": 7.413199999999051,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        },
+        {
+          "run": 8,
+          "state": "cancelled",
+          "cancelMs": 7.5406999999995605,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        },
+        {
+          "run": 9,
+          "state": "cancelled",
+          "cancelMs": 8.085499999999229,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        },
+        {
+          "run": 10,
+          "state": "cancelled",
+          "cancelMs": 7.540400000001682,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        }
+      ]
+    },
+    {
+      "name": "medium",
+      "cancelMode": true,
+      "startedAt": "2026-11-16T16:08:54.527Z",
+      "buildHash": "921ee1af562ecac27e6d36409b5a521d412184ece9a6edb8d2f815d987f1b805",
+      "inputHash": "ecdf36d212bd97aea36b8560f56c334072439efae7004c96f8d5802c9286d3be",
+      "fontHash": "b85c38ecea8a7cfb39c24e395a4007474fa5a4fc864f6ee33309eb4948d232d5",
+      "pieces": 50,
+      "segmentsPerPiece": 100,
+      "node": "v24.22.3",
+      "os": "10.0.26200",
+      "cpu": "AMD Ryzen 7 5700G with Radeon Graphics         ",
+      "logicalCpus": 16,
+      "totalmem": 34137837568,
+      "runs": [
+        {
+          "run": 1,
+          "state": "cancelled",
+          "cancelMs": 8.623299999999972,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        },
+        {
+          "run": 2,
+          "state": "cancelled",
+          "cancelMs": 6.619499999999789,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        },
+        {
+          "run": 3,
+          "state": "cancelled",
+          "cancelMs": 3.4310000000004948,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        },
+        {
+          "run": 4,
+          "state": "cancelled",
+          "cancelMs": 10.545799999999872,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        },
+        {
+          "run": 5,
+          "state": "cancelled",
+          "cancelMs": 4.064900000000307,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        },
+        {
+          "run": 6,
+          "state": "cancelled",
+          "cancelMs": 7.6878999999999,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        },
+        {
+          "run": 7,
+          "state": "cancelled",
+          "cancelMs": 7.271200000001045,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        },
+        {
+          "run": 8,
+          "state": "cancelled",
+          "cancelMs": 10.158000000001266,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        },
+        {
+          "run": 9,
+          "state": "cancelled",
+          "cancelMs": 8.058100000000195,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        },
+        {
+          "run": 10,
+          "state": "cancelled",
+          "cancelMs": 7.800999999999476,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        }
+      ]
+    },
+    {
+      "name": "large",
+      "cancelMode": true,
+      "startedAt": "2026-11-16T16:09:08.699Z",
+      "buildHash": "921ee1af562ecac27e6d36409b5a521d412184ece9a6edb8d2f815d987f1b805",
+      "inputHash": "9b193fc7fb9db6125f13d75e8d02cee9da4d0d8012e678d88f8692d045b9efae",
+      "fontHash": "b85c38ecea8a7cfb39c24e395a4007474fa5a4fc864f6ee33309eb4948d232d5",
+      "pieces": 100,
+      "segmentsPerPiece": 500,
+      "node": "v24.22.3",
+      "os": "10.0.26200",
+      "cpu": "AMD Ryzen 7 5700G with Radeon Graphics         ",
+      "logicalCpus": 16,
+      "totalmem": 34137837568,
+      "runs": [
+        {
+          "run": 1,
+          "state": "cancelled",
+          "cancelMs": 10.979400000000169,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        },
+        {
+          "run": 2,
+          "state": "cancelled",
+          "cancelMs": 10.502800000000207,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        },
+        {
+          "run": 3,
+          "state": "cancelled",
+          "cancelMs": 11.178499999999985,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        },
+        {
+          "run": 4,
+          "state": "cancelled",
+          "cancelMs": 13.111299999999574,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        },
+        {
+          "run": 5,
+          "state": "cancelled",
+          "cancelMs": 15.148699999999735,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        },
+        {
+          "run": 6,
+          "state": "cancelled",
+          "cancelMs": 10.186899999998786,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        },
+        {
+          "run": 7,
+          "state": "cancelled",
+          "cancelMs": 10.441800000000512,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        },
+        {
+          "run": 8,
+          "state": "cancelled",
+          "cancelMs": 10.591099999999642,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        },
+        {
+          "run": 9,
+          "state": "cancelled",
+          "cancelMs": 12.932399999999689,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        },
+        {
+          "run": 10,
+          "state": "cancelled",
+          "cancelMs": 11.296999999998661,
+          "cancellingImmediate": true,
+          "withinTarget": true
+        }
+      ]
+    }
+  ],
+  "platforms": {
+    "image": "node:24.22.3-bookworm-slim",
+    "imageId": "sha256:dc26ae92c9fb15cf6b1d63e20f0944b2efe0f115b20e00be48fb23fceb061c54",
+    "windows": {
+      "profile": "patronaje-pdf-1",
+      "node": "v24.22.3",
+      "cases": [
+        {
+          "name": "large",
+          "sha256": "f1c4c0242d0e8e4e500373940404333031d3d0a74af9f5a0fd8065ca9310c044",
+          "bytes": 17756,
+          "measurement": {
+            "exportProfileId": "patronaje-pdf-1",
+            "scale": 1,
+            "pages": [
+              {
+                "widthMm": 140,
+                "heightMm": 280
+              }
+            ]
+          }
+        },
+        {
+          "name": "a4",
+          "sha256": "3124dc344da7dea5737b87a73ffa6400af5bc1b17389f034ac6acbb90ac3d87d",
+          "bytes": 33468,
+          "measurement": {
+            "exportProfileId": "patronaje-pdf-1",
+            "scale": 1,
+            "pages": [
+              {
+                "widthMm": 210,
+                "heightMm": 297
+              },
+              {
+                "widthMm": 210,
+                "heightMm": 297
+              },
+              {
+                "widthMm": 210,
+                "heightMm": 297
+              },
+              {
+                "widthMm": 210,
+                "heightMm": 297
+              },
+              {
+                "widthMm": 210,
+                "heightMm": 297
+              },
+              {
+                "widthMm": 210,
+                "heightMm": 297
+              },
+              {
+                "widthMm": 210,
+                "heightMm": 297
+              },
+              {
+                "widthMm": 210,
+                "heightMm": 297
+              }
+            ]
+          }
+        },
+        {
+          "name": "letter",
+          "sha256": "f3cb2c3c01c5fa403b8e7de070ba680040cfa345cd9238268eb73e2fc5a53d26",
+          "bytes": 33196,
+          "measurement": {
+            "exportProfileId": "patronaje-pdf-1",
+            "scale": 1,
+            "pages": [
+              {
+                "widthMm": 215.9,
+                "heightMm": 279.4
+              },
+              {
+                "widthMm": 215.9,
+                "heightMm": 279.4
+              },
+              {
+                "widthMm": 215.9,
+                "heightMm": 279.4
+              },
+              {
+                "widthMm": 215.9,
+                "heightMm": 279.4
+              },
+              {
+                "widthMm": 215.9,
+                "heightMm": 279.4
+              },
+              {
+                "widthMm": 215.9,
+                "heightMm": 279.4
+              },
+              {
+                "widthMm": 215.9,
+                "heightMm": 279.4
+              },
+              {
+                "widthMm": 215.9,
+                "heightMm": 279.4
+              }
+            ]
+          }
+        },
+        {
+          "name": "rotated-cubic",
+          "sha256": "82957cf20eef825b86203291fc844b9289b2c6632e18ec785c39d33a6eee9fff",
+          "bytes": 20562,
+          "measurement": {
+            "exportProfileId": "patronaje-pdf-1",
+            "scale": 1,
+            "pages": [
+              {
+                "widthMm": 135,
+                "heightMm": 260
+              }
+            ]
+          }
+        },
+        {
+          "name": "maximum-format",
+          "sha256": "7f2cc0df806fffb17542da56a5fef35197cb9740143e633415127eb2aaf96725",
+          "bytes": 21236,
+          "measurement": {
+            "exportProfileId": "patronaje-pdf-1",
+            "scale": 1,
+            "pages": [
+              {
+                "widthMm": 10020,
+                "heightMm": 10160
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "linux": {
+      "profile": "patronaje-pdf-1",
+      "node": "v24.22.3",
+      "cases": [
+        {
+          "name": "large",
+          "sha256": "f1c4c0242d0e8e4e500373940404333031d3d0a74af9f5a0fd8065ca9310c044",
+          "bytes": 17756,
+          "measurement": {
+            "exportProfileId": "patronaje-pdf-1",
+            "scale": 1,
+            "pages": [
+              {
+                "widthMm": 140,
+                "heightMm": 280
+              }
+            ]
+          }
+        },
+        {
+          "name": "a4",
+          "sha256": "3124dc344da7dea5737b87a73ffa6400af5bc1b17389f034ac6acbb90ac3d87d",
+          "bytes": 33468,
+          "measurement": {
+            "exportProfileId": "patronaje-pdf-1",
+            "scale": 1,
+            "pages": [
+              {
+                "widthMm": 210,
+                "heightMm": 297
+              },
+              {
+                "widthMm": 210,
+                "heightMm": 297
+              },
+              {
+                "widthMm": 210,
+                "heightMm": 297
+              },
+              {
+                "widthMm": 210,
+                "heightMm": 297
+              },
+              {
+                "widthMm": 210,
+                "heightMm": 297
+              },
+              {
+                "widthMm": 210,
+                "heightMm": 297
+              },
+              {
+                "widthMm": 210,
+                "heightMm": 297
+              },
+              {
+                "widthMm": 210,
+                "heightMm": 297
+              }
+            ]
+          }
+        },
+        {
+          "name": "letter",
+          "sha256": "f3cb2c3c01c5fa403b8e7de070ba680040cfa345cd9238268eb73e2fc5a53d26",
+          "bytes": 33196,
+          "measurement": {
+            "exportProfileId": "patronaje-pdf-1",
+            "scale": 1,
+            "pages": [
+              {
+                "widthMm": 215.9,
+                "heightMm": 279.4
+              },
+              {
+                "widthMm": 215.9,
+                "heightMm": 279.4
+              },
+              {
+                "widthMm": 215.9,
+                "heightMm": 279.4
+              },
+              {
+                "widthMm": 215.9,
+                "heightMm": 279.4
+              },
+              {
+                "widthMm": 215.9,
+                "heightMm": 279.4
+              },
+              {
+                "widthMm": 215.9,
+                "heightMm": 279.4
+              },
+              {
+                "widthMm": 215.9,
+                "heightMm": 279.4
+              },
+              {
+                "widthMm": 215.9,
+                "heightMm": 279.4
+              }
+            ]
+          }
+        },
+        {
+          "name": "rotated-cubic",
+          "sha256": "82957cf20eef825b86203291fc844b9289b2c6632e18ec785c39d33a6eee9fff",
+          "bytes": 20562,
+          "measurement": {
+            "exportProfileId": "patronaje-pdf-1",
+            "scale": 1,
+            "pages": [
+              {
+                "widthMm": 135,
+                "heightMm": 260
+              }
+            ]
+          }
+        },
+        {
+          "name": "maximum-format",
+          "sha256": "7f2cc0df806fffb17542da56a5fef35197cb9740143e633415127eb2aaf96725",
+          "bytes": 21236,
+          "measurement": {
+            "exportProfileId": "patronaje-pdf-1",
+            "scale": 1,
+            "pages": [
+              {
+                "widthMm": 10020,
+                "heightMm": 10160
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "independentVerification": "Windows; identical Linux bytes"
+  },
+  "regression": {
+    "success": true,
+    "total": 152,
+    "passed": 152,
+    "failed": 0,
+    "files": [
+      {
+        "file": "tests/print/bezier-production.spec.ts",
+        "status": "passed"
+      },
+      {
+        "file": "tests/print/concave-separation.spec.ts",
+        "status": "passed"
+      },
+      {
+        "file": "tests/print/duplicate-pieces.spec.ts",
+        "status": "passed"
+      },
+      {
+        "file": "tests/print/export-job.spec.ts",
+        "status": "passed"
+      },
+      {
+        "file": "tests/print/path-separation.spec.ts",
+        "status": "passed"
+      },
+      {
+        "file": "tests/print/pdf-catalog.spec.ts",
+        "status": "passed"
+      },
+      {
+        "file": "tests/print/pdf-geometry.spec.ts",
+        "status": "passed"
+      },
+      {
+        "file": "tests/print/pdf-remote.spec.ts",
+        "status": "passed"
+      },
+      {
+        "file": "tests/print/primitive-separation.spec.ts",
+        "status": "passed"
+      },
+      {
+        "file": "tests/print/production-validation.spec.ts",
+        "status": "passed"
+      },
+      {
+        "file": "tests/print/rotated-export.spec.ts",
+        "status": "passed"
+      },
+      {
+        "file": "tests/unit/geometry-bounds.spec.ts",
+        "status": "passed"
+      },
+      {
+        "file": "tests/unit/geometry-derived-path.spec.ts",
+        "status": "passed"
+      },
+      {
+        "file": "tests/unit/geometry-intersections.spec.ts",
+        "status": "passed"
+      },
+      {
+        "file": "tests/unit/geometry-margin-validation.spec.ts",
+        "status": "passed"
+      },
+      {
+        "file": "tests/unit/geometry-offset-intersections.spec.ts",
+        "status": "passed"
+      },
+      {
+        "file": "tests/unit/geometry-offset-pairs.spec.ts",
+        "status": "passed"
+      },
+      {
+        "file": "tests/unit/geometry-offset.spec.ts",
+        "status": "passed"
+      },
+      {
+        "file": "tests/unit/geometry-polynomials.spec.ts",
+        "status": "passed"
+      },
+      {
+        "file": "tests/unit/geometry-support.spec.ts",
+        "status": "passed"
+      }
+    ]
+  }
+}

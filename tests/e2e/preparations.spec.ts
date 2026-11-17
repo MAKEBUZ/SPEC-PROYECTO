@@ -1,0 +1,48 @@
+import { it,expect } from 'vitest';
+import { _electron,expect as ui } from '@playwright/test';
+import { resolve,join } from 'node:path';
+import { mkdtemp,readFile,rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+it('manages print placement through the real renderer without changing the original piece',async()=>{
+  const env=Object.fromEntries(Object.entries(process.env).filter((pair):pair is [string,string]=>pair[1]!==undefined));delete env.ELECTRON_RUN_AS_NODE;
+  const dir=await mkdtemp(join(tmpdir(),'patron-preparation-')),file=join(dir,'preparaciones.patron');
+  const launch=()=>_electron.launch({timeout:10000,executablePath:resolve('node_modules/electron/dist/electron.exe'),args:[resolve('dist/tests/desktop/cad-host.js'),`--user-data-dir=${join(dir,'profile')}`],env});let app=await launch();
+  try{
+    const page=await app.firstWindow();page.setDefaultTimeout(10000);await page.getByRole('button',{name:'Abrir CAD',exact:true}).click();const draw=page.locator('form[data-action="draw"]');const advanced=page.locator('details').filter({has:page.locator('form[data-action=draw]')});if(!await advanced.evaluate(e=>e.hasAttribute('open')))await advanced.locator(':scope > summary').click();await draw.locator('[name=vertices]').fill('0,0\n40,0\n40,30\n0,30');await draw.getByRole('button').click();await page.getByRole('button',{name:'Cerrar contorno',exact:true}).click();const before=JSON.parse((await page.getByTestId('cad-snapshot').textContent())!);
+    await page.getByRole('button',{name:'Preparar impresión',exact:true}).click();const create=page.locator('form[data-action="preparation-create"]');await create.locator('[name=name]').fill('Montaje');await create.locator('[name=pieces]').check();await create.getByRole('button').click();await ui(page.getByRole('heading',{name:'Montaje',exact:true})).toBeVisible();
+    const placement=page.locator('form[data-action^="placement-"]');await placement.locator('[name=x]').fill('120');await placement.locator('[name=rotation]').fill('90');await placement.getByRole('button').click();await ui(page.getByLabel('Colocación de impresión').locator('g')).toHaveAttribute('transform','translate(120 0) rotate(90)');
+    const duplicate=page.locator('form[data-action="preparation-duplicate"]');await duplicate.locator('[name=name]').fill('Copia');await duplicate.getByRole('button').click();await ui(page.getByLabel('Preparación guardada').locator('option')).toHaveCount(3);
+    await page.getByRole('button',{name:'Abrir CAD',exact:true}).click();const after=JSON.parse((await page.getByTestId('cad-snapshot').textContent())!);expect(after.pieces).toEqual(before.pieces);
+    await page.getByRole('button',{name:'Preparar impresión',exact:true}).click();await page.getByLabel('Preparación guardada').selectOption({label:'Copia'});await ui(page.getByLabel('Colocación de impresión').locator('g')).toHaveAttribute('transform','translate(120 0) rotate(90)');
+    const config=page.locator('form[data-action="preparation-config"]');await ui(config.locator('[name=margin]')).toHaveValue('10');await config.locator('[name=margin]').fill('15');await config.locator('[name=paper]').selectOption('Letter');await config.getByRole('button').click();
+    await app.evaluate(({dialog},path)=>{Object.defineProperty(dialog,'showSaveDialog',{configurable:true,value:async()=>({canceled:false,filePath:path})});},file);
+    await page.getByRole('button',{name:'Guardar',exact:true}).click();await ui(page.getByRole('button',{name:'Guardar',exact:true})).toBeEnabled();await ui(page.getByText('Documento sin cambios',{exact:true})).toBeVisible();
+    const persisted=JSON.parse(await readFile(file,'utf8'));expect(persisted.preparations).toHaveLength(2);expect(persisted.pieces).toEqual(before.pieces);
+    const rename=page.locator('form[data-action="preparation-rename"]');
+    await rename.locator('[name=name]').fill('  montaje  ');await rename.getByRole('button').click();
+    await ui(page.getByRole('alert')).toContainText('nombre que no esté vacío ni repetido');
+    await ui(page.getByRole('heading',{name:'Copia',exact:true})).toBeVisible();
+    await config.locator('[name=margin]').fill('-1');await config.getByRole('button').click();
+    await ui(page.getByRole('alert')).toContainText('Se conserva la configuración anterior');
+    await config.locator('[name=margin]').fill('15');await config.getByRole('button').click();
+    await page.getByRole('button',{name:'Guardar',exact:true}).click();await ui(page.getByRole('button',{name:'Guardar',exact:true})).toBeEnabled();
+    const selection=page.locator('form[data-action="preparation-selection"]');
+    await selection.locator('[name=pieces]').uncheck();await selection.getByRole('button').click();
+    await ui(page.getByTestId('selection-error')).toContainText('No se guardó la selección: debes seleccionar al menos una pieza.');
+    await ui(page.getByTestId('selection-error')).toContainText('Se conserva la selección anterior');
+    await ui(selection.locator('[name=pieces]')).toBeChecked();
+    await ui(page.getByText('Documento sin cambios',{exact:true})).toBeVisible();
+    await ui(page.getByLabel('Colocación de impresión').locator('g')).toHaveAttribute('transform','translate(120 0) rotate(90)');
+    expect(JSON.parse(await readFile(file,'utf8'))).toEqual(persisted);
+    await selection.getByRole('button').click();
+    await ui(page.getByTestId('selection-error')).toHaveCount(0);
+    await page.getByRole('button',{name:'Guardar',exact:true}).click();await ui(page.getByRole('button',{name:'Guardar',exact:true})).toBeEnabled();
+    await ui(page.getByText('Documento sin cambios',{exact:true})).toBeVisible();
+    await app.close();app=await launch();const reopened=await app.firstWindow();
+    await app.evaluate(({dialog},path)=>{Object.defineProperty(dialog,'showOpenDialog',{configurable:true,value:async()=>({canceled:false,filePaths:[path]})});},file);
+    await reopened.getByRole('button',{name:'Abrir archivo',exact:true}).click();await ui(reopened.getByTestId('cad-snapshot')).toBeAttached();
+    expect(JSON.parse((await reopened.getByTestId('cad-snapshot').textContent())!).documentId).toBe(persisted.documentId);
+    await reopened.getByRole('button',{name:'Preparar impresión',exact:true}).click();await reopened.getByLabel('Preparación guardada').selectOption({label:'Copia'});
+    await ui(reopened.getByLabel('Colocación de impresión').locator('g')).toHaveAttribute('transform','translate(120 0) rotate(90)');await ui(reopened.locator('[name=margin]')).toHaveValue('15');await ui(reopened.locator('[name=paper]')).toHaveValue('Letter');
+  }finally{await app.evaluate(({dialog})=>{Object.defineProperty(dialog,'showMessageBoxSync',{configurable:true,value:()=>1});});await app.close();await rm(dir,{recursive:true,force:true,maxRetries:5,retryDelay:100});}
+},60000);
