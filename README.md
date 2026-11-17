@@ -14,3 +14,10 @@ Esta rama reúne la constitución, decisiones aprobadas, especificaciones y evid
 La aplicación se integra en [patronaje](https://github.com/MAKEBUZ/SPEC-PROYECTO/tree/patronaje). El README de instalación y los lanzadores de demo se revisan separadamente en [codex/demo-patronaje](https://github.com/MAKEBUZ/SPEC-PROYECTO/tree/codex/demo-patronaje); [instrucciones ejecutables](https://github.com/MAKEBUZ/SPEC-PROYECTO/blob/codex/demo-patronaje/README.md). Los comandos de las guías documentales deben ejecutarse desde esa copia de código, no desde esta rama.
 
 Se mantienen 90/98 tareas completas y ocho pendientes. No se amplía el alcance, no se sustituyen pruebas físicas con simulaciones y no se realizan cambios AWS.
+## Revisiones abiertas
+
+- [PR #2: documentación hacia constitucion](https://github.com/MAKEBUZ/SPEC-PROYECTO/pull/2).
+- [PR #3: README y herramientas hacia patronaje](https://github.com/MAKEBUZ/SPEC-PROYECTO/pull/3).
+
+El PR #1 se cerró sin fusionar. Las dos ramas principales se conservan intactas hasta la aprobación e integración de sus PR.
+
