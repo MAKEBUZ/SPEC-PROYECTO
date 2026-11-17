@@ -2,9 +2,19 @@ import { describe, it, expect } from 'vitest';
 import { contourDimensions, approximateMargin, evaluateMargin } from '../../packages/geometry/src/bounds.js';
 import { polygon } from '../geometry/fixtures.js';
 import { createPiece } from '../../packages/document/src/piece.js';
-import { rational as q, compare } from '../../packages/geometry/src/numeric.js';
+import { rational as q, compare,add,subtract,multiply } from '../../packages/geometry/src/numeric.js';
 import { validateOffset } from '../../packages/geometry/src/offset.js';
 describe('T034 certified dimensions and approximation',()=>{
+  it.each([false,true])('certifies concave winding with collinear extreme-side vertices (reversed=%s)',reversed=>{
+    const points:[number,number][]=[[0,0],[8,0],[8,8],[5,8],[5,3],[3,3],[3,8],[0,8],[0,4]];
+    if(reversed)points.reverse();
+    const piece=createPiece('80000000-0000-4000-8000-000000000001',polygon(points));piece.seamWidth=.25;
+    const result=approximateMargin(piece);expect(result.kind).toBe('certified');
+    if(result.kind!=='certified')throw Error('Expected certification');
+    // Independent shoelace oracle on this small rational polygon.
+    const twiceArea=result.segments.reduce((sum,s)=>add(sum,subtract(multiply(s.start.x,s.end.y),multiply(s.start.y,s.end.x))),q(0n));
+    expect(compare(twiceArea,q(0n))).toBe(reversed?-1:1);
+  });
   it('reuses certification only for its captured snapshot',()=>{
     const piece=createPiece('80000000-0000-4000-8000-000000000001',polygon([[0,0],[4,0],[4,4],[0,4]]));piece.seamWidth=1;
     const captured=evaluateMargin(piece),expected=approximateMargin(piece);

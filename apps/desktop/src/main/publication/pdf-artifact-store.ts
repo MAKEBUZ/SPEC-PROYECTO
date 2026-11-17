@@ -4,6 +4,7 @@ import {createPdfArtifact,parsePdfArtifact,assertPdfOrigin,savedPdfOrigin,pdfHas
 import {parseDocument,type PatternDocument} from '../../../../../packages/document/src/schema.js';
 import {parseStrictJson} from '../../../../../packages/document/src/json.js';
 import {exclusiveWrite} from '../documents/save.js';
+import {attestedExport,type VerifiedExport} from '../print/export-job.js';
 
 /** Main-only verifier dependency. No renderer assertion or stored flag can
  * authorize production. T077 supplies this implementation; absent means deny. */
@@ -23,6 +24,20 @@ export class PdfArtifactStore {
   const measured=await this.verify(Uint8Array.from(bytes),structuredClone(document),preparationId,profile,signal);
   signal?.throwIfAborted();
   if(measured.exportProfileId!==profile)throw Error('EXPORT_PROFILE_UNSUPPORTED');
+  return this.commit(document,preparationId,bytes,measured,signal);
+ }
+ /** The normal persist/select paths still verify untrusted/imported bytes.
+  * This path accepts only the live worker result bound to this saved snapshot. */
+ async persistExport(saved:Uint8Array,preparationId:string,result:VerifiedExport,signal?:AbortSignal){
+  if(!this.verify)throw Error('PDF_VERIFIER_UNAVAILABLE');
+  if(saved.length>100000000||!result.bytes.length||result.bytes.length>100000000)throw Error('FILE_TOO_LARGE');
+  signal?.throwIfAborted();
+  const measured=attestedExport(result,saved,preparationId),bytes=Uint8Array.from(result.bytes);
+  const document=parseDocument(new TextDecoder('utf-8',{fatal:true}).decode(saved));
+  savedPdfOrigin(document,preparationId);
+  return this.commit(document,preparationId,bytes,measured,signal);
+ }
+ private async commit(document:PatternDocument,preparationId:string,bytes:Uint8Array,measured:PdfMeasurement,signal?:AbortSignal){
   const artifact=createPdfArtifact(document,preparationId,bytes,measured);await mkdir(this.root,{recursive:true});
   // Metadata is the commit marker. Interrupted binary writes cannot appear in
   // the catalog; existing artifacts are compared, never overwritten.

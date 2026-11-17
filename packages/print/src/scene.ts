@@ -55,19 +55,25 @@ export function printScene(input:unknown,preparationId:string){
   if(margin.kind!=='certified')throw Error('PRINT_MARGIN_UNAVAILABLE');
   const templateKey=key+'/'+preparation.transforms[piece.id]!.rotation;
   let template=templates.get(templateKey);
-  const paths=(convert:(p:{x:Exact;y:Exact})=>PrintPoint)=>({
-   base:piece.contour.segments.map(s=>({kind:s.kind,points:segmentControls(piece.contour,s.id).map(p=>convert({x:f.number(p.x),y:f.number(p.y)}))})),
-   exterior:margin.segments.map(s=>({kind:'line' as const,points:[s.start,s.end].map(p=>convert({x:f.fromRational(p.x),y:f.fromRational(p.y)}))}))
+  const origin=piece.contour.points[0]!;
+  const paths=(convert:(p:{x:Exact;y:Exact})=>PrintPoint,field=f)=>({
+   base:piece.contour.segments.map(s=>({kind:s.kind,points:segmentControls(piece.contour,s.id).map(p=>convert({x:field.number(p.x),y:field.number(p.y)}))})),
+   exterior:margin.segments.map(s=>({kind:'line' as const,points:[s.start,s.end].map(p=>convert({x:field.fromRational(p.x),y:field.fromRational(p.y)}))}))
   });
   if(template===undefined){
-   // Translate in the exact field before conversion. Only bounded templates
-   // use numeric addition: conversion + placement error stays below 3e-8 mm.
+   // Subtract a stored rational anchor BEFORE conversion/rotation. Hundreds
+   // of vertices then need only the rotation's field, not the margin's full
+   // algebraic tower. The independently certified anchor offset is added once
+   // per point; conversion + placement error remains below 3e-8 mm.
    // Unbounded control handles retain the original exact normalization path.
-   try{template=paths(p=>{const v=move(p),x=number(f,f.sub(v.x,placed[i]!.bounds.minX)),y=number(f,f.sub(v.y,placed[i]!.bounds.minY));if(Math.abs(x)>1e6||Math.abs(y)>1e6)throw Error('TEMPLATE_RANGE');return{x,y};});}
+   const local=new AlgebraicContext(),rotate=placement(local,{x:0,y:0,rotation:preparation.transforms[piece.id]!.rotation});
+   const anchor={x:local.number(origin.x),y:local.number(origin.y)};
+   try{template=paths(p=>{const v=rotate({x:local.sub(p.x,anchor.x),y:local.sub(p.y,anchor.y)}),x=number(local,v.x),y=number(local,v.y);if(Math.abs(x)>1e6||Math.abs(y)>1e6)throw Error('TEMPLATE_RANGE');return{x,y};},local);}
    catch{template=null;}
    templates.set(templateKey,template);
   }
-  const offset={x:number(f,f.sub(placed[i]!.bounds.minX,bounds.minX)),y:number(f,f.sub(placed[i]!.bounds.minY,bounds.minY))};
+  const anchor=move({x:f.number(origin.x),y:f.number(origin.y)});
+  const offset=template?{x:number(f,f.sub(anchor.x,bounds.minX)),y:number(f,f.sub(anchor.y,bounds.minY))}:{x:0,y:0};
   const translate=(curves:PrintCurve[])=>curves.map(c=>({...c,points:c.points.map(p=>({x:p.x+offset.x,y:p.y+offset.y}))}));
   const {base,exterior}=template?{base:translate(template.base),exterior:translate(template.exterior)}:paths(normalize);
   return {id:piece.id,name:piece.name,sizeLabel:piece.sizeLabel,cutQuantity:piece.cutQuantity!,fold:piece.fold,base,exterior,grainline:[point(piece.grainline!.start),point(piece.grainline!.end)],label:{x:number(f,f.sub(placed[i]!.bounds.minX,bounds.minX))+3,y:number(f,f.sub(placed[i]!.bounds.minY,bounds.minY))+3}};

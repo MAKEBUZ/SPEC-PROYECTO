@@ -195,8 +195,19 @@ function approximateEvaluatedMargin(piece:OffsetSource,source:ReturnType<typeof 
     // omit only this inert edge from the topology check, never from the model.
     const nonconstant=segments.filter(s=>compare(s.start.x,s.end.x)!==0||compare(s.start.y,s.end.y)!==0);
     const validation=validateDerivedPath(g,nonconstant.map(s=>({kind:'line' as const,sourceId:s.sourceId,start:lift(s.start),end:lift(s.end)})));
-    const area=segments.reduce((sum,s)=>add(sum,subtract(multiply(s.start.x,s.end.y),multiply(s.start.y,s.end.x))),zero);
-    if(Q.sign(area)===winding&&validation.defects.filter(d=>d!=='width-exceeded'&&d!=='height-exceeded').length===0)return {kind:'certified' as const,topology:'preserved' as const,segments,dimensions,tolerance};
+    if(validation.defects.some(d=>d!=='width-exceeded'&&d!=='height-exceeded'))continue;
+    // Only after exact simplicity/closure validation: a lexicographically
+    // minimal vertex of a simple polygon is convex, so its exact turn gives
+    // the winding. Avoid summing unrelated rational denominators over hundreds
+    // of edges merely to obtain a sign. No area magnitude is needed here.
+    let extreme=0;
+    for(let i=1;i<nonconstant.length;i++){
+      const a=nonconstant[i]!.start,b=nonconstant[extreme]!.start;
+      if(compare(a.x,b.x)<0||(compare(a.x,b.x)===0&&compare(a.y,b.y)<0))extreme=i;
+    }
+    const b=nonconstant[extreme]!.start,a=nonconstant[(extreme+nonconstant.length-1)%nonconstant.length]!.start,c=nonconstant[extreme]!.end;
+    const turn=subtract(multiply(subtract(b.x,a.x),subtract(c.y,b.y)),multiply(subtract(b.y,a.y),subtract(c.x,b.x)));
+    if(Q.sign(turn)===winding)return {kind:'certified' as const,topology:'preserved' as const,segments,dimensions,tolerance};
   }
   throw new OffsetCalculationError('APPROXIMATION_TOPOLOGY_REQUIRES_REFINEMENT');
 }
