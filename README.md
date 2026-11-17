@@ -1,5 +1,7 @@
 # PATRONAJE
 
+Revisión: [PR #3 hacia patronaje](https://github.com/MAKEBUZ/SPEC-PROYECTO/pull/3). La documentación académica se revisa en [PR #2 hacia constitucion](https://github.com/MAKEBUZ/SPEC-PROYECTO/pull/2). El PR #1 se cerró sin fusionar.
+
 CAD de patronaje digital para patronistas, diseñadores de moda, talleres de confección y estudiantes. Permite dibujar piezas con medidas en milímetros, conservar documentos editables, preparar impresión a escala real y publicar versiones para consultarlas desde otros dispositivos. Guardar en el equipo **no publica** en la cuenta.
 
 ## Alcance de esta entrega
