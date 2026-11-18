@@ -26,6 +26,15 @@ export function onArc(f:AlgebraicContext,arc:DerivedArc,p:ExactPoint,strict=fals
 }
 interface Hits {overlap:boolean;points:ExactPoint[]}
 function lineLine(f:AlgebraicContext,a:DerivedLine,b:DerivedLine):Hits {
+  // Constructed joins reuse their endpoint object. Two segments sharing that
+  // endpoint can only meet again by collinear overlap; avoid solving for the
+  // already-known intersection in a large algebraic field.
+  const shared=a.start===b.start||a.start===b.end?a.start:a.end===b.start||a.end===b.end?a.end:null;
+  if(shared){
+    const v=vector(f,a.start===shared?a.end:a.start,shared),w=vector(f,b.start===shared?b.end:b.start,shared);
+    if(f.sign(determinant(f,v,w))!==0)return {overlap:false,points:[shared]};
+    return f.sign(dot(f,v,w))>0?{overlap:true,points:[]}:{overlap:false,points:[shared]};
+  }
   const hit=supportIntersection(f,a,b);if(hit)return {overlap:false,points:unit(f,hit.t)&&unit(f,hit.u)?[hit.point]:[]};
   const v=vector(f,a.end,a.start),delta=vector(f,b.start,a.start);
   if(f.sign(determinant(f,v,delta))!==0)return {overlap:false,points:[]};

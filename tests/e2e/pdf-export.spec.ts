@@ -27,7 +27,7 @@ it('saves edits before generating a verified PDF through the Electron UI',async(
   const previous=await readFile(target),piece=document.pieces[0]!,segment=piece.contour.segments[0]!;
   piece.contour.segments[0]={...segment,kind:'cubic',handleStart:{x:25,y:-20},handleEnd:{x:75,y:-20}};piece.seamWidth=0;preparation.transforms[piece.id]!.rotation=37;document.revisionId=revisionId(document);await writeFile(source,JSON.stringify(document));
   await page.getByRole('button',{name:'Abrir archivo',exact:true}).click();await ui(page.getByTestId('cad-snapshot')).toBeAttached();await page.getByRole('button',{name:'Preparar impresión',exact:true}).click();await page.getByLabel('Preparación guardada').selectOption(preparation.id);
-  await page.getByRole('button',{name:'Generar PDF',exact:true}).click();const cancel=page.getByRole('button',{name:'Cancelar exportación',exact:true});await ui(cancel).toBeVisible();
+  await page.getByRole('button',{name:'Generar PDF',exact:true}).click();const cancel=page.getByRole('button',{name:'Cancelar exportación',exact:true});await ui(cancel).toBeVisible();await ui(page.getByText(/Tiempo de exportación:/)).toBeVisible();
   const started=performance.now();await cancel.click();await ui(page.getByText('Exportación cancelada',{exact:true})).toBeVisible({timeout:5000});expect(performance.now()-started).toBeLessThan(5000);expect(await readFile(target)).toEqual(previous);await ui(page.locator('form[data-action="preparation-config"] [name=margin]')).toBeEnabled();
   const invalid=pdfFixture();invalid.document.pieces[0]!.name='';invalid.document.pieces[0]!.grainline=null;invalid.document.revisionId=revisionId(invalid.document);
   await writeFile(source,JSON.stringify(invalid.document));

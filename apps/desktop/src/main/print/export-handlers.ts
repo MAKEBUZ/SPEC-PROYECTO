@@ -43,7 +43,7 @@ export function exportHandlers(owner:number,registry:CapabilityRegistry,adapter:
       update(entry,saved?{state:'completed',name:basename(destination)}:{state:'cancelled'});
       if(saved&&catalog){
        update(entry,{state:'registering'});
-       try{await catalog.persist(snapshot,String(r.preparationId),verified.bytes,verified.measurement.exportProfileId,entry.verification.signal);update(entry,{state:'completed',name:basename(destination)});}
+       try{await catalog.persistExport(snapshot,String(r.preparationId),verified,entry.verification.signal);update(entry,{state:'completed',name:basename(destination)});}
        catch{update(entry,{state:'completed',name:basename(destination),error:'El PDF está guardado; el registro para publicarlo no se completó. Vuelve a exportarlo para registrar esta revisión.'});}
       }
      }catch(e){update(entry,{state:'failed',error:e instanceof Error?e.message:'No se pudo guardar el PDF.'});}

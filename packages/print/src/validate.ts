@@ -70,7 +70,7 @@ function finiteUpper(f:AlgebraicContext,value:Exact){
  // A conservative outward value is only used for layout; geometric limits
  // are decided exactly before this conversion.
  let lo=0,hi=10000;while(hi/2>0&&f.compare(value,f.number(hi/2))<0)hi/=2;
- for(let i=0;i<80;i++){const mid=(lo+hi)/2;if(mid===lo||mid===hi)break;const sign=f.compare(value,f.number(mid));if(sign===0)return mid;if(sign>0)lo=mid;else hi=mid;}return hi;
+ for(let i=0;i<80;i++){if(hi-lo<=1e-8)break;const mid=(lo+hi)/2;if(mid===lo||mid===hi)break;const sign=f.compare(value,f.number(mid));if(sign===0)return mid;if(sign>0)lo=mid;else hi=mid;}return hi;
 }
 /** Never mutates or repairs drafts. A technical failure is not geometric
  * invalidity and is never permission to export. */

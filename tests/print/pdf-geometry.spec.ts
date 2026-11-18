@@ -8,7 +8,22 @@ import {createPrintPdf} from '../../packages/print/src/pdf.js';
 import {getDocument} from 'pdfjs-dist/legacy/build/pdf.mjs';
 import {verifyPrintPdf} from '../../packages/print/src/verify.js';
 import {pdfFixture} from '../support/pdf-fixture.js';
+import {printScene} from '../../packages/print/src/scene.js';
 const font=()=>readFile('.local/assets/NotoSans-Regular.ttf');
+it('preserves non-cardinal rotated geometry after a large exact translation',()=>{
+ const {document,preparation}=pdfFixture(),piece=document.pieces[0]!;
+ piece.contour.segments[0]={...piece.contour.segments[0]!,kind:'cubic',handleStart:{x:25,y:-20},handleEnd:{x:75,y:-20}};
+ piece.seamWidth=0;preparation.transforms[piece.id]!.rotation=37;document.revisionId=revisionId(document);
+ const before=printScene(document,preparation.id).pieces[0]!;
+ const shift=(p:{x:number;y:number})=>{p.x+=2**30;p.y-=2**30;};
+ piece.contour.points.forEach(shift);for(const s of piece.contour.segments)if(s.kind==='cubic'){shift(s.handleStart);shift(s.handleEnd);}
+ shift(piece.grainline!.start);shift(piece.grainline!.end);document.revisionId=revisionId(document);
+ const after=printScene(document,preparation.id).pieces[0]!;
+ for(const key of ['base','exterior'] as const){expect(after[key].length).toBe(before[key].length);
+  after[key].forEach((curve,i)=>curve.points.forEach((p,j)=>{expect(p.x).toBeCloseTo(before[key][i]!.points[j]!.x,7);expect(p.y).toBeCloseTo(before[key][i]!.points[j]!.y,7);}));
+ }
+ after.grainline.forEach((p,i)=>{expect(p.x).toBeCloseTo(before.grainline[i]!.x,7);expect(p.y).toBeCloseTo(before.grainline[i]!.y,7);});
+},30000);
 it.each(['A4','Letter'] as const)('keeps piece labels clear of alignment crosses on %s',async paper=>{
  const {document,preparation}=pdfFixture('tiled',paper);
  document.pieces[0]!.name='Prueba A';document.pieces[0]!.seamWidth=1;

@@ -3,7 +3,7 @@ import type { Exact } from './algebraic.js';
 import { OffsetCalculationError } from './joins.js';
 import type { OffsetSpan, OffsetConstruction } from './offset.js';
 import { endpointTangent } from './offset.js';
-import { evaluateDerivedOffset, intersectOffsetLine, intersectOffsetArc, intersectOffsetCurves, trimOffsetCurveCorner, selectOffsetLineTrim, offsetCriticalParameters, splitStationaryOffset, proveOffsetInjective, CoincidentOffsetError } from './offset-intersections.js';
+import { evaluateDerivedOffset, intersectOffsetLine, intersectOffsetArc, intersectOffsetCurves, trimOffsetCurveCorner, selectOffsetLineTrim, offsetCriticalParameters, splitStationaryOffset, proveOffsetInjective, certifyOffsetSelfCrossing, CoincidentOffsetError } from './offset-intersections.js';
 import type { CurveHit } from './offset-intersections.js';
 import type { OffsetCurve } from './offset-intersections.js';
 import { advance, vector, dot, equalPoint, supportIntersection, primitiveIntersections, onArc } from './derived-path.js';
@@ -72,6 +72,7 @@ function certify(candidate:Candidate):CertifiedCurvedMargin|InvalidCurvedMargin 
       const old=original[i]!;if(f.sign(dot(f,vector(f,span.end,span.start),vector(f,old.end,old.start)))<=0)return invalid('consumed-or-reversed-span');
     }else{
       if(f.compare(span.from,span.to)>=0)return invalid('consumed-or-reversed-span');
+      if(certifyOffsetSelfCrossing(span.curve,f.enclosingInterval(span.from).hi,f.enclosingInterval(span.to).lo))return invalid('self-contact-or-crossing');
       const split=splitStationaryOffset(f,span.curve);
       if(split.breaks.some(b=>f.compare(b.parameter,span.from)>0&&f.compare(b.parameter,span.to)<0&&!b.continuous))return invalid('discontinuous-stationary-offset');
       const self=proveOffsetInjective(span.curve)?[]:intersectOffsetCurves(f,span.curve,span.curve,true);
