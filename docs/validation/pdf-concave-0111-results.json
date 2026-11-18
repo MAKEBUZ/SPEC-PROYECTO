@@ -1,0 +1,37 @@
+{
+  "version": "0.1.11",
+  "commit": "1c22268dfb131dd6119a79dc0215a74cbe578026",
+  "diagnostic": {
+    "date": "2026-11-17T21:09:25.801Z",
+    "elapsedMs": 9165,
+    "objectiveMs": 60000,
+    "result": "technical-error: ambiguous local trim",
+    "marginMm": 10,
+    "originalUnchanged": true,
+    "previousPdfUnchanged": true,
+    "scope": "Electron UI, complete validation and explicit failure, no network",
+    "passed": true
+  },
+  "validExport": {
+    "date": "2026-11-17T21:09:15.297Z",
+    "elapsedMs": 13264,
+    "objectiveMs": 60000,
+    "bytes": 41009,
+    "scope": "Electron UI, generation, independent verification, native save, publication catalog; no network",
+    "passed": true
+  },
+  "regression": {
+    "passed": 551,
+    "total": 551
+  },
+  "finalGeometry": {
+    "passed": 276,
+    "total": 276
+  },
+  "installer": {
+    "name": "PATRONAJE-0.1.11-Setup.exe",
+    "bytes": 186644992,
+    "sha256": "fa17b1bc72b7d1f6699fca6bbf7e2617aad4b5407139236beea838f910061c5c"
+  },
+  "manualAcceptance": "pending"
+}

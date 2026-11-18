@@ -601,3 +601,33 @@ Las ejecuciones de API, E2E, impresión y ensayos físicos deben añadirse y rev
 | Rechazo atómico, deshacer/rehacer y guardar/reabrir | Mismas suites; historial y archivo real temporal | Automatizado correcto |
 | Validación y PDF de la pieza redondeada con margen | `tests/print/rounded-piece.spec.ts` | Automatizado correcto |
 | Uso del instalador 0.1.8 por el usuario | [Informe](cad-rounding.md) | Pendiente manual; arranque del paquete verificado |
+
+
+### Regresión de PDF 0.1.9 (2026-11-17, histórica)
+
+| Criterio | Evidencia | Estado |
+| --- | --- | --- |
+| Exportar esquina redondeada oblicua con otra curva y margen de 10 mm | `tests/print/rounded-oblique.spec.ts`; generación y verificación geométrica | Correcto automatizado |
+| Comparaciones exactas, solapes y distancias de aproximaciones puntuales | `algebraic-enclosure.spec.ts`, `point-approximation.spec.ts` y suites de geometría | Correcto automatizado |
+| Cancelar y recuperar edición sin perder trabajo | `tests/e2e/pdf-export.spec.ts` | Correcto automatizado |
+| Objetivo de 60 s en este caso complejo | [Medición](pdf-rounded-corner.md) | Parcial: aún excedido; se conserva el objetivo |
+| Instalación y prueba de 0.1.9 por el usuario | Paquete comprobado; aceptación del usuario no realizada | Pendiente manual |
+
+### Estado actual de PDF 0.1.10 (2026-11-17)
+
+| Criterio | Evidencia | Estado |
+| --- | --- | --- |
+| FR-055 / SC-044: objetivo de 60 s en el caso oblicuo con margen de 10 mm | [Ensayo integral](pdf-optimization-0110.md), 17.94 s | Correcto automatizado en este equipo; no certifica otros casos/equipos |
+| FR-040 / SC-029: precisión y escala | Suites geométricas/PDF; verificación independiente preservada | Correcto automatizado; impresión física pendiente |
+| Registro de PDF sin confiar en datos alterados | tests/print/export-attestation.spec.ts | Correcto automatizado |
+| Instalación y repetición manual de 0.1.10 | Paquete comprobado | Pendiente del usuario |
+
+### Margen cóncavo 0.1.11 (2026-11-17)
+
+| Criterio | Evidencia | Estado |
+| --- | --- | --- |
+| Responder al caso de margen cóncavo de 10 mm sin espera indefinida | [E2E y diagnóstico](pdf-concave-0111.md), 9.16 s | Correcto como diagnóstico técnico; no como generación de PDF |
+| Preservar documento, 10 mm y PDF anterior | E2E cóncavo | Correcto automatizado |
+| Generación válida con 10 mm y precisión original | E2E oblicuo, 13.26 s | Correcto automatizado en este caso/equipo |
+| Resolver y exportar la unión cóncava ambigua | No se ha certificado un recorte único | Pendiente; se bloquea la exportación |
+| Instalación manual de 0.1.11 | Paquete comprobado | Pendiente del usuario |

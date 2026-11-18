@@ -24,3 +24,8 @@ PATRONAJE-0.1.8-Setup.exe (local, no incluido en Git), 186634752 bytes. SHA-256:
 Redondeo mediante aproximación Bézier; no arco circular exacto. Se rechazan extremos abiertos, uniones con curvas, radios no positivos, degeneraciones y radios que no caben. Para modificar el radio aplicado se deshace y se vuelve a redondear; los tiradores siguen siendo editables. La validez del resto de la pieza y la preparación se comprueba antes de exportar.
 
 Pendiente: el usuario instala 0.1.8 y prueba una pieza propia. No se han repetido ensayos de USB, impresora o móviles ni se han cerrado las ocho tareas de aceptación pendientes.
+
+
+## Incidencia posterior: PDF con margen oblicuo — 0.1.9
+
+El ensayo rectangular de 0.1.8 no cubría una esquina redondeada oblicua junto a otra curva y margen de 10 mm. El usuario comunicó una espera de 20 minutos. Se reprodujo la demora y se incorporó una fixture sin metadatos personales. La corrección y sus límites están en [el informe específico](pdf-rounded-corner.md). La evidencia anterior se conserva como histórica; no acredita el rendimiento de este nuevo caso.

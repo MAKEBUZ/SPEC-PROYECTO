@@ -59,3 +59,16 @@ No se entregan colaboración, notificaciones, importaciones externas, adjuntos a
 4. **Ctrl+Z** deshace el redondeo; **Ctrl+Y** lo rehace. Guarda el documento para conservarlo. **Esc** vuelve a editar puntos.
 
 El radio controla una aproximación con una curva Bézier editable. Un radio mayor produce una curva más amplia; si no cabe, aparece un aviso y la pieza permanece intacta. No admite extremos abiertos ni esquinas que ya conecten curvas. Para probar otro radio en la misma esquina, deshaz y vuelve a aplicarlo. **Redondear margen** actúa únicamente sobre el margen de costura.
+
+
+## Tiempo y avisos de exportación — 0.1.9
+
+El aviso de que cambió la pieza informa de que se usará su geometría actual conservando la colocación; no indica un fallo ni el progreso del PDF. Durante la exportación aparece el tiempo transcurrido. Tras 60 segundos se advierte de la demora, sin cancelar automáticamente. «Cancelar exportación» conserva la pieza y la preparación y devuelve la edición. Las curvas y márgenes complejos pueden superar el objetivo de un minuto; consulta la evidencia de rendimiento, no supongas que una espera larga significa un archivo inválido.
+
+## Actualización PDF 0.1.10
+
+La optimización del caso de esquina redondeada oblicua con margen de 10 mm completó la prueba local integral en 17.94 s; consulta [la evidencia](validation/pdf-optimization-0110.md). Instala 0.1.10 antes de repetir la exportación: una operación iniciada en una versión anterior no recibe la mejora. La escala, la precisión y la cancelación se conservan. El tiempo de otros patrones depende de su complejidad y del equipo.
+
+## Aviso de unión cóncava — 0.1.11
+
+Si el margen tiene varias intersecciones posibles en una unión cóncava, el CAD informa de que no puede resolverlo con seguridad y no genera el PDF. Conserva el ancho del margen y la pieza para que puedas guardar el borrador y revisar la esquina. Reinstalar, mover la pieza a otro cuadrante o esperar más no resuelve esa ambigüedad. La corrección reduce el tiempo del diagnóstico; no modifica tu patrón ni fuerza una exportación.
